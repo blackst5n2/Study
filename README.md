@@ -43,7 +43,7 @@ C# + PostgreSQL + Json + react + ASP.Net + node.js(express) + WPF를 이용해�
 
 #### C++ 기반 서버
 고성능 서버를 학습하고 싶어서 macOS에서 구현해봤습니다.
-현재 버그가 발견되어서 수정을 진행하고 있습니다.
+현재 클라이언트 테스트 진행 중에 패킷이 다시 send되지 않는 오류를 해결하고 있습니다.
 - kqueue
 - mpmc queue
 - remote free queue
