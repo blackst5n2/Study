@@ -1,0 +1,544 @@
+enum MiniGameType {
+  TimingBar
+  QTE
+  MemoryPuzzle
+  TapChallenge
+}
+
+enum MiniGameResultGrade {
+  Perfect
+  Good
+  Fail
+  ComboBonus
+  GoldenButton
+}
+
+table MiniGameDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  type MiniGameType
+  description string
+  rules json
+  custom_data json
+}
+
+table MiniGameRewardDefinition {
+  id uuid [pk]
+  minigame_id uuid [ref: > MiniGameDefinition.id]
+  result_grade MiniGameResultGrade
+  reward_item_id uuid [ref: > ItemDefinition.id]
+  min_quantity int
+  max_quantity int
+  probability float
+  custom_data json
+}
+
+table PlayerMiniGameResult {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  minigame_id uuid [ref: > MiniGameDefinition.id]
+  played_at datetime
+  score int [null]
+  combo_count int [null]
+  tap_count int [null]
+  pattern_answered string [null]
+  bonus_time_success bool [null]
+  golden_button_success bool [null]
+  result_grade MiniGameResultGrade
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+}
+ 
+enum Doneness {
+  Raw
+  Medium
+  WellDone
+  AlDente
+}
+
+table CookingRecipeDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  required_level int
+  required_station_id uuid [ref: > CookingStationDefinition.id, null]
+  cook_time_sec int
+  unlock_condition string
+  is_repeatable bool
+  result_item_id uuid [ref: > ItemDefinition.id]
+  result_quantity int
+  min_fail_reward_item_id uuid [ref: > ItemDefinition.id, null]
+  min_fail_reward_quantity int [null]
+  temperature_range json
+  optimal_doneness Doneness
+  bonus_effect string [null]
+  custom_data json
+}
+
+table RecipeIngredient {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  min_quantity int
+  max_quantity int [null]
+  custom_data json
+}
+
+table CookingResultDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id]
+  doneness Doneness
+  temperature_range json
+  result_item_id uuid [ref: > ItemDefinition.id]
+  result_quantity int
+  probability float
+  bonus_effect string [null]
+  custom_data json
+}
+
+enum CookingGrade {
+  Perfect
+  Good
+  Normal
+  Fail
+}
+
+table CookingGradeRewardDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id]
+  grade CookingGrade
+  reward_item_id uuid [ref: > ItemDefinition.id]
+  quantity int
+  probability float
+  custom_data json
+}
+
+table CookingStepDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id]
+  step_index int
+  action CookingAction
+  required_tool ItemSubType [null]
+  required_time_sec int [null]
+  temperature int [null]
+  description string
+  custom_data json
+}
+
+table JobSkillDefinition {
+  id uuid [pk]
+  code string [unique]
+  job_id uuid [ref: > JobDefinition.id]
+  name string
+  display_name string
+  description string
+  parent_skill_id uuid [ref: > JobSkillDefinition.id, null]
+  unlock_condition string [null]
+  icon string [null]
+  max_level int
+  custom_data json
+}
+
+table PlayerJobSkill {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  job_id uuid [ref: > JobDefinition.id]
+  skill_id uuid [ref: > JobSkillDefinition.id]
+  level int
+  acquired_at datetime
+  custom_data json
+}
+
+table JobSkillLevelDefinition {
+  id uuid [pk]
+  skill_id uuid [ref: > JobSkillDefinition.id]
+  level int
+  required_point int
+  effect_value float [null]
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+}
+
+table PlayerJobSkillPoint {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  job_id uuid [ref: > JobDefinition.id]
+  total_point int
+  used_point int
+  free_point int
+  last_updated datetime
+  custom_data json
+}
+
+table JobLevelDefinition {
+  id uuid [pk]
+  job_id uuid [ref: > JobDefinition.id]
+  level int
+  required_exp int
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+}
+
+enum QuickSlotType {
+  Skill
+  Item
+  Macro
+}
+
+table SkillDefinition {
+  id int [pk]
+  code string [unique]
+  name string
+  description string
+  unlock_condition string [null]
+  icon string [null]
+  custom_data json
+}
+
+table PlayerSkill {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  skill_definition_id int [ref: > SkillDefinition.id]
+  level int
+  slot int [null]
+  hotkey string [null]
+  is_active bool [null]
+  acquired_at datetime
+  custom_data json
+}
+
+table PlayerQuickSlotPreset {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  name string
+  is_active bool
+  created_at datetime
+  custom_data json
+}
+
+table PlayerQuickSlot {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  preset_id uuid [ref: > PlayerQuickSlotPreset.id]
+  slot_index int
+  slot_type QuickSlotType
+  skill_definition_id int [ref: > SkillDefinition.id, null]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  hotkey string [null]
+  custom_data json
+}
+
+table JobTree {
+  id uuid [pk]
+  parent_job_id uuid [ref: > JobDefinition.id, null]
+  child_job_id uuid [ref: > JobDefinition.id]
+  unlock_condition string [null]
+  custom_data json
+}
+
+table ClassDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  parent_class_id uuid [ref: > ClassDefinition.id, null]
+  unlock_condition string [null]
+  is_base bool
+  is_active bool
+  icon string [null]
+  custom_data json
+}
+
+table ClassTree {
+  id uuid [pk]
+  parent_class_id uuid [ref: > ClassDefinition.id, null]
+  child_class_id uuid [ref: > ClassDefinition.id]
+  unlock_condition string [null]
+  custom_data json
+}
+
+table PlayerClass {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  class_id uuid [ref: > ClassDefinition.id]
+  is_main bool
+  is_unlocked bool
+  acquired_at datetime
+  level int
+  exp int
+  custom_data json
+}
+
+enum RestrictionType {
+  Allow
+  Deny
+}
+table ClassEquipmentRestriction {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id]
+  item_type ItemType
+  item_sub_type ItemSubType [null]
+  restriction_type RestrictionType
+  custom_data json
+}
+
+table ClassTraitDefinition {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id]
+  trait_name string
+  description string
+  effect_data json
+}
+
+enum SkillEffectType {
+  Damage
+  Heal
+  Buff
+  Debuff
+}
+
+enum SkillTargetType {
+  Self
+  Enemy
+  Ally
+  Area
+}
+
+table SkillEffectDefinition {
+  id int [pk]
+  skill_definition_id int [ref: > SkillDefinition.id]
+  effect_type SkillEffectType
+  value float
+  duration int [null]
+  target_type SkillTargetType
+  custom_data json
+}
+
+table PlayerClassChangeLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  old_class_id uuid [ref: > ClassDefinition.id, null]
+  new_class_id uuid [ref: > ClassDefinition.id]
+  changed_at datetime
+  change_reason string [null]
+  custom_data json
+}
+
+table PlayerSkillChangeLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  skill_definition_id int [ref: > SkillDefinition.id]
+  change_type string // acquire, unlock, reset 등
+  changed_at datetime
+  change_reason string [null]
+  custom_data json
+}
+
+table ClassPassiveSkillDefinition {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id]
+  skill_definition_id int [ref: > SkillDefinition.id]
+  unlock_level int
+  custom_data json
+}
+
+enum ChannelType {
+  Global
+  Party
+  Guild
+  Whisper
+  Region
+  System
+  Notice
+}
+
+table ChannelDefinition {
+  code string [pk, unique]
+  name string
+  type ChannelType
+  description string [null]
+  is_active bool
+  custom_data json
+}
+
+table ChatLog {
+  id uuid [pk]
+  sender_id uuid [ref: > Player.id]
+  channel_code string [ref: > ChannelDefinition.code]
+  message string
+  sent_at datetime
+  receiver_id uuid [ref: > Player.id, null]
+  party_id uuid [ref: > PartyDefinition.id, null]
+  guild_id uuid [ref: > GuildDefinition.id, null]
+  is_reported bool
+  is_deleted bool
+  custom_data json
+}
+
+enum ReportStatus {
+  Pending
+  Accepted
+  Rejected
+}
+
+table CommunityReportLog {
+  id uuid [pk]
+  reporter_id uuid [ref: > Player.id]
+  reported_id uuid [ref: > Player.id]
+  chat_log_id uuid [ref: > ChatLog.id, null]
+  reason string
+  status ReportStatus
+  created_at datetime
+  resolved_at datetime [null]
+  custom_data json
+}
+
+enum ModerationActionType {
+  Mute
+  Ban
+  Warning
+  Kick
+}
+
+table ModerationActionLog {
+  id uuid [pk]
+  target_player_id uuid [ref: > Player.id]
+  action_type ModerationActionType
+  reason string
+  moderator_id uuid [ref: > Player.id]
+  related_chat_log_id uuid [ref: > ChatLog.id, null]
+  created_at datetime
+  duration_minutes int [null]
+  custom_data
+}
+
+enum FriendStatus {
+  Pending
+  Accepted
+  Blocked
+  Rejected
+}
+
+table FriendRelation {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  friend_id uuid [ref: > Player.id]
+  status FriendStatus
+  requested_at datetime
+  accepted_at datetime [null]
+  blocked_at datetime [null]
+  custom_data json
+}
+
+enum PartyRole {
+  Leader
+  SubLeader
+  Member
+}
+
+table PartyDefinition {
+  id uuid [pk]
+  name string
+  leader_id uuid [ref: > Player.id]
+  created_at datetime
+  disbanded_at datetime [null]
+  custom_data json
+}
+
+table PartyMember {
+  id uuid [pk]
+  party_id uuid [ref: > PartyDefinition.id]
+  player_id uuid [ref: > Player.id]
+  joined_at datetime
+  left_at datetime [null]
+  role PartyRole
+  is_active bool
+  custom_data json
+}
+
+enum NoticeType {
+  General
+  Event
+  Maintenance
+  Update
+}
+
+table CommunityNotice {
+  id uuid [pk]
+  title string
+  content string
+  type NoticeType
+  created_at datetime
+  start_at datetime [null]
+  end_at datetime [null]
+  is_active bool
+  custom_data json
+}
+
+enum GuildRole {
+  Master
+  Officer
+  Member
+}
+
+table GuildDefinition {
+  id uuid [pk]
+  name string [unique]
+  description string
+  leader_id uuid [ref: > Player.id]
+  created_at datetime
+  is_active bool
+  custom_data json
+}
+
+table GuildRole {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id]
+  name string
+  permissions json
+  custom_data json
+}
+
+table GuildMember {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id]
+  player_id uuid [ref: > Player.id]
+  role_id uuid [ref: > GuildRole.id, null]
+  joined_at datetime
+  left_at datetime [null]
+  is_active bool
+  custom_data json
+}
+
+table GuildNotice {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id]
+  title string
+  content string
+  created_at datetime
+  is_active bool
+  custom_data json
+}
+
+enum GuildJoinRequestStatus {
+  Pending
+  Approved
+  Rejected
+  Cancelled
+}
+
+table GuildJoinRequest {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id]
+  player_id uuid [ref: > Player.id]
+  status GuildJoinRequestStatus
+  requested_at datetime
+  processed_at datetime [null]
+  processed_by uuid [ref: > Player.id, null]
+  reason string [null]
+  custom_data json
+}

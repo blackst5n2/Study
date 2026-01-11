@@ -1,0 +1,148 @@
+enum SecurityIncidentType {
+  CheatDetected
+  Abuse
+  Exploit
+  Bot
+  Macro
+  Speedhack
+  Other
+}
+
+enum SecurityActionTaken {
+  Ban
+  Warn
+  Rollback
+  None
+}
+
+table SecurityIncidentLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, null]
+  incident_type SecurityIncidentType
+  detected_at datetime
+  detected_by string
+  severity int
+  description string
+  action_taken SecurityActionTaken
+  custom_data json
+}
+
+enum BanType {
+  Temporary
+  Permanent
+}
+
+table PlayerBan {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  ban_type BanType
+  reason string
+  start_at datetime
+  end_at datetime [null]
+  issued_by string
+  custom_data json
+}
+
+enum GMRoleType {
+  Admin
+  GM
+  Supporter
+  Observer
+}
+
+table GMRole {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  role_type GMRoleType
+  permissions json
+  custom_data json
+}
+
+table GMAccount {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id]
+  role_id uuid [ref: > GMRole.id]
+  name string
+  email string
+  is_active bool
+  last_login_at datetime
+  custom_data json
+}
+
+enum GMActionType {
+  BanPlayer
+  UnbanPlayer
+  SendNotice
+  ModifyStat
+  GrantItem
+  KickPlayer
+  ServerControl
+  Other
+}
+
+table GMActionLog {
+  id uuid [pk]
+  gm_account_id uuid [ref: > GMAccount.id]
+  action_type GMActionType
+  target_type string // 'Player', 'Server', 'Item', 등
+  target_id uuid [null]
+  action_at datetime
+  description string
+  success bool
+  custom_data json
+}
+
+enum GMNoticeType {
+  Emergency
+  Maintenance
+  Event
+  Info
+  Other
+}
+
+table GMNotice {
+  id uuid [pk]
+  gm_account_id uuid [ref: > GMAccount.id]
+  notice_type GMNoticeType
+  title string
+  content string
+  created_at datetime
+  start_at datetime [null]
+  end_at datetime [null]
+  is_active bool
+  custom_data json
+}
+
+enum WorldEventType {
+  BossSpawn
+  Weather
+  Festival
+  Bonus
+  Other
+}
+
+table WorldEvent {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  event_type WorldEventType
+  start_at datetime
+  end_at datetime
+  is_active bool
+  trigger_condition json
+  effect_data json
+  custom_data json
+}
+
+table PlayerEventParticipation {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  event_id uuid [ref: > WorldEvent.id]
+  joined_at datetime
+  progress json
+  reward_claimed bool
+  custom_data json
+}

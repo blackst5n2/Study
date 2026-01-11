@@ -1,0 +1,953 @@
+enum MapType {
+  Field
+  Town
+  Dungeon
+  House
+  Instance
+}
+
+enum ViewMode {
+  TopDown
+  SideView
+}
+
+table MapDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  type MapType
+  view_mode ViewMode
+  size_x float
+  size_y float
+  description string
+  background_asset string
+  is_safe_zone bool
+  parent_map_id uuid [ref: > MapDefinition.id]
+  custom_data json
+}
+
+enum WeatherEnum {
+  Sunny
+  Cloudy
+  Rainy
+  Snowy
+  Thunderstorm
+  Fog
+  Mist 
+}
+
+enum TimeOfDayEnum {
+  Morning
+  Afternoon
+  Evening
+  Night
+}
+
+table MapEnvironment {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  weather WeatherEnum
+  season SeasonEnum
+  time_of_day TimeOfDayEnum
+  temperature float
+  temperature_min float
+  temperature_max float
+  bgm string
+  ambience string
+  lighting_profile string
+  updated_at datetime
+  custom_data json
+}
+
+table MapPortal {
+  id uuid [pk]
+  from_map_id uuid [ref: > MapDefinition.id]
+  to_map_id uuid [ref: > MapDefinition.id]
+  x float
+  y float
+  z float
+  condition string
+  custom_data json
+}
+
+enum EntityType {
+  Monster
+  Boss
+  Livestock
+  Tree
+  Ore
+  Building
+  Decoration
+  Crop
+}
+
+enum ResourceType {
+  Tree
+  Ore
+}
+
+table EntityDefinition {
+  id uuid [pk]
+  code string [unique]
+  entity_type EntityType
+  name string
+  drop_table_id uuid [ref: > DropTableDefinition.id, null]
+  resource_type ResourceType [null]
+  custom_data json
+}
+
+table EntityStat {
+  id uuid [pk]
+  entity_id uuid [ref: > EntityDefinition.id]
+  stat_definition_id uuid [ref: > StatDefinition.id]
+  value int
+  custom_data json
+}
+
+table MapObject {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  entity_id uuid [ref: > EntityDefinition.id]
+  x float
+  y float
+  z float
+  direction float
+  custom_data json
+}
+
+table MapSpawnPoint {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  entity_id uuid [ref: > EntityDefinition.id]
+  x float
+  y float
+  z float
+  respawn_time int
+  custom_data json
+}
+
+enum MapLayerType {
+  Background
+  Ground
+  Decoration
+  Structure
+  Foreground
+  Collision
+  Overlay
+}
+
+table MapLayer {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  name string
+  order int
+  type MapLayerType
+  custom_data json
+}
+
+table MapTile {
+  id uuid [pk]
+  layer_id uuid [ref: > MapLayer.id]
+  x int
+  y int
+  tile_asset string
+  collision bool
+  custom_data json
+}
+
+enum MapZoneType {
+  Farm
+  FishingSpot
+  Village
+  Forest
+  DungeonEntrance
+  Plaza
+  Market
+  House
+  Ranch
+  Event
+  SafeZone
+}
+
+enum MapZoneAreaType {
+  Polygon
+  Rect
+  Circle
+  Ellipse
+  Line
+}
+
+table MapZone {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  name string
+  area_type MapZoneAreaType
+  area_data json
+  allow_farming bool
+  allow_fishing bool
+  allow_building bool
+  priority int
+  zone_type MapZoneType
+  environment_id uuid [ref: > MapEnvironment.id]
+  active bool
+  custom_data json
+}
+
+enum EventType {
+  EnterZone
+  LeaveZone
+  ZoneBuff
+  ZoneRestriction
+  ZoneSpawn
+  ZoneWeatherChange
+  ZoneQuestTrigger
+  ZoneResourceRegeneration
+  ZoneEventStart
+  ZoneEventEnd
+  SpawnMonster
+  SpawnNPC
+  TriggerCutscene
+  WeatherChange
+  TimeChange
+  OpenPortal
+  UnlockArea
+  GlobalBuff
+  EnvironmentalHazard
+  MapEventStart
+  MapEventEnd
+}
+
+table ZoneEvent {
+  id uuid [pk]
+  zone_id uuid [ref: > MapZone.id]
+  event_type EventType
+  trigger_condition string
+  action string
+  parameters json
+  priority int
+  custom_data json
+}
+
+table MapEvent {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  event_type EventType
+  x float
+  y float
+  z float
+  trigger_condition string
+  action string
+  parameters json
+  custom_data json
+}
+
+table EditableArea {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  area_rect string
+  is_buildable bool
+  unlock_condition string
+  custom_data json
+}
+
+table MapDynamicObjectState {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  object_id uuid
+  x float
+  y float
+  z float
+  state string
+  growth_stage int
+  last_changed datetime
+  owner_id uuid
+  custom_data json
+}
+
+table MapPlayerState {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  player_id uuid
+  x float
+  y float
+  z float
+  state string
+  last_sync datetime
+  custom_data json
+}
+
+table CropDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  required_level int
+  allowed_season SeasonEnum
+  fertilizer_effect json
+  grade_type CropGradeEnum
+  growth_stages int
+  growth_time_minutes int
+  disease_chance float
+  required_nutrient int
+  required_moisture int
+  required_temperature int
+}
+
+table SeedGradeToCropGradeMap {
+  id uuid [pk]
+  seed_item_id uuid [ref: > ItemDefinition.id]
+  seed_grade ItemGradeEnum
+  crop_definition_id uuid [ref: > CropDefinition.id]
+  fertilizer_id uuid [ref: > ItemDefinition.id, null]
+  environment_condition string
+  crop_grade CropGradeEnum
+  probability float
+  custom_data json
+}
+
+table CropProduct {
+  id uuid [pk]
+  crop_definition_id uuid [ref: > CropDefinition.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  min_yield int
+  max_yield int
+}
+
+table PlayerCropProduct {
+  id uuid [pk]
+  player_crop_instance_id uuid [ref: > PlayerCropInstance.id]
+  crop_product_id uuid [ref: > CropProduct.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  amount int
+}
+
+table DropTableDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+}
+
+table DropTableDetail {
+  id uuid [pk]
+  drop_table_id uuid [ref: > DropTableDefinition.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  drop_rate float
+  min_count int
+  max_count int
+}
+
+table FarmPlotAllowedCrop {
+  id uuid [pk]
+  farm_plot_definition_id uuid [ref: > FarmPlotDefinition.id]
+  crop_definition_id uuid [ref: > CropDefinition.id]
+}
+
+table FarmPlotAllowedFertilizer {
+  id uuid [pk]
+  farm_plot_definition_id uuid [ref: > FarmPlotDefinition.id]
+  fertilizer_name string
+}
+
+table FarmPlotDefinition {
+  map_id uuid [ref: > MapDefinition.id]
+  id uuid [pk]
+  code string [unique]
+  name string
+}
+
+table FishAllowedBait {
+  id uuid [pk]
+  fish_definition_id uuid [ref: > FishDefinition.id]
+  bait_name string
+  -- FishDefinition: FishDefinition FK
+}
+
+table FishDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  grade ItemGradeEnum [null]
+  required_fishing_level int
+}
+
+table FishHabitat {
+  id uuid [pk]
+  fish_id uuid [ref: > FishDefinition.id]
+  fishing_spot_id uuid [ref: > FishingSpotDefinition.id]
+}
+
+table FishingSpotDefinition {
+  map_id uuid [ref: > MapDefinition.id]
+
+  id uuid [pk]
+  code string [unique]
+  name string
+  location string
+}
+
+enum ItemType {
+  Equipment
+  Consumable
+  Material
+}
+enum ItemSubType {
+  None
+  Weapon
+  Armor
+}
+enum ItemRarity {
+  Common
+  Rare
+  Epic
+}
+enum EquipSlot {
+  None
+  Head
+  Body
+}
+
+table ItemDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  type ItemType
+  sub_type ItemSubType
+  grade ItemGradeEnum [null]
+  rarity ItemRarity
+  base_value int
+  price int
+  is_tradable bool
+  max_stack int
+  usable bool
+  equip_slot EquipSlot
+  tags string
+}
+
+table ItemEffectDefinition {
+  id uuid [pk]
+  code string [unique]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  effect_type EffectType
+  value int
+  duration int
+  extra_data string
+}
+
+table ItemEnhancement {
+  id uuid [pk]
+  item_instance_id uuid [ref: > ItemInstance.id]
+  level int
+  enhanced_at datetime
+  success bool
+}
+
+table ItemAcquisitionLog {
+  id uuid [pk]
+  player_id uuid
+  item_instance_id uuid [ref: > ItemInstance.id]
+  acquired_at datetime
+  source string
+  detail json
+}
+
+table ItemEnhancementLog {
+  id uuid [pk]
+  item_instance_id uuid [ref: > ItemInstance.id]
+  player_id uuid
+  before_level int
+  after_level int
+  success bool
+  enhanced_at datetime
+  cost int
+  detail json
+}
+
+table ItemOption {
+  id uuid [pk]
+  item_instance_id uuid [ref: > ItemInstance.id]
+  option_type ItemOptionType
+  value int
+}
+
+table ItemRune {
+  id uuid [pk]
+  item_instance_id uuid [ref: > ItemInstance.id]
+  rune_definition_id uuid [ref: > RuneDefinition.id]
+  slot_index int
+}
+
+table LevelDefinition {
+  id uuid [pk]
+  code string [unique]
+  level int
+  exp_required int
+}
+
+table LivestockAllowedFeed {
+  livestock_definition_id uuid [ref: > LivestockDefinition.id, pk]
+  item_definition_id uuid [ref: > ItemDefinition.id, pk]
+}
+
+table LivestockDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  grade ItemGradeEnum [null]
+  growth_stages int
+  growth_time_minutes int
+  feed_type ItemSubType
+  required_nutrition int
+  disease_chance float
+  product_interval_minutes int
+}
+
+table LivestockProduct {
+  id uuid [pk]
+  livestock_definition_id uuid [ref: > LivestockDefinition.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  min_amount int
+  max_amount int
+}
+
+table MonsterAiBtDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  bt_json string
+}
+
+table MonsterAiFsmDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  fsm_json string
+}
+
+enum MonsterType {
+  Normal
+  Elite
+  Boss
+}
+
+table MonsterDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  level int
+  type MonsterType
+  exp_reward int
+  fsm_id uuid [ref: > MonsterAiFsmDefinition.id, null]
+  bt_id uuid [ref: > MonsterAiBtDefinition.id, null]
+  description string
+}
+
+table MonsterStat {
+  id uuid [pk]
+  monster_definition_id uuid [ref: > MonsterDefinition.id]
+  stat_definition_id uuid [ref: > StatDefinition.id]
+  value int
+}
+
+table OreDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  grade ItemGradeEnum [null]
+  map_id uuid [ref: > MapDefinition.id]
+  required_tool_subtype ItemSubType
+  required_tool_level int
+  required_skill_level int
+  mining_difficulty int
+  custom_data json
+}
+
+table LogDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  grade ItemGradeEnum [null]
+  map_id uuid [ref: > MapDefinition.id]
+  required_tool_subtype ItemSubType
+  required_tool_level int
+  required_skill_level int
+  logging_difficulty int
+  custom_data json
+}
+
+table PlayerLoggingRecord {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  resource_node_id uuid [ref: > ResourceNodeDefinition.id]
+  log_id uuid [ref: > LogDefinition.id]
+  logged_time datetime
+  tool_used uuid [ref: > ItemDefinition.id]
+  quantity int
+  party_id uuid [ref: > Party.id]
+  custom_data json
+}
+
+table ResourceNodeState {
+  id uuid [pk]
+  resource_node_id uuid [ref: > ResourceNodeDefinition.id]
+  current_regen_count int
+  last_mined_time datetime
+  is_depleted bool
+  occupied_by_player_id uuid [ref: > Player.id]
+  next_regen_time datetime
+  custom_data json
+}
+
+table PlayerMiningRecord {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  resource_node_id uuid [ref: > ResourceNodeDefinition.id]
+  ore_id uuid [ref: > OreDefinition.id]
+  mined_time datetime
+  tool_used uuid [ref: > ItemDefinition.id]
+  quantity int
+  party_id uuid [ref: > Party.id]
+  custom_data json
+}
+
+table RecipeDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  type RecipeType
+  required_level int
+  required_station_id uuid [ref: > CraftingStationDefinition.id, null]
+  success_rate float
+  craft_time_sec int
+  unlock_condition string
+  is_repeatable bool
+  pity_threshold int [null]
+  pity_success_rate float [null]
+  min_fail_reward_item_id uuid [ref: > ItemDefinition.id, null]
+  min_fail_reward_quantity int [null]
+  custom_data json
+}
+
+enum RecipeResultType {
+  Normal
+  Fail
+}
+
+table RecipeResult {
+  id uuid [pk]
+  recipe_id uuid [ref: > RecipeDefinition.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  min_quantity int
+  max_quantity int
+  probability float
+  grade ItemGradeEnum [null]
+  result_type RecipeResultType
+  is_fail_reward bool
+  bonus_effect string [null]
+  custom_data json
+}
+
+table PlayerCraftingLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  recipe_id uuid [ref: > RecipeDefinition.id]
+  crafted_at datetime
+  success bool
+  result_type RecipeResultType
+  result_item_id uuid [ref: > ItemDefinition.id]
+  result_grade ItemGradeEnum [null]
+  result_quantity int
+  bonus_effect string [null]
+  destroyed_materials json [null]
+  used_ingredients json
+  custom_data json
+}
+
+table MonsterKillLog {
+  map_id uuid [ref: > MapDefinition.id]
+
+  id uuid [pk]
+  player_id uuid
+  monster_definition_id uuid [ref: > MonsterDefinition.id]
+  killed_at datetime
+  location string
+}
+
+table PlayerFishingLog {
+  map_id uuid [ref: > MapDefinition.id]
+
+  id uuid [pk]
+  player_id uuid
+  fishing_spot_id uuid
+  fish_id uuid
+  length_cm float
+  caught_at datetime
+}
+
+table PlayerLevelLog {
+  id uuid [pk]
+  player_id uuid
+  old_level int
+  new_level int
+  experience_before long
+  experience_after long
+  changed_at datetime
+  reason string
+}
+
+table PlayerLivestockDiseaseLog {
+  id uuid [pk]
+  livestock_instance_id uuid
+  event_type LivestockDiseaseEventType
+  description string
+  occurred_at datetime
+}
+
+table PlayerLivestockGradeLog {
+  id uuid [pk]
+  livestock_instance_id uuid
+  grade string
+  market_value int
+  evaluated_at datetime
+}
+
+table PlayerLivestockGrowthLog {
+  id uuid [pk]
+  livestock_instance_id uuid
+  stage LivestockGrowthStage
+  changed_at datetime
+}
+
+table PlayerLivestockProductionLog {
+  id uuid [pk]
+  livestock_instance_id uuid
+  player_livestock_product_id uuid
+  item_definition_id uuid
+  amount int
+  produced_at datetime
+}
+
+table PlayerSkillLog {
+  id uuid [pk]
+  player_id uuid
+  skill_definition_id uuid [ref: > SkillDefinition.id]
+  log_time datetime
+}
+
+table PlayerStatLog {
+  id uuid [pk]
+  player_id uuid
+  stat_definition_id uuid [ref: > StatDefinition.id]
+  value int
+}
+
+table Player {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id]
+  nickname string
+  x int
+  y int
+  hp int
+  level int
+  created_at datetime
+}
+
+table PlayerAchievement {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  achievement_definition_id uuid [ref: > AchievementDefinition.id]
+  achieved_at datetime
+  progress_data string
+}
+
+table PlayerCropInstance {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  crop_definition_id uuid [ref: > CropDefinition.id]
+  farm_plot_id uuid [ref: > PlayerFarmPlot.id]
+  plant_time datetime
+  growth_stage int
+  disease_state string
+  expected_harvest_time datetime
+  actual_harvest_time datetime
+  applied_fertilizer json
+  quality CropGradeEnum
+  custom_data json
+}
+
+table PlayerCropProduct {
+  id uuid [pk]
+  player_crop_instance_id uuid [ref: > PlayerCropInstance.id]
+  crop_product_id uuid [ref: > CropProduct.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  amount int
+  -- PlayerCropInstance: PlayerCropInstance FK
+  -- CropProduct: CropProduct FK
+  -- ItemDefinition: ItemDefinition FK
+}
+
+table PlayerFishingRecord {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  fishing_spot_id uuid [ref: > FishingSpotDefinition.id]
+  fish_id uuid [ref: > FishDefinition.id]
+  caught_time datetime
+  bait_item_id uuid [ref: > ItemDefinition.id]
+  rod_item_id uuid [ref: > ItemDefinition.id]
+  fishing_skill_level int
+  custom_data json
+}
+
+table FishingDropDefinition {
+  id uuid [pk]
+  code string [unique]
+  fish_id uuid [ref: > FishDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  min_quantity int
+  max_quantity int
+  drop_chance float
+  required_rod_subtype ItemSubType
+  required_bait_item_id uuid [ref: > ItemDefinition.id]
+  event_condition string
+  custom_data json
+}
+
+enum SeasonEnum {
+  Spring
+  Summer
+  Fall
+  Winter
+}
+
+enum ItemGradeEnum {
+  Normal
+  Silver
+  Gold
+  Platinum
+  Myth
+}
+
+enum CropGradeEnum {
+  Normal
+  Silver
+  Gold
+  Platinum
+}
+
+table PlayerLevel {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  level int
+}
+
+table PlayerLivestockFeedLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  livestock_definition_id uuid [ref: > LivestockDefinition.id]
+  feed_name string
+}
+
+table PlayerLivestockInstance {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  livestock_definition_id uuid [ref: > LivestockDefinition.id]
+  grade ItemGradeEnum [null]
+  acquired_at datetime
+}
+
+table PlayerLivestockProduct {
+  id uuid [pk]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id]
+  product_name string
+}
+
+table PlayerLoggingRecord {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  resource_node_definition_id uuid [ref: > ResourceNodeDefinition.id]
+  log_time datetime
+}
+
+table PlayerMiningRecord {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  ore_definition_id uuid [ref: > OreDefinition.id]
+  mine_time datetime
+}
+
+table PlayerMonsterKill {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  monster_definition_id uuid [ref: > MonsterDefinition.id]
+  kill_time datetime
+}
+
+table PlayerPlot {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  plot_definition_id uuid [ref: > PlotDefinition.id]
+}
+
+table PlayerRecipe {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  recipe_definition_id uuid [ref: > RecipeDefinition.id]
+  unlocked_at datetime
+  success_count int
+  fail_count int
+  pity_counter int
+  last_crafted_at datetime
+}
+
+enum StatType {
+  Hp
+  Mp
+  Attack
+  Defense
+}
+
+table StatDefinition {
+  id uuid [pk]
+  code string [unique]
+  stat_type StatType
+  name string
+  description string
+}
+
+table PlayerStat {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  stat_definition_id uuid [ref: > StatDefinition.id]
+  value int
+}
+
+
+%% ==== User ====
+table Account {
+  id uuid [pk]
+  nickname string [unique]
+  created_at datetime
+  last_login_at datetime
+  status string
+  custom_data json
+}
+
+table Auth {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id, on delete: cascade]
+  provider AuthProvider
+  email string
+  password string [null]
+  oauth_id string [null]
+  is_verified bool
+  verify_token string [null]
+  last_login_at datetime
+  custom_data json
+  indexes {
+    (email, provider) [unique]
+  }
+}
+
+enum AuthProvider {
+  Local
+  Google
+}
+
+enum UserRole {
+  User
+  Admin
+}

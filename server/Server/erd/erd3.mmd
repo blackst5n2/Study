@@ -1,0 +1,728 @@
+enum RankingCategory {
+  Farming
+  Building
+  Exploration
+  Popularity
+  MiniGame
+}
+
+enum RankingTargetType {
+  Player
+  Guild
+  Building
+}
+
+enum RankingSeason {
+  None
+  Weekly
+  Monthly
+  Seasonal
+  Event
+}
+
+table CategoryRanking {
+  id uuid [pk]
+  category RankingCategory
+  target_type RankingTargetType
+  target_id uuid
+  score int
+  rank int
+  season RankingSeason [null]
+  calculated_at datetime
+  custom_data json
+}
+
+enum RecommendationTargetType {
+  Player
+  Village
+  Building
+  Artwork
+}
+
+table Recommendation {
+  id uuid [pk]
+  target_type RecommendationTargetType
+  target_id uuid
+  from_player_id uuid [ref: > Player.id]
+  created_at datetime
+  custom_data json
+}
+
+table TitleDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  icon string [null]
+  custom_data json
+}
+
+enum TitleEffectType {
+  StatBonus
+  JobSkillLevelUp
+  SkillLevelUp
+  Special
+}
+
+table TitleEffect {
+  id uuid [pk]
+  title_id uuid [ref: > TitleDefinition.id]
+  effect_type TitleEffectType
+  target string
+  value int [null]
+  extra json [null]
+}
+
+enum TitleUnlockType {
+  Achievement
+  Ranking
+  Recommendation
+  Event
+  Attendance
+  Etc
+}
+
+enum TitleUnlockOperator {
+  Eq
+  Gte
+  Lte
+  Gt
+  Lt
+  Top
+  In
+  Contains
+}
+
+table TitleUnlockCondition {
+  id uuid [pk]
+  title_id uuid [ref: > TitleDefinition.id]
+  type TitleUnlockType
+  key string
+  value string
+  operator TitleUnlockOperator
+  extra json [null]
+}
+
+table LandPlotType {
+  Farm
+  Building
+  Special
+}
+
+enum LandOwnershipType {
+  Player
+  Guild
+  Village
+}
+
+table LandPlot {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  plot_type LandPlotType
+  coord_x int
+  coord_y int
+  width int
+  height int
+  is_public bool
+  price int [null]
+  custom_data json
+}
+
+table PlayerLand {
+  id uuid [pk]
+  owner_type LandOwnershipType
+  owner_id uuid [ref: > Player.id, > Guild.id]
+  land_plot_id uuid [ref: > LandPlot.id]
+  purchased_at datetime
+  expires_at datetime [null]
+  custom_name string [null]
+  custom_data json
+}
+
+table PlayerTitle {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  title_id uuid [ref: > TitleDefinition.id]
+  acquired_at datetime
+  is_active bool
+  custom_data json
+}
+
+enum TitleUnlockEvent {
+  acquired
+  removed
+  reactivated
+}
+
+table TitleUnlockHistory {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  title_id uuid [ref: > TitleDefinition.id]
+  event TitleUnlockEvent
+  occurred_at datetime
+  reason string [null]
+  custom_data json
+}
+
+table TitleCategory {
+  id uuid [pk]
+  name string
+  description string [null]
+}
+
+table TitleCategoryMapping {
+  id uuid [pk]
+  title_id uuid [ref: > TitleDefinition.id]
+  category_id uuid [ref: > TitleCategory.id]
+}
+
+table PlayerTitleSlot {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  slot_index int
+  player_title_id uuid [ref: > PlayerTitle.id]
+  equipped_at datetime
+}
+
+enum RecommendationAction {
+  added
+  removed
+}
+
+table RecommendationLog {
+  id uuid [pk]
+  recommendation_id uuid [ref: > Recommendation.id]
+  action RecommendationAction
+  actor_player_id uuid [ref: > Player.id]
+  occurred_at datetime
+  reason string [null]
+}
+
+table RankingHistory {
+  id uuid [pk]
+  category RankingCategory
+  target_type RankingTargetType
+  target_id uuid
+  score int
+  rank int
+  season RankingSeason [null]
+  recorded_at datetime
+}
+
+enum GameNotificationType {
+  TitleAcquired
+  TitleRemoved
+  RankingUp
+  RecommendationReceived
+}
+
+table Notification {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  type NotificationType
+  payload json
+  is_read bool
+  created_at datetime
+}
+
+table GuildTitle {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id]
+  title_id uuid [ref: > TitleDefinition.id]
+  acquired_at datetime
+  is_active bool
+  custom_data json
+}
+
+enum BuffType {
+  StatBonus
+  SkillLevelUp
+  SpecialBuff
+}
+
+enum BuffCategory {
+  Buff
+  Debuff
+  Neutral
+}
+
+table BuffDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  category BuffCategory
+  effect_type BuffType
+  value int [null]
+  duration_seconds int [null]
+  max_stack int [null]
+  custom_data json
+}
+
+enum BuffSourceType {
+  Building
+  Item
+  Skill
+  Event
+  Quest
+  System
+}
+
+table PlayerBuff {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  buff_definition_id uuid [ref: > BuffDefinition.id]
+  source_type BuffSourceType
+  source_id uuid [null]
+  started_at datetime
+  expires_at datetime [null]
+  stack_count int [default: 1]
+  custom_data json
+}
+
+enum BuffTriggerCondition {
+  OnUse
+  OnHit
+  OnEquip
+  Passive
+  OnLogin
+  OnReceiveDamage
+  OnQuestComplete
+}
+
+table SkillGrantedBuff {
+  id uuid [pk]
+  skill_definition_id uuid [ref: > SkillDefinition.id]
+  buff_definition_id uuid [ref: > BuffDefinition.id]
+  trigger_condition BuffTriggerCondition
+  duration_override int [null]
+  value_override int [null]
+  custom_data json
+}
+
+enum PlayerBuffLogAction {
+  Apply
+  Expire
+  Refresh
+  Remove
+}
+
+table PlayerBuffLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  buff_definition_id uuid [ref: > BuffDefinition.id]
+  action PlayerBuffLogAction
+  source_type BuffSourceType
+  source_id uuid [null]
+  trigger_condition BuffTriggerCondition [null]
+  occurred_at datetime
+  stack_count int [null]
+  duration_seconds int [null]
+  custom_data json
+}
+
+table PetDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  species string
+  rarity string
+  base_stat json
+  skill_set json
+  description string
+  evolve_to uuid [ref: > PetDefinition.id, null]
+  custom_data json
+}
+
+table PlayerPet {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  pet_definition_id uuid [ref: > PetDefinition.id]
+  nickname string
+  level int
+  exp int
+  acquired_at datetime
+  is_active bool [default: false]
+  custom_data json
+}
+
+table PetStat {
+  id uuid [pk]
+  player_pet_id uuid [ref: > PlayerPet.id]
+  stat_definition_id uuid [ref: > StatDefinition.id]
+  value int
+  custom_data json
+}
+
+table PetSkill {
+  id uuid [pk]
+  pet_definition_id uuid [ref: > PetDefinition.id]
+  name string
+  description string
+  skill_definition_id uuid [ref: > SkillDefinition.id]
+  unlock_level int
+  custom_data json
+}
+
+table PlayerPetSkill {
+  id uuid [pk]
+  player_pet_id uuid [ref: > PlayerPet.id]
+  pet_skill_id uuid [ref: > PetSkill.id]
+  level int
+  acquired_at datetime
+  custom_data json
+}
+
+enum MailSenderType {
+  System
+  Player
+  Npc
+  Admin
+}
+
+enum MailReceiverType {
+  Player
+  Account
+}
+
+table Mail {
+  id uuid [pk]
+  code string [unique]
+  sender_type MailSenderType
+  sender_id uuid [null]
+  receiver_type MailReceiverType
+  receiver_id uuid
+  title string
+  content string
+  sent_at datetime
+  expires_at datetime [null]
+  is_read bool [default: false]
+  read_at datetime [null]
+  is_claimed bool [default: false]
+  claimed_at datetime [null]
+  is_deleted bool [default: false]
+  deleted_at datetime [null]
+  custom_data json
+}
+
+enum MailAttachmentType {
+  Item
+  Currency
+  Coupon
+}
+
+enum CurrencyType {
+  Gold
+  Gem
+  Point
+}
+
+table CurrencyDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  currency_type CurrencyType
+  description string [null]
+  is_premium bool [default: false]
+  custom_data json [null]
+}
+
+table MailAttachment {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id]
+  attachment_type MailAttachmentType
+  item_definition_id uuid [ref: > ItemDefinition.id, null]
+  currency_code string [null]
+  amount int [null]
+  coupon_code string [null]
+  quantity int [null]
+  custom_data json
+}
+
+
+table MailReadLog {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id]
+  reader_id uuid
+  read_at datetime
+  custom_data json
+}
+
+table MailDeleteLog {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id]
+  deleter_id uuid
+  deleted_at datetime
+  custom_data json
+}
+
+enum ContainerType {
+  PlayerInventory
+  Storage
+  GuildStorage
+}
+
+table Container {
+  id uuid [pk]
+  container_type ContainerType
+  owner_id uuid [ref: > Player.id, > Guild.id]
+  name string
+  slot_count int
+  custom_data json
+}
+
+table ItemInstance {
+  id uuid [pk]
+  container_id uuid [ref: > Container.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  quantity int
+  durability int
+  slot_index int
+  acquired_at datetime
+  expires_at datetime [null]
+  is_locked bool [default: false]
+  custom_data json
+}
+
+enum EventType {
+  Attendance
+  Mission
+  Ranking
+  Coupon
+  Custom
+}
+
+enum EventReceiverType {
+  All
+  Account
+  Player
+  Group
+}
+
+table EventDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  event_type EventType
+  receiver_type EventReceiverType [default: All]
+  receiver_id uuid [null]
+  start_at datetime
+  end_at datetime
+  config json // 미션, 조건, 랭킹 규칙 등
+  is_active bool [default: true]
+  custom_data json
+}
+
+enum EventStatus {
+  InProgress
+  Completed
+  Claimed
+}
+
+table PlayerEventProgress {
+  id uuid [pk]
+  event_id uuid [ref: > EventDefinition.id]
+  player_id uuid [ref: > Player.id]
+  progress int
+  last_updated_at datetime
+  status EventStatus
+  custom_data json
+}
+
+table EventReward {
+  id uuid [pk]
+  event_id uuid [ref: > EventDefinition.id]
+  reward_code string
+  condition json
+  attachment_id uuid [ref: > MailAttachment.id, null]
+  custom_data json
+  indexes {
+    (event_id, reward_code) [unique]
+  }
+}
+
+table PlayerEventRewardLog {
+  id uuid [pk]
+  event_reward_id uuid [ref: > EventReward.id]
+  player_id uuid [ref: > Player.id]
+  claimed_at datetime
+  custom_data json
+}
+
+table SeasonPassDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  image_url string [null]
+  priority int [default: 0]
+  start_at datetime
+  end_at datetime
+  is_active bool [default: true]
+  free_track bool [default: true]
+  premium_track bool [default: true]
+  max_level int [null]
+  sale_product_id string [null]
+  config json
+  custom_data json
+}
+
+table SeasonPassMission {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  mission_code string
+  description string
+  type string
+  group string [null]
+  repeatable bool [default: false]
+  goal int
+  order_index int
+  config json
+  custom_data json
+  indexes {
+    (season_pass_id, mission_code) [unique]
+  }
+}
+
+table PlayerSeasonPass {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  player_id uuid [ref: > Player.id]
+  premium_unlocked bool [default: false]
+  progress int
+  season_exp int [default: 0]
+  last_mission_refresh_at datetime [null]
+  last_updated_at datetime
+  custom_data json
+}
+
+table PlayerSeasonPassMission {
+  id uuid [pk]
+  player_season_pass_id uuid [ref: > PlayerSeasonPass.id]
+  season_pass_mission_id uuid [ref: > SeasonPassMission.id]
+  progress int
+  last_progress_at datetime [null]
+  completed_at datetime [null]
+  custom_data json
+}
+
+enum SeasonPassRewardTrack {
+  Free
+  Premium
+}
+
+table SeasonPassReward {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  reward_code string
+  track SeasonPassRewardTrack
+  level int
+  reward_type string
+  is_hidden bool [default: false]
+  condition json
+  attachment_id uuid [ref: > MailAttachment.id, null]
+  custom_data json
+  indexes {
+    (season_pass_id, reward_code) [unique]
+  }
+}
+
+table PlayerSeasonPassRewardLog {
+  id uuid [pk]
+  season_pass_reward_id uuid [ref: > SeasonPassReward.id]
+  player_id uuid [ref: > Player.id]
+  claimed_at datetime
+  custom_data json
+}
+
+table SeasonPassPurchaseLog {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  player_id uuid [ref: > Player.id]
+  purchase_type string
+  product_id string [null]
+  purchased_at datetime
+  custom_data json
+}
+
+table SeasonPassMissionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  mission_id uuid [ref: > SeasonPassMission.id]
+  action string
+  value int
+  logged_at datetime
+  custom_data json
+}
+
+table SeasonPassRewardActionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id]
+  reward_id uuid [ref: > SeasonPassReward.id]
+  action string
+  reason string [null]
+  logged_at datetime
+  custom_data json
+}
+
+enum NotificationScheduleType {
+  Push
+  Mail
+  Popup
+  Banner
+  System
+}
+
+enum NotificationTargetType {
+  All
+  Group
+  Player
+}
+
+enum NotificationStatus {
+  Scheduled
+  Sent
+  Failed
+}
+
+enum PlayerNotificationStatus {
+  Received
+  Read
+  Failed
+}
+
+table NotificationSchedule {
+  id uuid [pk]
+  title string
+  content string
+  type NotificationType
+  target_type NotificationTargetType
+  target_id uuid [null]
+  scheduled_at datetime
+  sent_at datetime [null]
+  status NotificationStatus
+  retry_count int [default: 0]
+  custom_data json
+}
+
+table NotificationLog {
+  id uuid [pk]
+  notification_schedule_id uuid [ref: > NotificationSchedule.id]
+  sent_at datetime
+  status NotificationStatus
+  error_message string [null]
+  custom_data json
+}
+
+table PlayerNotificationLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  notification_log_id uuid [ref: > NotificationLog.id]
+  received_at datetime [null]
+  read_at datetime [null]
+  status PlayerNotificationStatus
+  custom_data json
+}

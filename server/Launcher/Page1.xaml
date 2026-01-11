@@ -1,0 +1,19 @@
+<Window x:Class="Launcher.Page1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:Launcher"
+        mc:Ignorable="d" 
+        Title="WIW Game Launcher" Height="370" Width="310">
+    <Grid>
+        <Border Width="340" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32">
+            <Grid>
+                <StackPanel x:Name="LaunchPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock TextAlignment="Center" Margin="0,0,0,12" Text="환영합니다"/>
+                    <Button x:Name="btnLaunchGame" Content="게임 실행" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center"  Click="btnLaunchGame_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

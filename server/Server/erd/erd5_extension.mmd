@@ -1,0 +1,58 @@
+enum ResearchStatus {
+  InProgress
+  Completed
+}
+
+table PlayerResearchLabSlot {
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  slot_index int
+  research_id uuid [ref: > ResearchDefinition.id]
+  started_at datetime
+  finished_at datetime [null]
+  status ResearchStatus
+  custom_data json
+}
+
+table PlayerStorageSlot {
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  slot_index int
+  item_id uuid [ref: > ItemDefinition.id]
+  quantity int
+  locked bool
+  custom_data json
+}
+
+table PlayerEquipmentSlot {
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  slot_index int
+  equipment_item_id uuid [ref: > ItemDefinition.id]
+  equipped_at datetime [null]
+  durability int [null]
+  is_locked bool
+  custom_data json
+}
+
+table PlayerRanchAnimalSlot {
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  slot_index int
+  livestock_id uuid [ref: > LivestockDefinition.id]
+  entered_at datetime
+  exited_at datetime [null]
+  health int [null]
+  custom_data json
+}
+
+table PlayerGreenhouseCropSlot {
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  slot_index int
+  crop_id uuid [ref: > CropDefinition.id]
+  planted_at datetime
+  harvested_at datetime [null]
+  growth_stage int
+  custom_data json
+}

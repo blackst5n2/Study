@@ -1,0 +1,205 @@
+%% ==== 표준 인벤토리/빌딩/설치물/스테이션 구조 (WIW 표준) ====
+
+table PlayerInventoryTabLimit {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  inventory_type InventoryType
+  max_slots int
+  upgraded_at datetime [null]
+  custom_data json
+}
+
+table PlayerInventoryItem {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  quantity int
+  inventory_type InventoryType
+  slot_index int
+  acquired_at datetime
+  status InventoryItemStatus
+  custom_data json
+}
+
+enum InventoryType {
+  Equipment
+  Consumable
+  Material
+  Building
+  Quest
+  Etc
+}
+
+enum InventoryItemStatus {
+  Normal
+  Locked
+  Used
+  Installed
+  Removed
+}
+
+table BuildingDefinition {
+  id uuid [pk, ref: > EntityDefinition.id]
+  type BuildingType
+  description string
+  allowed_actions json
+  unlock_condition string [null]
+  max_level int
+  custom_data json
+}
+
+enum BuildingType {
+  Farm
+  Ranch
+  House
+  EquipmentStation
+  CookingStation
+  MiningStation
+  Decoration
+  Etc
+}
+
+table PlayerBuilding {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  land_id uuid [ref: > PlayerLand.id]
+  building_definition_id uuid [ref: > BuildingDefinition.id]
+  inventory_item_id uuid [null]
+  location string [null]
+  installed_at datetime [null]
+  removed_at datetime [null]
+  level int
+  durability int [null]
+  status BuildingStatus
+  custom_data json
+}
+
+enum BuildingStatus {
+  Installed
+  Removed
+  Upgrading
+  Broken
+}
+
+table BuildingActionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  player_building_id uuid [ref: > PlayerBuilding.id]
+  action BuildingActionType
+  action_at datetime
+  reason string [null]
+  custom_data json
+}
+
+enum BuildingActionType {
+  Install
+  Remove
+  Upgrade
+  Repair
+  Move
+}
+
+table BuildingUpgradeDefinition {
+  id uuid [pk]
+  building_definition_id uuid [ref: > BuildingDefinition.id]
+  level int
+  upgrade_effect json
+  required_items json
+  required_currencies json
+  custom_data json
+}
+
+table BuildingUpgradeRequiredItem {
+  id uuid [pk]
+  upgrade_definition_id uuid [ref: > BuildingUpgradeDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  quantity int
+}
+
+table BuildingUpgradeRequiredCurrency {
+  id uuid [pk]
+  upgrade_definition_id uuid [ref: > BuildingUpgradeDefinition.id]
+  currency_code string
+  amount int
+}
+
+enum BuildingEffectType {
+  Capacity
+  SpecialBuff
+}
+
+table BuildingUpgradeEffect {
+  id uuid [pk]
+  upgrade_definition_id uuid [ref: > BuildingUpgradeDefinition.id]
+  effect_type BuildingEffectType
+  value int [null]
+  extra_data json [null]
+}
+
+table MarketListing {
+  id uuid [pk]
+  seller_id uuid [ref: > Player.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  quantity int
+  price int
+  currency_code string [ref: > CurrencyDefinition.code]
+  status MarketListingStatus
+  listed_at datetime
+  expires_at datetime [null]
+  sold_at datetime [null]
+  custom_data json
+}
+
+enum MarketListingStatus {
+  Listed
+  Sold
+  Cancelled
+  Expired
+}
+
+table MarketTransaction {
+  id uuid [pk]
+  market_listing_id uuid [ref: > MarketListing.id]
+  buyer_id uuid [ref: > Player.id]
+  seller_id uuid [ref: > Player.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  quantity int
+  price int
+  currency_code string [ref: > CurrencyDefinition.code]
+  transacted_at datetime
+  custom_data json
+}
+
+table Trade {
+  id uuid [pk]
+  sender_id uuid [ref: > Player.id]
+  receiver_id uuid [ref: > Player.id]
+  traded_at datetime
+  currency_code string [ref: > CurrencyDefinition.code, null]
+  currency_amount int [null]
+  custom_data json
+}
+
+table TradeItem {
+  id uuid [pk]
+  trade_id uuid [ref: > Trade.id]
+  item_definition_id uuid [ref: > ItemDefinition.id]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  quantity int
+  custom_data json
+}
+
+table CurrencyTransactionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  currency_code string [ref: > CurrencyDefinition.code]
+  amount int
+  reason string
+  related_table string [null]
+  related_id uuid [null]
+  created_at datetime
+  custom_data json
+}
+

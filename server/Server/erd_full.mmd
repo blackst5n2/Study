@@ -1,0 +1,3285 @@
+enum MapType { Field, Town, Dungeon, House, Instance }
+enum MonsterType { Monster, Boss, Normal }
+BoardGameRoomStatus { None, Waiting }
+enum TradeStatus { Pending, Accepted, Cancelled }
+UserRoomParticipantRole { Normal, Admin, Guest }
+enum ViewMode { TopDown, SideView }
+enum WeatherType { Sunny, Cloudy, Rainy, Snowy, Thunderstorm, Fog, Mist }
+enum TimeOfDayType { Morning, Afternoon, Evening, Night }
+enum SeasonType { Spring, Summer, Fall, Winter }
+enum EntityType { Monster, Boss, Livestock, Tree, Ore, Building, Decoration, Crop, Npc, Fish }
+enum ResourceType { Tree, Ore }
+enum MapLayerType { Background, Ground, Decoration, Structure, Foreground, Collision, Overlay }
+enum MapZoneType { Farm, FishingSpot, Village, Forest, DungeonEntrance, Plaza, Market, House, Ranch, Event, SafeZone }
+enum MapZoneAreaType { Polygon, Rect, Circle, Ellipse, Line }
+enum WorldEventType { EnterZone, LeaveZone, ZoneBuff, ZoneRestriction, ZoneSpawn, ZoneWeatherChange, ZoneQuestTrigger, ZoneResourceRegeneration, ZoneEventStart, ZoneEventEnd, SpawnMonster, SpawnNPC, TriggerCutscene, WeatherChange, TimeChange, OpenPortal, UnlockArea, GlobalBuff, EnvironmentalHazard, MapEventStart, MapEventEnd }
+enum ItemType { Equipment, Consumable, Material, Seed, Blueprint, QuestItem, Currency, Container, Tool, Furniture }
+enum ItemSubType { None, Weapon_Sword, Weapon_Bow, Armor_Helmet, Armor_Chest, Tool_Axe, Tool_Pickaxe, Tool_FishingRod, Tool_WateringCan, Potion_Health, Potion_Mana, Food, Drink, Wood, Stone, Metal_Ore, Metal_Ingot, Herb, Cloth }
+enum ItemRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic }
+enum ItemGrade { Normal, Bronze, Silver, Gold, Platinum }
+enum EquipSlot { None, Head, Chest, Legs, Feet, Hands, Weapon_Main, Weapon_Offhand, Accessory_Ring, Accessory_Necklace }
+enum EffectType { Heal_HP, Restore_MP, Buff_Stat, Debuff_Stat, Damage, Apply_StatusEffect }
+enum RecipeType { Crafting, Cooking, Building, Alchemy }
+enum RecipeResultType { Success_Normal, Success_Great, Fail }
+enum StatType { Core_HP, Core_MP, Core_Stamina, Combat_Attack, Combat_Defense, Combat_CritChance, Gathering_Speed, Farming_YieldBonus }
+enum AuthProvider { Local, Google, Facebook }
+enum UserRole { User, Moderator, Admin, GM }
+enum MiniGameType { TimingBar, QTE, MemoryPuzzle, TapChallenge, Rhythm }
+enum MiniGameResultGrade { Perfect, Great, Good, Okay, Fail, Bonus }
+enum Doneness { Raw, Rare, MediumRare, Medium, MediumWell, WellDone, Burnt, AlDente }
+enum CookingAction { Chop, Mix, Boil, Fry, Bake, Grill }
+enum CookingGrade { Masterpiece, Great, Good, Okay, Failed }
+enum QuickSlotType { Skill, Item, Macro, Emote }
+enum RestrictionType { Allow, Deny }
+enum SkillEffectType { Damage_Physical, Damage_Magical, Heal, Buff, Debuff, Control, Summon }
+enum SkillTargetType { Self, Ally_Single, Ally_Group, Enemy_Single, Enemy_Area, Ground_Point }
+enum ChannelType { Global, Region, Party, Guild, Whisper, Trade, System, Notice, CombatLog }
+enum ReportStatus { Pending, Investigating, Resolved_Accepted, Resolved_Rejected, Resolved_Duplicate }
+enum ModerationActionType { Warn, Mute, Kick, Ban_Temporary, Ban_Permanent }
+enum FriendStatus { Pending_Sent, Pending_Received, Accepted, Blocked, Rejected }
+enum PartyRole { Leader, Member }
+enum NoticeType { General, Event, Maintenance, Update, Promotion }
+enum GuildRolePermission { InviteMember, KickMember, EditNotice, ManageRanks, AccessStorage }
+enum GuildJoinRequestStatus { Pending, Approved, Rejected, Cancelled }
+enum RankingCategory { Level, Wealth, Farming, Fishing, Mining, Logging, Crafting, Combat_PVE, Combat_PVP, Popularity, Building, MiniGame, Guild }
+enum RankingTargetType { Player, Guild }
+enum RankingSeason { None, Daily, Weekly, Monthly, Seasonal, Event }
+enum RecommendationTargetType { Player, Guild, LandPlot, UserPattern, UserRoom }
+enum TitleEffectType { StatBonus, SkillLevelUp, JobExpBonus, Unlock, Cosmetic }
+enum TitleUnlockType { Achievement, Quest, Ranking, Recommendation, Event, Attendance, Purchase, Exploration, Collection, LifeSkillLevel, ManualGrant }
+enum TitleUnlockOperator { Equals, GreaterThanOrEqual, LessThanOrEqual, GreaterThan, LessThan, TopN, In, Contains }
+enum LandPlotType { Farm, Housing, Ranch, Combined, Special }
+enum LandOwnershipType { Player, Guild, System }
+enum TitleUnlockEvent { Acquired, Removed, Activated, Deactivated }
+enum RecommendationAction { Added, Removed }
+enum GameNotificationType { System, AchievementUnlocked, QuestCompleted, LevelUp, MailReceived, FriendRequest, GuildInvite, EventStart, TitleAcquired, RankingUp, RecommendationReceived, LowDurabilityWarning }
+enum BuffType { StatBonus_Add, StatBonus_Multiply, SkillLevelUp, Special, DamageOverTime, HealOverTime, MovementSpeedChange }
+enum BuffCategory { Buff, Debuff, Neutral }
+enum BuffSourceType { Item_Consumable, Item_Equipment, Skill_Active, Skill_Passive, Zone, Building, Event, Quest, System, Npc }
+enum BuffTriggerCondition { OnUse, OnEquip, OnHit_Dealt, OnHit_Received, OnKill, OnSkillCast, OnEnterZone, OnQuestComplete, Passive, OnLogin }
+enum PlayerBuffLogAction { Applied, Expired, Refreshed, Removed, StackIncreased, StackDecreased }
+enum StatOwnerType { Player, Monster, Pet, Npc, ItemInstance, BuildingInstance }
+enum MailSenderType { System, Player, Npc, Admin, Event }
+enum MailReceiverType { Player, Account }
+enum MailAttachmentType { Item, Currency, Coupon }
+enum MailStatus { Unread, Read, Claimed, Deleted, Expired }
+enum CurrencyType { Gold, Gem, Point }
+enum ContainerType { PlayerInventory, PlayerStorage, GuildStorage, Mailbox, EquipmentSlots, Temporary }
+enum InventoryType { Equipment, Consumable, Material, Building, Quest, Etc, Currency }
+enum InventoryItemStatus { Normal, Locked, Equipped, Installed, InUse, Broken }
+enum EventType { Attendance, Mission, Ranking, Coupon, Custom, LoginBonus, PlaytimeReward }
+enum EventReceiverType { All, Account, Player, Group }
+enum EventStatus { NotStarted, InProgress, Completed, Claimed, Expired }
+enum SeasonPassRewardTrack { Free, Premium }
+enum SeasonPassMissionType { Daily, Weekly, Seasonal, Challenge }
+enum NotificationScheduleType { Push, Mail, InGame_Popup, InGame_Banner, SystemChat }
+enum NotificationTargetType { All, Group, Player, Segment }
+enum NotificationStatus { Scheduled, Sending, Sent, Failed }
+enum PlayerNotificationStatus { Pending, Received, Read, Clicked, Failed }
+enum BuildingType { Production_FarmPlot, Production_LivestockPen, Production_Workshop, Production_Kitchen, Housing_PlayerHouse, Storage_Warehouse, Community_GuildHall, Utility_ResearchLab, Utility_Refinery, Decoration }
+enum BuildingStatus { InInventory, Placed, Upgrading, Damaged, Destroyed, Operating, Idle }
+enum BuildingActionType { Place, Remove, Upgrade_Start, Upgrade_Complete, Repair, Move, Rotate, CollectOutput, InputMaterial }
+enum BuildingEffectType { IncreaseStorage, IncreaseProductionSpeed, GrantBuff, UnlockRecipe, EnableFeature, IncreaseCapacity }
+enum MarketListingStatus { Listed, Sold, Cancelled, Expired }
+enum ShopTransactionType { Buy, Sell }
+enum NpcType { Merchant, QuestGiver, Guard, Villager, Trainer, Crafter, Special }
+enum DialogueType { Greeting, Quest_Start, Quest_InProgress, Quest_Complete, Shop, Gossip, Farewell, Trigger }
+enum DialogueTargetType { Npc, Quest, Item, Location, System }
+enum QuestStatus { Locked, Available, Accepted, InProgress, Complete, Failed, Abandoned }
+enum QuestConditionType { KillMonster, GatherItem, TalkToNpc, VisitLocation, UseSkill, CraftItem, ReachLevel }
+enum QuestRewardType { Experience, Currency, Item, Reputation, UnlockRecipe, UnlockArea, Title, SkillPoint }
+enum AchievementStatus { Locked, InProgress, Completed, Claimed }
+enum AchievementConditionType { TotalKills, TotalItemsCrafted, MaxLevelReached, CurrencyEarned, Logins, Playtime, BossesDefeated, DungeonsCleared, FriendsAdded, GuildJoined }
+enum AchievementRewardType { Experience, Currency, Item, Title, SkillPoint, Cosmetic, AchievementPoints }
+enum JobType { Combat, Gathering, Crafting, Service, Social }
+enum ClassRole { Tank, DamageDealer_Melee, DamageDealer_Ranged, Healer, Support }
+enum UserContentStatus { Private, Public, UnderReview, Approved, Rejected, Reported }
+enum UGCReportStatus { Pending, Investigated, ActionTaken, Dismissed }
+enum DungeonRunStatus { FormingParty, InProgress, Completed_Success, Completed_Fail, Abandoned }
+enum DungeonZoneType { Normal, Puzzle, Boss, Bonus, Trap, Safe }
+enum PortalType { Normal, DungeonEntrance, DungeonExit, BossRoom, Event, Secret }
+enum SecurityIncidentType { Cheat_SpeedHack, Cheat_Botting, Cheat_Exploit, Account_Compromise, Harassment, AbusiveLanguage, RealMoneyTrading, Scaming }
+enum SecurityActionTaken { None, Warning, TemporaryBan, PermanentBan, Mute, Rollback, ItemRemoval }
+enum BanType { Temporary, Permanent }
+enum GMRoleType { Observer, Supporter, GameMaster, Admin, Developer }
+enum GMActionType { BanPlayer, UnbanPlayer, MutePlayer, KickPlayer, SendNotice, ModifyStat, GrantItem, GrantCurrency, Teleport, ServerControl, InvestigateReport }
+enum GMNoticeType { Emergency, Maintenance, Event, Info, Warning }
+enum WorldEventType { BossSpawn, Invasion, WeatherEffect, Festival, Bonus_EXP, Bonus_DropRate, SpecialMerchant }
+enum PetRarity { Common, Uncommon, Rare, Epic, Legendary }
+enum PetType { Combat, Mount, Support, Utility, Cosmetic }
+enum LivestockGrowthStage { Baby, Juvenile, Adult, Elder }
+enum LivestockDiseaseEventType { Diagnosed, Cured, Succumbed }
+enum CropGrade { Normal, Silver, Gold, Platinum }
+
+table Test {
+  id uuid [pk]
+}
+
+table Account {
+  id uuid [pk]
+  nickname string [unique, not null]
+  created_at datetime [default: `now()`, not null]
+  last_login_at datetime
+  status string [not null, default: 'Active']
+  custom_data json
+}
+
+table Auth {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id, not null, on delete: cascade]
+  provider AuthProvider [not null]
+  email string
+  password string [null]
+  oauth_id string [null]
+  is_verified bool [default: false, not null]
+  verify_token string [null]
+  last_login_at datetime
+  custom_data json
+  indexes { (account_id), (email, provider) [unique], (oauth_id, provider) [unique] }
+}
+
+table Player {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id, not null]
+  code string [unique, null]
+  nickname string [unique, not null]
+  level int [default: 1, not null]
+  experience long [default: 0, not null]
+  created_at datetime [default: `now()`, not null]
+  last_logout_at datetime
+  play_time_seconds int [default: 0, not null]
+  custom_data json
+}
+
+table MapDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  type MapType [not null]
+  view_mode ViewMode [not null]
+  size_x float
+  size_y float
+  background_asset string
+  is_safe_zone bool [default: false, not null]
+  parent_map_id uuid [ref: > MapDefinition.id, null]
+  min_level int [null]
+  max_level int [null]
+  custom_data json
+}
+
+table MapEnvironment {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null, unique]
+  temperature_default float [null]
+  temperature_min float [null]
+  temperature_max float [null]
+  bgm string [null]
+  ambience string [null]
+  lighting_profile string [null]
+  custom_data json
+}
+
+table DropTableDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+}
+
+table DropTableDetail {
+  id uuid [pk]
+  drop_table_id uuid [ref: > DropTableDefinition.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  drop_rate float [not null, default: 1.0]
+  min_count int [not null, default: 1]
+  max_count int [not null, default: 1]
+  indexes { (drop_table_id) }
+}
+
+table EntityDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  entity_type EntityType [not null]
+  name string [not null]
+  description text
+  drop_table_id uuid [ref: > DropTableDefinition.id, null]
+  resource_type ResourceType [null]
+  model_asset string [null]
+  icon string [null]
+  custom_data json
+}
+
+table StatValue {
+  id uuid [pk]
+  owner_type StatOwnerType [not null]
+  owner_id uuid [not null]
+  stat_definition_id uuid [ref: > StatDefinition.id, not null]
+  value long [not null]
+  indexes { (owner_type, owner_id), (owner_type, owner_id, stat_definition_id) [unique] }
+}
+
+table StatDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  stat_type StatType [not null]
+  name string [not null]
+  description text
+  is_percentage bool [default: false, not null]
+  default_value long [default: 0, not null]
+  min_value long [null]
+  max_value long [null]
+  custom_data json
+}
+
+table MapObjectInstance {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  entity_definition_id uuid [ref: > EntityDefinition.id, null]
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  rotation_x float [default: 0, not null]
+  rotation_y float [default: 0, not null]
+  rotation_z float [default: 0, not null]
+  scale_x float [default: 1, not null]
+  scale_y float [default: 1, not null]
+  scale_z float [default: 1, not null]
+  spawn_condition string [null]
+  is_active bool [default: true, not null]
+  custom_data json
+}
+
+table MapSpawnPoint {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  entity_definition_id uuid [ref: > EntityDefinition.id, null]
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  spawn_radius float [default: 0, not null]
+  initial_direction float [null]
+  max_concurrent int [default: 1, not null]
+  respawn_time_seconds int [null]
+  spawn_condition string [null]
+  custom_data json
+}
+
+table MapLayer {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  name string [not null]
+  layer_order int [not null]
+  type MapLayerType [not null]
+  is_visible bool [default: true, not null]
+  custom_data json
+  indexes { (map_id, layer_order) }
+}
+
+table MapTile {
+  id uuid [pk]
+  layer_id uuid [ref: > MapLayer.id, not null]
+  x int [not null]
+  y int [not null]
+  tile_asset string [not null]
+  custom_data json
+  indexes { (layer_id, x, y) [unique] }
+}
+
+table MapZone {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  name string [not null]
+  zone_type MapZoneType [not null]
+  area_type MapZoneAreaType [not null]
+  area_data json [not null]
+  priority int [default: 0, not null]
+  environment_id uuid [ref: > MapEnvironment.id, null]
+  allow_pvp bool [null]
+  allow_farming bool [null]
+  allow_fishing bool [null]
+  allow_building bool [null]
+  entry_condition string [null]
+  active bool [default: true, not null]
+  custom_data json
+  indexes { (map_id) }
+}
+
+table ZoneEventTrigger {
+  id uuid [pk]
+  zone_id uuid [ref: > MapZone.id, not null]
+  event_type WorldEventType [not null]
+  trigger_condition string [null]
+  action string [not null]
+  parameters json
+  priority int [default: 0, not null]
+  cooldown_seconds int [null]
+  max_triggers int [null]
+  custom_data json
+}
+
+table MapEventTrigger {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  event_type WorldEventType [not null]
+  pos_x float [null]
+  pos_y float [null]
+  pos_z float [null]
+  trigger_radius float [null]
+  trigger_condition string [null]
+  action string [not null]
+  parameters json
+  cooldown_seconds int [null]
+  custom_data json
+}
+
+table EditableArea {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  area_type MapZoneAreaType [not null, default: Rect]
+  area_data json [not null]
+  is_buildable bool [default: true, not null]
+  is_farmable bool [default: false, not null]
+  unlock_condition string [null]
+  owner_type LandOwnershipType [default: System, not null]
+  owner_id uuid [null]
+  custom_data json
+}
+
+table MapDynamicObjectState {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  object_instance_id uuid [not null]
+  state string [not null]
+  health int [null]
+  growth_stage int [null]
+  growth_timer float [null]
+  last_changed_at datetime [default: `now()`, not null]
+  owner_id uuid [null]
+  custom_data json
+  indexes { (map_id, object_instance_id) [unique], (map_id, owner_id) }
+}
+
+table MapPlayerState {
+  player_id uuid [ref: > Player.id, pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  rotation_y float [null]
+  state string [null]
+  last_sync_at datetime [default: `now()`, not null]
+  custom_data json
+}
+
+table ItemDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  type ItemType [not null]
+  sub_type ItemSubType [null]
+  grade ItemGrade [null, default: Normal]
+  rarity ItemRarity [default: Common, not null]
+  equip_slot EquipSlot [null]
+  max_stack int [default: 1, not null]
+  base_value int [null]
+  price int [null]
+  is_tradable bool [default: true, not null]
+  is_usable bool [default: false, not null]
+  use_effect_id uuid [ref: > ItemEffectDefinition.id, null]
+  required_level int [null]
+  icon string [null]
+  model_asset string [null]
+  custom_data json
+}
+
+table Tag {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+}
+
+table ItemTag {
+  item_definition_id uuid [ref: > ItemDefinition.id, pk]
+  tag_id uuid [ref: > Tag.id, pk]
+}
+
+table ItemEffectDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  effect_type EffectType [not null]
+  value_primary float [null]
+  value_secondary float [null]
+  duration_seconds int [null]
+  target_type SkillTargetType [default: Self, not null]
+  custom_data json
+}
+
+table ItemInstance {
+  id uuid [pk]
+  container_id uuid [ref: > Container.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  quantity int [default: 1, not null]
+  slot_index int [null]
+  durability int [null]
+  max_durability int [null]
+  enhancement_level int [default: 0, not null]
+  acquired_at datetime [default: `now()`, not null]
+  expires_at datetime [null]
+  is_locked bool [default: false, not null]
+  custom_data json
+  indexes { (container_id, slot_index), (container_id, item_definition_id) }
+}
+
+table Container {
+  id uuid [pk]
+  container_type ContainerType [not null]
+  owner_id uuid [not null]
+  name string [null]
+  slot_count int [not null]
+  custom_data json
+}
+
+table ItemAcquisitionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  quantity int [not null]
+  acquired_at datetime [default: `now()`, not null]
+  source string [not null]
+  source_detail json
+  indexes { (player_id, acquired_at) }
+}
+
+table ItemEnhancementLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  item_instance_id uuid [ref: > ItemInstance.id, null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  before_level int [not null]
+  after_level int [not null]
+  success bool [not null]
+  enhanced_at datetime [default: `now()`, not null]
+  cost json
+  indexes { (player_id, enhanced_at) }
+}
+
+table RecipeDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  type RecipeType [not null]
+  required_building_code string [null]
+  required_level int [default: 1, not null]
+  success_rate float [default: 1.0, not null]
+  craft_time_seconds int [default: 0, not null]
+  unlock_condition string [null]
+  is_repeatable bool [default: true, not null]
+  pity_threshold int [null]
+  pity_success_rate float [null]
+  fail_reward_item_id uuid [ref: > ItemDefinition.id, null]
+  fail_reward_quantity int [null]
+  custom_data json
+}
+
+table RecipeIngredient {
+  id uuid [pk]
+  recipe_id uuid [ref: > RecipeDefinition.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  quantity int [not null]
+  consumed bool [default: true, not null]
+  custom_data json
+  indexes { (recipe_id) }
+}
+
+table RecipeResult {
+  id uuid [pk]
+  recipe_id uuid [ref: > RecipeDefinition.id, not null]
+  result_type RecipeResultType [default: Success_Normal, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  min_quantity int [default: 1, not null]
+  max_quantity int [default: 1, not null]
+  probability float [default: 1.0, not null]
+  grade ItemGrade [null]
+  is_fail_reward bool [default: false, not null]
+  bonus_effect string [null]
+  custom_data json
+  indexes { (recipe_id) }
+}
+
+table PlayerCraftingLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  recipe_id uuid [ref: > RecipeDefinition.id, not null]
+  crafted_at datetime [default: `now()`, not null]
+  success bool [not null]
+  result_type RecipeResultType [null]
+  result_item_instance_id uuid [ref: > ItemInstance.id, null]
+  result_item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  result_quantity int [not null]
+  result_grade ItemGrade [null]
+  bonus_effect string [null]
+  used_ingredients json [not null]
+  destroyed_materials json [null]
+  custom_data json
+  indexes { (player_id, crafted_at) }
+}
+
+table Portal {
+  id uuid [pk]
+  code string [unique, null]
+  name string [null]
+  from_map_id uuid [ref: > MapDefinition.id, not null]
+  from_pos_x float [not null]
+  from_pos_y float [not null]
+  from_pos_z float [not null]
+  from_radius float [default: 1.0, not null]
+  to_map_id uuid [ref: > MapDefinition.id, not null]
+  to_pos_x float [not null]
+  to_pos_y float [not null]
+  to_pos_z float [not null]
+  to_direction float [null]
+  portal_type PortalType [default: Normal, not null]
+  is_active bool [default: true, not null]
+  is_bidirectional bool [default: false, not null]
+  required_level int [null]
+  required_quest_code string [null]
+  required_item_code string [null]
+  required_item_consumed bool [default: false, not null]
+  entry_condition string [null]
+  custom_data json
+}
+
+table PortalUseLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  portal_id uuid [ref: > Portal.id, not null]
+  used_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, used_at), (portal_id, used_at) }
+}
+
+table CropDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  required_farming_level int [default: 1, not null]
+  allowed_season SeasonType [null]
+  fertilizer_effect json
+  base_grade CropGrade [default: Normal, not null]
+  growth_stages int [not null]
+  growth_time_minutes_per_stage int [not null]
+  disease_chance float [default: 0, not null]
+  required_nutrient int [default: 0, not null]
+  required_moisture int [default: 0, not null]
+  required_temperature int [null]
+  custom_data json
+}
+
+table SeedGradeToCropGradeMap {
+  id uuid [pk]
+  seed_item_id uuid [ref: > ItemDefinition.id, not null]
+  seed_grade ItemGrade [not null]
+  crop_definition_id uuid [ref: > CropDefinition.id, not null]
+  fertilizer_item_id uuid [ref: > ItemDefinition.id, null]
+  environment_condition string [null]
+  crop_grade CropGrade [not null]
+  probability float [not null]
+  custom_data json
+  indexes { (seed_item_id, crop_definition_id, fertilizer_item_id) }
+}
+
+table CropProduct {
+  id uuid [pk]
+  crop_definition_id uuid [ref: > CropDefinition.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  min_yield int [not null, default: 1]
+  max_yield int [not null, default: 1]
+  indexes { (crop_definition_id) }
+}
+
+table PlayerCropInstance {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  crop_definition_id uuid [ref: > CropDefinition.id, not null]
+  farm_plot_id uuid [null] // Reference to the specific plot if plots are entities
+  land_plot_id uuid [null] // Reference to the land plot
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  plant_time datetime [default: `now()`, not null]
+  growth_stage int [default: 0, not null]
+  current_growth_time_minutes float [default: 0, not null]
+  is_watered bool [default: false, not null]
+  last_watered_at datetime [null]
+  disease_state string [null]
+  expected_harvest_time datetime [null]
+  actual_harvest_time datetime [null]
+  applied_fertilizer json
+  current_grade CropGrade [not null]
+  custom_data json
+  indexes { (player_id, land_plot_id), (expected_harvest_time) }
+}
+
+table PlayerCropHarvestLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  player_crop_instance_id uuid [ref: > PlayerCropInstance.id, not null]
+  harvested_at datetime [default: `now()`, not null]
+  crop_definition_id uuid [ref: > CropDefinition.id, not null]
+  grade CropGrade [not null]
+  yield_details json // [{"item_id": ..., "quantity": ...}, ...]
+  custom_data json
+  indexes { (player_id, harvested_at) }
+}
+
+table FarmPlotDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  map_id uuid [ref: > MapDefinition.id, null] // If plots are predefined on maps
+  building_definition_id uuid [ref: > BuildingDefinition.id, null] // If plots are part of buildings
+  allowed_crop_tags json // List of Tag codes allowed
+  allowed_fertilizer_tags json // List of Tag codes allowed
+  custom_data json
+}
+
+table FishDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  code string [unique, not null]
+  name string [not null]
+  grade ItemGrade [null]
+  required_fishing_level int [default: 1, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null] // The item received when caught
+  min_length_cm float [null]
+  max_length_cm float [null]
+  custom_data json
+}
+
+table FishingSpotDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  zone_id uuid [ref: > MapZone.id, null]
+  area_type MapZoneAreaType [not null]
+  area_data json [not null]
+  required_fishing_level int [default: 1, not null]
+  custom_data json
+}
+
+table FishHabitat {
+  id uuid [pk]
+  fish_definition_id uuid [ref: > FishDefinition.id, not null]
+  fishing_spot_id uuid [ref: > FishingSpotDefinition.id, not null]
+  spawn_chance float [not null] // Chance for this fish to be available here
+  required_bait_item_id uuid [ref: > ItemDefinition.id, null]
+  required_time TimeOfDayType [null]
+  required_season SeasonType [null]
+  required_weather WeatherType [null]
+  custom_data json
+  indexes { (fishing_spot_id) }
+}
+
+table PlayerFishingLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  fishing_spot_id uuid [ref: > FishingSpotDefinition.id, not null]
+  fish_definition_id uuid [ref: > FishDefinition.id, not null]
+  bait_item_id uuid [ref: > ItemDefinition.id, null]
+  rod_item_id uuid [ref: > ItemDefinition.id, null]
+  length_cm float [null]
+  weight_kg float [null]
+  grade ItemGrade [null]
+  caught_at datetime [default: `now()`, not null]
+  success bool [default: true, not null] // Log failures too?
+  custom_data json
+  indexes { (player_id, caught_at) }
+}
+
+table LivestockDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  grade ItemGrade [null]
+  growth_stages int [not null, default: 3]
+  growth_time_minutes_per_stage int [not null]
+  feed_tag string // Tag code for allowed feed items
+  required_nutrition_per_day int [default: 1, not null]
+  disease_chance float [default: 0, not null]
+  product_interval_minutes int [null] // Time between producing products
+  product_item_id uuid [ref: > ItemDefinition.id, null] // Primary product item
+  min_product_amount int [default: 1]
+  max_product_amount int [default: 1]
+  custom_data json
+}
+
+table LivestockAllowedFeed {
+  livestock_definition_id uuid [ref: > LivestockDefinition.id, pk]
+  item_definition_id uuid [ref: > ItemDefinition.id, pk]
+}
+
+table PlayerLivestockInstance {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  livestock_definition_id uuid [ref: > LivestockDefinition.id, not null]
+  nickname string [null]
+  grade ItemGrade [null]
+  acquired_at datetime [default: `now()`, not null]
+  current_growth_stage LivestockGrowthStage [default: Baby, not null]
+  current_growth_time_minutes float [default: 0, not null]
+  last_fed_at datetime [null]
+  current_nutrition int [default: 0, not null]
+  last_product_collected_at datetime [null]
+  disease_state string [null]
+  ranch_building_id uuid [null] // Ref to the building it's housed in
+  custom_data json
+  indexes { (player_id) }
+}
+
+table PlayerLivestockProductLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  amount int [not null]
+  produced_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_livestock_instance_id, produced_at), (player_id, produced_at) }
+}
+
+table PlayerLivestockFeedLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  fed_at datetime [default: `now()`, not null]
+  nutrition_provided int [not null]
+  custom_data json
+  indexes { (player_livestock_instance_id, fed_at) }
+}
+
+table PlayerLivestockDiseaseLog {
+  id uuid [pk]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, not null]
+  event_type LivestockDiseaseEventType [not null]
+  description string [null]
+  occurred_at datetime [default: `now()`, not null]
+  indexes { (player_livestock_instance_id, occurred_at) }
+}
+
+table PlayerLivestockGradeLog {
+  id uuid [pk]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, not null]
+  grade ItemGrade [not null]
+  evaluated_at datetime [default: `now()`, not null]
+  indexes { (player_livestock_instance_id, evaluated_at) }
+}
+
+table PlayerLivestockGrowthLog {
+  id uuid [pk]
+  player_livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, not null]
+  stage LivestockGrowthStage [not null]
+  changed_at datetime [default: `now()`, not null]
+  indexes { (player_livestock_instance_id, changed_at) }
+}
+
+table MonsterDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  level int [not null]
+  type MonsterType [default: Normal, not null]
+  exp_reward int [default: 0, not null]
+  fsm_id uuid [ref: > MonsterAiFsmDefinition.id, null]
+  bt_id uuid [ref: > MonsterAiBtDefinition.id, null]
+  description text
+  custom_data json
+}
+
+table MonsterAiFsmDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  fsm_json json [not null]
+}
+
+table MonsterAiBtDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  bt_json json [not null]
+}
+
+table PlayerMonsterKillLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  monster_definition_id uuid [ref: > MonsterDefinition.id, not null]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  killed_at datetime [default: `now()`, not null]
+  location string // Optional: specific coordinates as string or JSON
+  custom_data json
+  indexes { (player_id, killed_at), (monster_definition_id) }
+}
+
+table OreDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  grade ItemGrade [null]
+  required_tool_subtype ItemSubType [null]
+  required_tool_level int [default: 1]
+  required_skill_level int [default: 1]
+  mining_difficulty int [default: 1]
+  respawn_time_seconds int [null]
+  custom_data json
+}
+
+table LogDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  grade ItemGrade [null]
+  required_tool_subtype ItemSubType [null]
+  required_tool_level int [default: 1]
+  required_skill_level int [default: 1]
+  logging_difficulty int [default: 1]
+  respawn_time_seconds int [null]
+  custom_data json
+}
+
+table PlayerMiningLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  ore_definition_id uuid [ref: > OreDefinition.id, not null]
+  mined_at datetime [default: `now()`, not null]
+  tool_item_id uuid [ref: > ItemDefinition.id, null]
+  yield_details json // [{"item_id": ..., "quantity": ...}]
+  custom_data json
+  indexes { (player_id, mined_at) }
+}
+
+table PlayerLoggingLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  log_definition_id uuid [ref: > LogDefinition.id, not null]
+  logged_at datetime [default: `now()`, not null]
+  tool_item_id uuid [ref: > ItemDefinition.id, null]
+  yield_details json // [{"item_id": ..., "quantity": ...}]
+  custom_data json
+  indexes { (player_id, logged_at) }
+}
+
+table LevelDefinition {
+  id uuid [pk]
+  code string [unique, not null] // e.g., "PlayerLevel", "FarmingLevel"
+  level int [not null]
+  exp_required long [not null]
+  indexes { (code, level) [unique] }
+}
+
+table PlayerLevelLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  level_code string [ref: > LevelDefinition.code, not null] // Which level type changed
+  old_level int [not null]
+  new_level int [not null]
+  experience_before long [not null]
+  experience_after long [not null]
+  changed_at datetime [default: `now()`, not null]
+  reason string [null] // e.g., "QuestReward", "MonsterKill", "Crafting"
+  indexes { (player_id, level_code, changed_at) }
+}
+
+table PlayerStatLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  stat_definition_id uuid [ref: > StatDefinition.id, not null]
+  old_value long [not null]
+  new_value long [not null]
+  changed_at datetime [default: `now()`, not null]
+  reason string [null] // e.g., "LevelUp", "BuffApplied", "EquipmentChange"
+  source_id uuid [null] // e.g., Buff ID, Equipment Instance ID
+  indexes { (player_id, stat_definition_id, changed_at) }
+}
+
+table PlayerRecipe {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  recipe_definition_id uuid [ref: > RecipeDefinition.id, not null]
+  unlocked_at datetime [default: `now()`, not null]
+  is_known bool [default: true, not null] // If recipes can be temporarily known
+  success_count int [default: 0, not null]
+  fail_count int [default: 0, not null]
+  pity_counter int [default: 0, not null]
+  last_crafted_at datetime [null]
+  indexes { (player_id, recipe_definition_id) [unique] }
+}
+
+table MiniGameDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  type MiniGameType [not null]
+  description text
+  rules json
+  custom_data json
+}
+
+table MiniGameRewardDefinition {
+  id uuid [pk]
+  minigame_id uuid [ref: > MiniGameDefinition.id, not null]
+  result_grade MiniGameResultGrade [not null]
+  reward_item_id uuid [ref: > ItemDefinition.id, not null]
+  min_quantity int [default: 1, not null]
+  max_quantity int [default: 1, not null]
+  probability float [default: 1.0, not null]
+  custom_data json
+  indexes { (minigame_id, result_grade) }
+}
+
+table PlayerMiniGameResult {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  minigame_id uuid [ref: > MiniGameDefinition.id, not null]
+  played_at datetime [default: `now()`, not null]
+  score int [null]
+  combo_count int [null]
+  tap_count int [null]
+  pattern_answered string [null]
+  bonus_time_success bool [null]
+  golden_button_success bool [null]
+  result_grade MiniGameResultGrade [not null]
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+  indexes { (player_id, played_at), (minigame_id, player_id) }
+}
+
+table CookingRecipeDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  recipe_definition_id uuid [ref: > RecipeDefinition.id, not null, unique] // Link to base recipe
+  temperature_range json
+  optimal_doneness Doneness [null]
+  bonus_effect string [null]
+  custom_data json
+}
+
+table CookingResultDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id, not null]
+  doneness Doneness [not null]
+  temperature_range json
+  result_item_id uuid [ref: > ItemDefinition.id, not null]
+  result_quantity int [not null]
+  probability float [default: 1.0, not null]
+  bonus_effect string [null]
+  custom_data json
+  indexes { (recipe_id, doneness) }
+}
+
+table CookingGradeRewardDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id, not null]
+  grade CookingGrade [not null]
+  reward_item_id uuid [ref: > ItemDefinition.id, not null]
+  quantity int [not null]
+  probability float [default: 1.0, not null]
+  custom_data json
+  indexes { (recipe_id, grade) }
+}
+
+table CookingStepDefinition {
+  id uuid [pk]
+  recipe_id uuid [ref: > CookingRecipeDefinition.id, not null]
+  step_index int [not null]
+  action CookingAction [not null]
+  required_tool ItemSubType [null]
+  required_time_sec int [null]
+  temperature int [null]
+  description string [not null]
+  custom_data json
+  indexes { (recipe_id, step_index) [unique] }
+}
+
+table PlayerCookingLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  cooking_recipe_id uuid [ref: > CookingRecipeDefinition.id, not null]
+  cooked_at datetime [default: `now()`, not null]
+  grade CookingGrade [not null]
+  doneness Doneness [null]
+  result_item_id uuid [ref: > ItemDefinition.id, null]
+  result_quantity int [null]
+  used_ingredients json
+  custom_data json
+  indexes { (player_id, cooked_at) }
+}
+
+table JobDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  display_name string [not null]
+  description text
+  unlock_condition string [null]
+  icon string [null]
+  job_type JobType [not null]
+  is_playable bool [default: true, not null]
+  is_hidden bool [default: false, not null]
+  order_index int [default: 0]
+  custom_data json
+}
+
+table JobSkillDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  job_id uuid [ref: > JobDefinition.id, not null]
+  name string [not null]
+  display_name string [not null]
+  description text
+  unlock_condition string [null]
+  icon string [null]
+  max_level int [default: 1, not null]
+  custom_data json
+  indexes { (job_id) }
+}
+
+table PlayerJobSkill {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  skill_id uuid [ref: > JobSkillDefinition.id, not null]
+  level int [default: 0, not null]
+  acquired_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, skill_id) [unique] }
+}
+
+table JobSkillLevelDefinition {
+  id uuid [pk]
+  skill_id uuid [ref: > JobSkillDefinition.id, not null]
+  level int [not null]
+  required_job_level int [null]
+  required_skill_points int [default: 1, not null]
+  effect_description text
+  effect_data json
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+  indexes { (skill_id, level) [unique] }
+}
+
+table PlayerJobSkillPoint {
+  player_id uuid [ref: > Player.id, not null, pk]
+  job_id uuid [ref: > JobDefinition.id, not null, pk]
+  total_points int [default: 0, not null]
+  used_points int [default: 0, not null]
+  last_updated_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, job_id) [unique] }
+}
+
+table JobLevelDefinition {
+  id uuid [pk]
+  job_id uuid [ref: > JobDefinition.id, not null]
+  level int [not null]
+  required_exp long [not null]
+  reward_skill_points int [default: 0, not null]
+  reward_item_id uuid [ref: > ItemDefinition.id, null]
+  reward_quantity int [null]
+  custom_data json
+  indexes { (job_id, level) [unique] }
+}
+
+table JobSkillTree {
+  id uuid [pk]
+  job_id uuid [ref: > JobDefinition.id, not null]
+  parent_skill_id uuid [ref: > JobSkillDefinition.id, null]
+  child_skill_id uuid [ref: > JobSkillDefinition.id, not null]
+  unlock_condition string [null]
+  required_job_level int [null]
+  required_skill_level int [null]
+  custom_data json
+  indexes { (job_id, child_skill_id) [unique] }
+}
+
+table JobTree {
+  id uuid [pk]
+  parent_job_id uuid [ref: > JobDefinition.id, null]
+  child_job_id uuid [ref: > JobDefinition.id, not null]
+  unlock_condition string [null]
+  custom_data json
+  indexes { (child_job_id) [unique] }
+}
+
+table SkillDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  skill_type string // e.g., Active, Passive, Buff, Combat, Utility
+  cooldown_seconds float [null]
+  cast_time_seconds float [null]
+  mana_cost int [null]
+  target_type SkillTargetType [null]
+  max_level int [default: 1, not null]
+  unlock_condition string [null]
+  icon string [null]
+  animation_asset string [null]
+  sfx_asset string [null]
+  custom_data json
+}
+
+table SkillEffectDefinition {
+  id uuid [pk]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  level int [not null, default: 1] // Effect for specific skill level
+  effect_type SkillEffectType [not null]
+  value_formula string // e.g., "100 + (level * 10) + (STAT_ATTACK * 0.5)"
+  duration_seconds float [null]
+  target_type SkillTargetType [null] // Override skill default?
+  condition string [null] // Condition for this specific effect to apply
+  custom_data json // Buff code to apply, particle effect, etc.
+  indexes { (skill_definition_id, level) }
+}
+
+table SkillTree {
+  id uuid [pk]
+  parent_skill_id uuid [ref: > SkillDefinition.id, null]
+  child_skill_id uuid [ref: > SkillDefinition.id, not null]
+  unlock_condition string [null]
+  required_level int [null] // Player level
+  required_skill_level int [null] // Level of parent skill
+  custom_data json
+  indexes { (child_skill_id) [unique] }
+}
+
+table PlayerSkill {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  level int [default: 0, not null]
+  is_learned bool [default: false, not null]
+  acquired_at datetime [null]
+  last_used_at datetime [null]
+  custom_data json
+  indexes { (player_id, skill_definition_id) [unique] }
+}
+
+table PlayerSkillLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  action string [not null] // e.g., "Learned", "LeveledUp", "Used", "Reset"
+  level_before int [null]
+  level_after int [null]
+  log_time datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, log_time) }
+}
+
+table PlayerQuickSlotPreset {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  name string [not null]
+  preset_index int [not null]
+  is_active bool [default: false, not null]
+  created_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, preset_index) [unique] }
+}
+
+table PlayerQuickSlot {
+  id uuid [pk]
+  preset_id uuid [ref: > PlayerQuickSlotPreset.id, not null]
+  slot_index int [not null]
+  slot_type QuickSlotType [not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, null]
+  item_definition_id uuid [ref: > ItemDefinition.id, null] // Use definition, specific instance might change
+  // macro_id ? if macros exist
+  hotkey string [null]
+  custom_data json
+  indexes { (preset_id, slot_index) [unique] }
+}
+
+table ClassDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  parent_class_id uuid [ref: > ClassDefinition.id, null]
+  unlock_condition string [null]
+  is_base bool [default: false, not null]
+  is_active bool [default: true, not null]
+  icon string [null]
+  role ClassRole [null]
+  custom_data json
+}
+
+table ClassTree {
+  id uuid [pk]
+  parent_class_id uuid [ref: > ClassDefinition.id, null]
+  child_class_id uuid [ref: > ClassDefinition.id, not null]
+  unlock_condition string [null]
+  custom_data json
+  indexes { (child_class_id) [unique] }
+}
+
+table PlayerClass {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  class_id uuid [ref: > ClassDefinition.id, not null]
+  is_main bool [default: false, not null]
+  is_unlocked bool [default: false, not null]
+  acquired_at datetime [null]
+  level int [default: 1, not null]
+  exp int [default: 0, not null]
+  custom_data json
+  indexes { (player_id, class_id) [unique] }
+}
+
+table ClassEquipmentRestriction {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id, not null]
+  item_type ItemType [null]
+  item_sub_type ItemSubType [null]
+  item_tag_id uuid [ref: > Tag.id, null] // Restrict based on tag?
+  restriction_type RestrictionType [not null]
+  custom_data json
+  indexes { (class_id) }
+}
+
+table ClassTraitDefinition {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id, not null]
+  trait_name string [not null]
+  description text
+  effect_data json
+  indexes { (class_id) }
+}
+
+table ClassSkillDefinition {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id, not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  unlock_level int [null]
+  unlock_condition string [null]
+  is_active bool [default: true, not null]
+  custom_data json
+  indexes { (class_id, skill_definition_id) [unique] }
+}
+
+table ClassSkillTree {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id, not null]
+  parent_skill_id uuid [ref: > SkillDefinition.id, null]
+  child_skill_id uuid [ref: > SkillDefinition.id, not null]
+  unlock_condition string [null]
+  required_class_level int [null]
+  required_skill_level int [null]
+  custom_data json
+  indexes { (class_id, child_skill_id) [unique] }
+}
+
+table PlayerClassChangeLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  old_class_id uuid [ref: > ClassDefinition.id, null]
+  new_class_id uuid [ref: > ClassDefinition.id, not null]
+  changed_at datetime [default: `now()`, not null]
+  change_reason string [null]
+  custom_data json
+  indexes { (player_id, changed_at) }
+}
+
+table PlayerSkillChangeLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  change_type string [not null] // acquire, unlock, levelup, reset etc.
+  changed_at datetime [default: `now()`, not null]
+  change_reason string [null]
+  custom_data json
+  indexes { (player_id, changed_at) }
+}
+
+table ChannelDefinition {
+  code string [pk, unique, not null]
+  name string [not null]
+  type ChannelType [not null]
+  description string [null]
+  is_active bool [default: true, not null]
+  custom_data json
+}
+
+table ChatLog {
+  id uuid [pk] // Consider long/sequence if very high volume
+  sender_id uuid [ref: > Player.id, null] // Null for System/Notice
+  sender_name string [null] // Denormalized name for easier display
+  channel_code string [ref: > ChannelDefinition.code, not null]
+  message text [not null]
+  sent_at datetime [default: `now()`, not null]
+  receiver_id uuid [ref: > Player.id, null] // For Whisper
+  party_id uuid [ref: > PartyDefinition.id, null] // For Party chat
+  guild_id uuid [ref: > GuildDefinition.id, null] // For Guild chat
+  is_reported bool [default: false, not null]
+  is_deleted bool [default: false, not null]
+  custom_data json
+  indexes { (sent_at), (channel_code, sent_at), (receiver_id, sent_at) } // Index common queries
+}
+
+table CommunityReportLog {
+  id uuid [pk]
+  reporter_id uuid [ref: > Player.id, not null]
+  reported_id uuid [ref: > Player.id, not null]
+  chat_log_id uuid [ref: > ChatLog.id, null]
+  reason string [not null]
+  status ReportStatus [default: Pending, not null]
+  created_at datetime [default: `now()`, not null]
+  resolved_at datetime [null]
+  resolver_id uuid [ref: > Player.id, null] // GM/Moderator who resolved it
+  resolution_notes text [null]
+  custom_data json
+  indexes { (status, created_at), (reported_id, created_at) }
+}
+
+table ModerationActionLog {
+  id uuid [pk]
+  target_player_id uuid [ref: > Player.id, not null]
+  action_type ModerationActionType [not null]
+  reason string [not null]
+  moderator_id uuid [ref: > Player.id, not null] // Could reference a GM account table instead
+  related_report_id uuid [ref: > CommunityReportLog.id, null]
+  related_chat_log_id uuid [ref: > ChatLog.id, null]
+  created_at datetime [default: `now()`, not null]
+  duration_minutes int [null] // For temporary actions
+  expires_at datetime [null] // Calculated expiry time
+  custom_data json
+  indexes { (target_player_id, created_at), (moderator_id, created_at) }
+}
+
+table FriendRelation {
+  id uuid [pk]
+  player_id_1 uuid [ref: > Player.id, not null] // Lower ID first to ensure unique pair
+  player_id_2 uuid [ref: > Player.id, not null] // Higher ID second
+  status FriendStatus [not null]
+  requested_at datetime [null] // When the request was initiated (if pending)
+  accepted_at datetime [null] // When the friendship was accepted
+  blocked_at datetime [null] // When player_1 blocked player_2 (or vice versa, might need another flag/row)
+  last_online_at datetime [null] // Denormalized for friend list UI?
+  custom_data json
+  indexes { (player_id_1, player_id_2) [unique] }
+}
+
+table PartyDefinition {
+  id uuid [pk]
+  name string [null] // Optional party name
+  leader_id uuid [ref: > Player.id, not null]
+  loot_rule string [null] // e.g., "FreeForAll", "RoundRobin", "LeaderOnly"
+  created_at datetime [default: `now()`, not null]
+  disbanded_at datetime [null]
+  custom_data json
+}
+
+table PartyMember {
+  id uuid [pk]
+  party_id uuid [ref: > PartyDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  joined_at datetime [default: `now()`, not null]
+  left_at datetime [null]
+  role PartyRole [default: Member, not null]
+  is_active bool [default: true, not null] // Still in the party instance
+  custom_data json
+  indexes { (party_id, player_id) [unique], (player_id, is_active) } // Find active party for player
+}
+
+table CommunityNotice {
+  id uuid [pk]
+  title string [not null]
+  content text [not null]
+  type NoticeType [default: General, not null]
+  author_id uuid [ref: > Player.id, null] // GM/Admin ID
+  created_at datetime [default: `now()`, not null]
+  start_at datetime [null]
+  end_at datetime [null]
+  is_active bool [default: true, not null]
+  target_channel string [null] // e.g., "LoginScreen", "InGamePopup"
+  custom_data json
+  indexes { (is_active, start_at, end_at) }
+}
+
+table GuildDefinition {
+  id uuid [pk]
+  name string [unique, not null]
+  tag string [unique, null] // Short guild tag (e.g., [ABC])
+  description text
+  leader_id uuid [ref: > Player.id, not null]
+  created_at datetime [default: `now()`, not null]
+  level int [default: 1, not null]
+  experience int [default: 0, not null]
+  member_limit int [default: 20, not null]
+  is_active bool [default: true, not null] // Guild exists?
+  is_recruiting bool [default: false, not null]
+  custom_data json // Guild emblem, motto, etc.
+}
+
+table GuildRole {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  name string [not null] // e.g., "Leader", "Officer", "Member", "Recruit"
+  is_leader_role bool [default: false, not null]
+  permissions json [not null] // Store GuildRolePermission keys
+  role_order int [default: 0, not null] // For hierarchy display
+  custom_data json
+  indexes { (guild_id, name) [unique] }
+}
+
+table GuildMember {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  role_id uuid [ref: > GuildRole.id, not null]
+  joined_at datetime [default: `now()`, not null]
+  left_at datetime [null]
+  is_active bool [default: true, not null] // Currently in the guild
+  contribution_points int [default: 0, not null]
+  last_activity_at datetime [null]
+  custom_data json
+  indexes { (guild_id, player_id) [unique], (player_id, is_active) } // Find active guild for player
+}
+
+table GuildNotice {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  author_id uuid [ref: > Player.id, not null]
+  title string [not null]
+  content text [not null]
+  created_at datetime [default: `now()`, not null]
+  is_pinned bool [default: false, not null]
+  is_active bool [default: true, not null] // Notice not deleted
+  custom_data json
+  indexes { (guild_id, is_active, created_at) }
+}
+
+table GuildJoinRequest {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  status GuildJoinRequestStatus [default: Pending, not null]
+  message text [null]
+  requested_at datetime [default: `now()`, not null]
+  processed_at datetime [null]
+  processed_by uuid [ref: > Player.id, null] // Guild member who accepted/rejected
+  reason string [null] // Reason for rejection
+  custom_data json
+  indexes { (guild_id, status), (player_id, status) }
+}
+
+table GuildLevelDefinition {
+  level int [pk]
+  required_exp long [not null]
+  member_limit int [not null]
+  storage_slots int [not null]
+  guild_buffs json // Buffs applied to members
+  custom_data json
+}
+
+table GuildContributionLog {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  points_added int [not null]
+  reason string [not null] // e.g., "Donation", "QuestCompletion", "GuildEvent"
+  logged_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (guild_id, player_id, logged_at) }
+}
+
+table CategoryRanking {
+  id uuid [pk]
+  category RankingCategory [not null]
+  target_type RankingTargetType [not null]
+  target_id uuid [not null]
+  score long [not null]
+  rank int [not null]
+  season RankingSeason [null]
+  calculated_at datetime [not null]
+  custom_data json
+  indexes { (category, target_type, season, rank), (category, target_type, target_id, season) [unique] }
+}
+
+table RankingHistory {
+  id uuid [pk]
+  category RankingCategory [not null]
+  target_type RankingTargetType [not null]
+  target_id uuid [not null]
+  score long [not null]
+  rank int [not null]
+  season RankingSeason [null]
+  recorded_at datetime [not null]
+  indexes { (category, target_type, season, recorded_at) }
+}
+
+table Recommendation {
+  id uuid [pk]
+  target_type RecommendationTargetType [not null]
+  target_id uuid [not null]
+  from_player_id uuid [ref: > Player.id, not null]
+  created_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (target_type, target_id, from_player_id) [unique], (target_type, target_id, created_at) }
+}
+
+table RecommendationLog {
+  id uuid [pk]
+  recommendation_id uuid [ref: > Recommendation.id, not null]
+  action RecommendationAction [not null]
+  actor_player_id uuid [ref: > Player.id, not null]
+  occurred_at datetime [default: `now()`, not null]
+  reason string [null]
+  indexes { (recommendation_id, occurred_at) }
+}
+
+table TitleDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  icon string [null]
+  category_id uuid [ref: > TitleCategory.id, null]
+  custom_data json
+}
+
+table TitleCategory {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description string [null]
+  display_order int [default: 0]
+}
+
+table TitleEffect {
+  id uuid [pk]
+  title_id uuid [ref: > TitleDefinition.id, not null]
+  effect_type TitleEffectType [not null]
+  target string // e.g., Stat code, Skill code
+  value string // Can be number or string depending on effect type
+  extra json [null]
+  indexes { (title_id) }
+}
+
+table TitleUnlockCondition {
+  id uuid [pk]
+  title_id uuid [ref: > TitleDefinition.id, not null]
+  condition_group int [default: 1, not null] // Conditions in the same group are ANDed
+  type TitleUnlockType [not null]
+  key string [not null] // e.g., "achievement_code", "ranking_category", "player_level"
+  operator TitleUnlockOperator [not null]
+  value string [not null]
+  extra json [null]
+  indexes { (title_id) }
+}
+
+table PlayerTitle {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  title_id uuid [ref: > TitleDefinition.id, not null]
+  acquired_at datetime [default: `now()`, not null]
+  is_active bool [default: false, not null] // Is the title currently displayed?
+  custom_data json
+  indexes { (player_id, title_id) [unique], (player_id, is_active) }
+}
+
+table PlayerTitleSlot {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  slot_index int [not null]
+  player_title_id uuid [ref: > PlayerTitle.id, null] // Null if slot is empty
+  equipped_at datetime [null]
+  indexes { (player_id, slot_index) [unique] }
+}
+
+table TitleUnlockHistory {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  title_id uuid [ref: > TitleDefinition.id, not null]
+  event TitleUnlockEvent [not null]
+  occurred_at datetime [default: `now()`, not null]
+  reason string [null]
+  custom_data json
+  indexes { (player_id, title_id, occurred_at) }
+}
+
+table LandPlot {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  plot_type LandPlotType [not null]
+  coord_x int [not null]
+  coord_y int [not null]
+  width int [not null]
+  height int [not null]
+  is_public bool [default: false, not null]
+  price int [null]
+  unlock_condition string [null]
+  custom_data json
+  indexes { (map_id, coord_x, coord_y) }
+}
+
+table PlayerLand {
+  id uuid [pk]
+  owner_type LandOwnershipType [not null]
+  owner_id uuid [not null] // Player ID or Guild ID
+  land_plot_id uuid [ref: > LandPlot.id, not null]
+  purchased_at datetime [default: `now()`, not null]
+  expires_at datetime [null] // For leased land
+  custom_name string [null]
+  is_primary bool [default: false] // Player's main house plot?
+  custom_data json
+  indexes { (owner_type, owner_id), (land_plot_id) [unique] }
+}
+
+table Notification {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  type GameNotificationType [not null]
+  payload json [not null]
+  is_read bool [default: false, not null]
+  created_at datetime [default: `now()`, not null]
+  expires_at datetime [null]
+  indexes { (player_id, is_read, created_at) }
+}
+
+table GuildTitle {
+  id uuid [pk]
+  guild_id uuid [ref: > GuildDefinition.id, not null]
+  title_id uuid [ref: > TitleDefinition.id, not null]
+  acquired_at datetime [default: `now()`, not null]
+  is_active bool [default: false, not null]
+  custom_data json
+  indexes { (guild_id, title_id) [unique] }
+}
+
+table BuffDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  category BuffCategory [not null]
+  effect_type BuffType [not null]
+  value_formula string // Formula for stat bonus, heal amount etc.
+  duration_seconds float [null]
+  max_stack int [default: 1, not null]
+  is_dispellable bool [default: true, not null]
+  icon string [null]
+  particle_effect string [null]
+  custom_data json
+}
+
+table PlayerBuff {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  buff_definition_id uuid [ref: > BuffDefinition.id, not null]
+  source_type BuffSourceType [not null]
+  source_id uuid [null] // ID of item, skill, zone etc. that applied it
+  started_at datetime [default: `now()`, not null]
+  expires_at datetime [null]
+  stack_count int [default: 1, not null]
+  custom_data json // Instance specific data, like applied value if formula varies
+  indexes { (player_id, buff_definition_id), (expires_at) }
+}
+
+table PlayerBuffLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  buff_definition_id uuid [ref: > BuffDefinition.id, not null]
+  action PlayerBuffLogAction [not null]
+  source_type BuffSourceType [null]
+  source_id uuid [null]
+  trigger_condition BuffTriggerCondition [null]
+  occurred_at datetime [default: `now()`, not null]
+  stack_count int [null]
+  duration_seconds float [null]
+  custom_data json
+  indexes { (player_id, occurred_at) }
+}
+
+table SkillGrantedBuff {
+  id uuid [pk]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  buff_definition_id uuid [ref: > BuffDefinition.id, not null]
+  trigger_condition BuffTriggerCondition [not null]
+  chance float [default: 1.0, not null]
+  duration_override float [null]
+  value_override string [null] // Override formula if needed
+  custom_data json
+  indexes { (skill_definition_id) }
+}
+
+table PetDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  code string [unique, not null]
+  name string [not null]
+  species string [not null]
+  rarity PetRarity [default: Common, not null]
+  type PetType [not null]
+  base_stats json // Can link to StatValue instead
+  skill_set json // Can link to PetSkill table instead
+  description text
+  evolve_to uuid [ref: > PetDefinition.id, null]
+  icon string [null]
+  model_asset string [null]
+  custom_data json
+}
+
+table PlayerPet {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  pet_definition_id uuid [ref: > PetDefinition.id, not null]
+  nickname string [null]
+  level int [default: 1, not null]
+  exp int [default: 0, not null]
+  acquired_at datetime [default: `now()`, not null]
+  is_summoned bool [default: false, not null]
+  is_locked bool [default: false, not null]
+  custom_data json
+  indexes { (player_id, is_summoned) }
+}
+
+table PetSkill {
+  id uuid [pk]
+  pet_definition_id uuid [ref: > PetDefinition.id, not null]
+  skill_definition_id uuid [ref: > SkillDefinition.id, not null]
+  unlock_level int [default: 1, not null]
+  is_passive bool [default: false, not null]
+  custom_data json
+  indexes { (pet_definition_id) }
+}
+
+table PlayerPetSkill {
+  id uuid [pk]
+  player_pet_id uuid [ref: > PlayerPet.id, not null]
+  pet_skill_id uuid [ref: > PetSkill.id, not null]
+  level int [default: 1, not null] // If pet skills can level up
+  acquired_at datetime [default: `now()`, not null]
+  is_active bool [default: true, not null] // Can toggle active pet skills?
+  custom_data json
+  indexes { (player_pet_id, pet_skill_id) [unique] }
+}
+
+table Mail {
+  id uuid [pk]
+  code string [unique, null] // For specific system mails
+  sender_type MailSenderType [not null]
+  sender_id uuid [null] // Player ID or null for System/Admin
+  sender_name string [null] // Denormalized sender name
+  receiver_type MailReceiverType [not null]
+  receiver_id uuid [not null] // Player ID or Account ID
+  title string [not null]
+  content text [not null]
+  sent_at datetime [default: `now()`, not null]
+  expires_at datetime [null]
+  status MailStatus [default: Unread, not null]
+  read_at datetime [null]
+  claimed_at datetime [null]
+  deleted_at datetime [null]
+  custom_data json
+  indexes { (receiver_id, receiver_type, status, sent_at) }
+}
+
+table CurrencyDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  currency_type CurrencyType [not null]
+  description string [null]
+  is_premium bool [default: false, not null]
+  icon string [null]
+  custom_data json
+}
+
+table MailAttachment {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id, not null]
+  attachment_type MailAttachmentType [not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, null]
+  item_instance_id uuid [ref: > ItemInstance.id, null] // If attaching a specific instance
+  currency_code string [ref: > CurrencyDefinition.code, null]
+  amount long [null] // Currency amount or item quantity
+  coupon_code string [null]
+  custom_data json
+  indexes { (mail_id) }
+}
+
+table MailReadLog {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id, not null]
+  reader_id uuid [not null] // Player or Account ID
+  read_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (mail_id) }
+}
+
+table MailDeleteLog {
+  id uuid [pk]
+  mail_id uuid [ref: > Mail.id, not null]
+  deleter_id uuid [not null] // Player or Account ID
+  deleted_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (mail_id) }
+}
+
+table EventDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  event_type EventType [not null]
+  receiver_type EventReceiverType [default: All, not null]
+  receiver_id uuid [null] // Account/Player/Group ID if not All
+  start_at datetime [not null]
+  end_at datetime [not null]
+  config json // Mission details, conditions, ranking rules etc.
+  is_active bool [default: true, not null]
+  custom_data json
+  indexes { (is_active, start_at, end_at) }
+}
+
+table PlayerEventProgress {
+  id uuid [pk]
+  event_id uuid [ref: > EventDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  progress json // Store current progress state, e.g., {"missions_completed": 5, "points": 100}
+  last_updated_at datetime [default: `now()`, not null]
+  status EventStatus [default: InProgress, not null]
+  claimed_rewards json // List of reward codes already claimed
+  custom_data json
+  indexes { (event_id, player_id) [unique], (player_id, status) }
+}
+
+table EventReward {
+  id uuid [pk]
+  event_id uuid [ref: > EventDefinition.id, not null]
+  reward_code string [not null] // Unique code within the event
+  condition json // Condition to claim this reward (e.g., {"progress_points": 100})
+  mail_attachment_id uuid [ref: > MailAttachment.id, null] // Predefined attachment
+  direct_reward json // Alternatively, define reward directly here {"item_code": "...", "quantity": 1}
+  custom_data json
+  indexes { (event_id, reward_code) [unique] }
+}
+
+table PlayerEventRewardLog {
+  id uuid [pk]
+  event_reward_id uuid [ref: > EventReward.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  claimed_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, claimed_at), (event_reward_id, player_id) [unique] }
+}
+
+table SeasonPassDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description string
+  image_url string [null]
+  priority int [default: 0]
+  start_at datetime [not null]
+  end_at datetime [not null]
+  is_active bool [default: true, not null]
+  free_track bool [default: true, not null]
+  premium_track bool [default: true, not null]
+  max_level int [null]
+  premium_product_id string [null] // ID for purchasing premium
+  level_skip_product_id string [null] // ID for purchasing levels
+  config json // EXP per level, etc.
+  custom_data json
+}
+
+table SeasonPassMission {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id, not null]
+  mission_code string [not null]
+  description string [not null]
+  type SeasonPassMissionType [not null] // Daily, Weekly, Challenge etc.
+  group string [null] // Grouping for UI
+  repeatable bool [default: false, not null]
+  goal int [not null] // Target value for completion
+  reward_exp int [default: 0, not null] // EXP towards season pass level
+  order_index int [default: 0]
+  config json // Specific conditions, e.g., {"kill_monster_code": "goblin", "count": 10}
+  custom_data json
+  indexes { (season_pass_id, mission_code) [unique], (season_pass_id, type) }
+}
+
+table PlayerSeasonPass {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  premium_unlocked bool [default: false, not null]
+  current_level int [default: 1, not null]
+  current_exp int [default: 0, not null]
+  last_mission_refresh_at datetime [null] // For daily/weekly missions
+  last_updated_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (season_pass_id, player_id) [unique] }
+}
+
+table PlayerSeasonPassMission {
+  id uuid [pk]
+  player_season_pass_id uuid [ref: > PlayerSeasonPass.id, not null]
+  season_pass_mission_id uuid [ref: > SeasonPassMission.id, not null]
+  progress int [default: 0, not null]
+  last_progress_at datetime [null]
+  completed_at datetime [null]
+  claimed_at datetime [null] // When EXP reward was claimed
+  custom_data json
+  indexes { (player_season_pass_id, season_pass_mission_id) [unique] }
+}
+
+table SeasonPassReward {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id, not null]
+  reward_code string [not null]
+  track SeasonPassRewardTrack [not null]
+  level int [not null]
+  reward_type string // e.g., "Item", "Currency", "Cosmetic"
+  is_hidden bool [default: false, not null]
+  condition json // Extra condition besides level?
+  mail_attachment_id uuid [ref: > MailAttachment.id, null] // Predefined attachment
+  direct_reward json // Alternatively define reward directly
+  custom_data json
+  indexes { (season_pass_id, reward_code) [unique], (season_pass_id, track, level) }
+}
+
+table PlayerSeasonPassRewardLog {
+  id uuid [pk]
+  season_pass_reward_id uuid [ref: > SeasonPassReward.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  claimed_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, claimed_at), (season_pass_reward_id, player_id) [unique] }
+}
+
+table SeasonPassPurchaseLog {
+  id uuid [pk]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  purchase_type string [not null] // e.g., "PremiumUnlock", "LevelSkip"
+  product_id string [not null]
+  transaction_id string // From payment gateway
+  purchased_at datetime [default: `now()`, not null]
+  levels_purchased int [null]
+  custom_data json
+  indexes { (player_id, purchased_at) }
+}
+
+table SeasonPassMissionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  season_pass_id uuid [ref: > SeasonPassDefinition.id, not null]
+  mission_id uuid [ref: > SeasonPassMission.id, not null]
+  action string [not null] // e.g., "ProgressUpdate", "Completed", "RewardClaimed"
+  value int [null] // Progress amount
+  logged_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, logged_at) }
+}
+
+table NotificationSchedule {
+  id uuid [pk]
+  title string [not null]
+  content text [not null]
+  type NotificationScheduleType [not null]
+  target_type NotificationTargetType [not null]
+  target_id uuid [null] // Player ID or Group ID
+  target_segment string [null] // Query/description for segment
+  scheduled_at datetime [not null]
+  sent_at datetime [null]
+  status NotificationStatus [default: Scheduled, not null]
+  retry_count int [default: 0, not null]
+  custom_data json
+  indexes { (status, scheduled_at) }
+}
+
+table NotificationLog {
+  id uuid [pk]
+  notification_schedule_id uuid [ref: > NotificationSchedule.id, not null]
+  sent_at datetime [default: `now()`, not null]
+  status NotificationStatus [not null]
+  error_message string [null]
+  recipients_processed int [null]
+  recipients_failed int [null]
+  custom_data json
+  indexes { (notification_schedule_id) }
+}
+
+table PlayerNotificationLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  notification_schedule_id uuid [ref: > NotificationSchedule.id, not null] // Link to the schedule
+  received_at datetime [null]
+  read_at datetime [null]
+  clicked_at datetime [null]
+  status PlayerNotificationStatus [default: Pending, not null]
+  custom_data json
+  indexes { (player_id, notification_schedule_id) [unique], (player_id, status) }
+}
+
+table BuildingDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  code string [unique, not null]
+  name string [not null]
+  type BuildingType [not null]
+  description text
+  allowed_actions json // e.g., ["Craft", "Store", "Research"]
+  unlock_condition string [null]
+  max_level int [default: 1, not null]
+  placement_rules json // Grid size, required surface etc.
+  icon string [null]
+  model_asset string [null]
+  custom_data json
+}
+
+table PlayerBuilding {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  land_plot_id uuid [ref: > PlayerLand.id, not null] // Placed on which land plot
+  building_definition_id uuid [ref: > BuildingDefinition.id, not null]
+  inventory_item_id uuid [null] // If placed from an inventory item
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  rotation_y float [default: 0]
+  placed_at datetime [default: `now()`, not null]
+  removed_at datetime [null]
+  level int [default: 1, not null]
+  current_upgrade_finish_time datetime [null]
+  durability int [null]
+  status BuildingStatus [default: Placed, not null]
+  custom_data json // Nickname, access permissions
+  indexes { (player_id, land_plot_id), (status) }
+}
+
+table BuildingUpgradeDefinition {
+  id uuid [pk]
+  building_definition_id uuid [ref: > BuildingDefinition.id, not null]
+  level int [not null]
+  upgrade_effect_description text
+  upgrade_time_seconds int [default: 0, not null]
+  required_items json // [{"item_code": "...", "quantity": ...}]
+  required_currencies json // [{"currency_code": "...", "amount": ...}]
+  custom_data json
+  indexes { (building_definition_id, level) [unique] }
+}
+
+table BuildingUpgradeEffect {
+  id uuid [pk]
+  upgrade_definition_id uuid [ref: > BuildingUpgradeDefinition.id, not null]
+  effect_type BuildingEffectType [not null]
+  effect_key string // e.g., "StorageSlots", "BuffCode"
+  value string // Value associated with the key
+  extra_data json [null]
+  indexes { (upgrade_definition_id) }
+}
+
+table BuildingActionLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  player_building_id uuid [ref: > PlayerBuilding.id, not null]
+  action BuildingActionType [not null]
+  action_at datetime [default: `now()`, not null]
+  details json // e.g., Moved from X to Y, Started upgrade to level Z
+  reason string [null]
+  custom_data json
+  indexes { (player_building_id, action_at), (player_id, action_at) }
+}
+
+table PlayerBuildingSlot { // Generic slot table if buildings have varied slots
+  id uuid [pk]
+  player_building_id uuid [ref: > PlayerBuilding.id, not null]
+  slot_type string [not null] // e.g., "Storage", "Research", "Equipment", "Animal", "Crop"
+  slot_index int [not null]
+  // Content depends on slot_type
+  item_instance_id uuid [ref: > ItemInstance.id, null] // For storage/equipment
+  research_project_id uuid [null] // For research
+  livestock_instance_id uuid [ref: > PlayerLivestockInstance.id, null] // For ranch
+  crop_instance_id uuid [ref: > PlayerCropInstance.id, null] // For greenhouse/farmplot building
+  status string // e.g., "Empty", "Occupied", "InProgress"
+  started_at datetime [null]
+  finished_at datetime [null]
+  custom_data json
+  indexes { (player_building_id, slot_type, slot_index) [unique] }
+}
+
+table PlayerInventoryTabLimit {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  inventory_type InventoryType [not null]
+  max_slots int [not null]
+  upgraded_at datetime [null]
+  custom_data json
+  indexes { (player_id, inventory_type) [unique] }
+}
+
+table PlayerInventoryItem { // Could be replaced by ItemInstance if Container handles inventory well
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  item_instance_id uuid [ref: > ItemInstance.id, not null, unique] // Maps 1:1 to an ItemInstance in player inventory container
+  inventory_type InventoryType [not null] // Which tab/section
+  slot_index int [not null]
+  status InventoryItemStatus [default: Normal, not null]
+  custom_data json
+  indexes { (player_id, inventory_type, slot_index) [unique] }
+}
+
+table MarketListing {
+  id uuid [pk]
+  seller_id uuid [ref: > Player.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  item_instance_id uuid [ref: > ItemInstance.id, null] // If selling a specific instance
+  quantity int [not null]
+  price_per_item long [not null]
+  currency_code string [ref: > CurrencyDefinition.code, not null]
+  status MarketListingStatus [default: Listed, not null]
+  listed_at datetime [default: `now()`, not null]
+  expires_at datetime [null]
+  sold_at datetime [null]
+  buyer_id uuid [ref: > Player.id, null] // Set when sold
+  custom_data json // Original item stats if instance is gone
+  indexes { (status, item_definition_id, price_per_item), (seller_id, status) }
+}
+
+table MarketTransaction {
+  id uuid [pk]
+  market_listing_id uuid [ref: > MarketListing.id, null] // Null if direct sale/purchase not via listing
+  buyer_id uuid [ref: > Player.id, not null]
+  seller_id uuid [ref: > Player.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  item_instance_id uuid [ref: > ItemInstance.id, null] // Link to the instance transferred
+  quantity int [not null]
+  price_per_item long [not null]
+  total_price long [not null]
+  currency_code string [ref: > CurrencyDefinition.code, not null]
+  transacted_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (buyer_id, transacted_at), (seller_id, transacted_at), (item_definition_id, transacted_at) }
+}
+
+table Trade {
+  id uuid [pk]
+  player_1_id uuid [ref: > Player.id, not null]
+  player_2_id uuid [ref: > Player.id, not null]
+  player_1_accepted bool [default: false, not null]
+  player_2_accepted bool [default: false, not null]
+  status TradeState [default: Pending, not null]
+  traded_at datetime [null] // When successfully completed
+  created_at datetime [default: `now()`, not null]
+  currency_code string [ref: > CurrencyDefinition.code, null]
+  player_1_currency_amount long [null]
+  player_2_currency_amount long [null]
+  custom_data json
+}
+
+table TradeItem {
+  id uuid [pk]
+  trade_id uuid [ref: > Trade.id, not null]
+  offering_player_id uuid [ref: > Player.id, not null] // Who is offering this item
+  item_instance_id uuid [ref: > ItemInstance.id, not null]
+  quantity int [not null] // Should usually be from ItemInstance, but check logic
+  custom_data json
+  indexes { (trade_id) }
+}
+
+table CurrencyTransactionLog {
+  id uuid [pk] // Use long/sequence if high volume
+  player_id uuid [ref: > Player.id, not null]
+  currency_code string [ref: > CurrencyDefinition.code, not null]
+  change_amount long [not null] // Positive for gain, negative for spend
+  balance_before long [not null]
+  balance_after long [not null]
+  reason string [not null] // e.g., "MarketSale", "NpcPurchase", "QuestReward", "Trade"
+  related_table string [null] // e.g., "MarketTransaction", "QuestLog", "Trade"
+  related_id uuid [null] // ID in the related table
+  created_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (player_id, currency_code, created_at) }
+}
+
+table BoardGameDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  max_player int [not null]
+  min_player int [not null]
+  rules json [not null]
+  created_at datetime [default: `now()`, not null]
+}
+
+table BoardGameRoom {
+  id uuid [pk]
+  board_game_id uuid [ref: > BoardGameDefinition.id, not null]
+  room_name string [null]
+  host_player_id uuid [ref: > Player.id, not null]
+  status BoardGameRoomStatus [default: Waiting, not null]
+  created_at datetime [default: `now()`, not null]
+  started_at datetime [null]
+  ended_at datetime [null]
+  winner_player_id uuid [ref: > Player.id, null]
+  custom_data json // Room settings
+}
+
+table BoardGameParticipant {
+  id uuid [pk]
+  room_id uuid [ref: > BoardGameRoom.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  join_time datetime [default: `now()`, not null]
+  leave_time datetime [null]
+  seat_no int [null]
+  is_winner bool [null]
+  score int [null]
+  custom_data json
+  indexes { (room_id, player_id) [unique] }
+}
+
+table BoardGameTurnLog {
+  id uuid [pk]
+  room_id uuid [ref: > BoardGameRoom.id, not null]
+  turn_no int [not null]
+  player_id uuid [ref: > Player.id, not null]
+  action_data json [not null]
+  created_at datetime [default: `now()`, not null]
+  indexes { (room_id, turn_no) }
+}
+
+table UserPattern {
+  id uuid [pk]
+  code string [unique, null] // Optional share code
+  creator_id uuid [ref: > Player.id, not null]
+  name string [not null]
+  description text
+  pattern_data json [not null] // The actual pattern definition
+  preview_image_url string [null]
+  palette json
+  tags string // Consider using Tag table
+  status UserContentStatus [default: Private, not null]
+  like_count int [default: 0, not null]
+  created_at datetime [default: `now()`, not null]
+  updated_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (creator_id, created_at), (status, updated_at) }
+}
+
+table UserPatternLike {
+  pattern_id uuid [ref: > UserPattern.id, pk]
+  player_id uuid [ref: > Player.id, pk]
+  liked_at datetime [default: `now()`, not null]
+}
+
+table UserPatternComment {
+  id uuid [pk]
+  pattern_id uuid [ref: > UserPattern.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  content text [not null]
+  created_at datetime [default: `now()`, not null]
+  is_deleted bool [default: false, not null]
+  indexes { (pattern_id, created_at) }
+}
+
+table UserRoom {
+  id uuid [pk]
+  owner_id uuid [ref: > Player.id, not null]
+  room_name string [not null]
+  description text
+  status UserContentStatus [default: Private, not null] // Open, Closed, Private etc.
+  max_players int [default: 10, not null]
+  password string [null] // Hashed password if private
+  map_layout json // Definition of the room layout/objects
+  created_at datetime [default: `now()`, not null]
+  last_updated_at datetime [default: `now()`, not null]
+  like_count int [default: 0, not null]
+  custom_data json
+  indexes { (owner_id), (status, last_updated_at) }
+}
+
+table UserRoomParticipant {
+  id uuid [pk]
+  room_id uuid [ref: > UserRoom.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  role UserRoomParticipantRole [default: Guest, not null]
+  joined_at datetime [default: `now()`, not null]
+  left_at datetime [null]
+  custom_data json
+  indexes { (room_id, player_id) [unique], (player_id, left_at) } // Find current room for player
+}
+
+table UserRoomChat {
+  id uuid [pk]
+  room_id uuid [ref: > UserRoom.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  message text [not null]
+  sent_at datetime [default: `now()`, not null]
+  indexes { (room_id, sent_at) }
+}
+
+table UserContentReport {
+  id uuid [pk]
+  content_type string [not null] // e.g., "UserPattern", "UserRoom", "Comment"
+  content_id uuid [not null]
+  reporter_id uuid [ref: > Player.id, not null]
+  reason string [not null]
+  status UGCReportStatus [default: Pending, not null]
+  created_at datetime [default: `now()`, not null]
+  resolved_at datetime [null]
+  resolver_id uuid [null] // GM/Moderator ID
+  resolution_notes text [null]
+  custom_data json
+  indexes { (status, created_at), (content_type, content_id) }
+}
+
+table UserRoomFavorite {
+  player_id uuid [ref: > Player.id, pk]
+  room_id uuid [ref: > UserRoom.id, pk]
+  created_at datetime [default: `now()`, not null]
+}
+
+table UserPatternFavorite {
+  player_id uuid [ref: > Player.id, pk]
+  pattern_id uuid [ref: > UserPattern.id, pk]
+  created_at datetime [default: `now()`, not null]
+}
+
+table UserPatternBoard {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  is_public bool [default: true, not null]
+  created_at datetime [default: `now()`, not null]
+  custom_data json
+}
+
+table UserPatternBoardPost {
+  id uuid [pk]
+  board_id uuid [ref: > UserPatternBoard.id, not null]
+  pattern_id uuid [ref: > UserPattern.id, not null]
+  creator_id uuid [ref: > Player.id, not null]
+  title string [not null]
+  content text [null]
+  created_at datetime [default: `now()`, not null]
+  updated_at datetime [default: `now()`, not null]
+  is_pinned bool [default: false, not null]
+  is_deleted bool [default: false, not null]
+  custom_data json
+  indexes { (board_id, is_pinned, created_at), (creator_id, created_at) }
+}
+
+table UserPatternBoardPostComment {
+  id uuid [pk]
+  post_id uuid [ref: > UserPatternBoardPost.id, not null]
+  commenter_id uuid [ref: > Player.id, not null]
+  content text [not null]
+  created_at datetime [default: `now()`, not null]
+  is_deleted bool [default: false, not null]
+  indexes { (post_id, created_at) }
+}
+
+table DungeonDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  entry_portal_id uuid [ref: > Portal.id, null] // Portal used to enter
+  min_players int [default: 1, not null]
+  max_players int [default: 1, not null]
+  level_requirement int [default: 1, not null]
+  reward_preview json // Display rewards in UI
+  is_random bool [default: false, not null] // Randomized layout?
+  has_boss bool [default: false, not null]
+  time_limit_seconds int [null]
+  custom_data json
+}
+
+table DungeonZoneLink { // Defines the sequence/layout of zones in a dungeon
+  id uuid [pk]
+  dungeon_id uuid [ref: > DungeonDefinition.id, not null]
+  map_zone_id uuid [ref: > MapZone.id, not null]
+  sequence int [not null]
+  zone_type DungeonZoneType [not null]
+  is_start_zone bool [default: false, not null]
+  is_end_zone bool [default: false, not null]
+  custom_data json
+  indexes { (dungeon_id, sequence) }
+}
+
+table DungeonRun {
+  id uuid [pk]
+  dungeon_id uuid [ref: > DungeonDefinition.id, not null]
+  party_id uuid [ref: > PartyDefinition.id, null] // Link party if applicable
+  leader_id uuid [ref: > Player.id, not null]
+  status DungeonRunStatus [default: InProgress, not null]
+  started_at datetime [default: `now()`, not null]
+  ended_at datetime [null]
+  current_zone_id uuid [ref: > MapZone.id, null] // Current zone within the dungeon run
+  elapsed_time_seconds float [default: 0]
+  custom_data json // Run specific state, modifiers
+  indexes { (status, started_at) }
+}
+
+table DungeonRunParticipant {
+  id uuid [pk]
+  dungeon_run_id uuid [ref: > DungeonRun.id, not null]
+  player_id uuid [ref: > Player.id, not null]
+  joined_at datetime [default: `now()`, not null]
+  left_at datetime [null]
+  is_cleared bool [default: false, not null]
+  custom_data json // Player specific progress/state within run
+  indexes { (dungeon_run_id, player_id) [unique] }
+}
+
+table SecurityIncidentLog {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, null]
+  account_id uuid [ref: > Account.id, null]
+  incident_type SecurityIncidentType [not null]
+  detected_at datetime [default: `now()`, not null]
+  detected_by string // e.g., "System", "GM", "PlayerReport"
+  severity int [default: 1] // 1-5 scale?
+  description text [not null]
+  action_taken SecurityActionTaken [default: None, not null]
+  action_details string [null] // e.g., Ban duration
+  custom_data json // Evidence links, related logs
+  indexes { (incident_type, detected_at), (player_id, detected_at) }
+}
+
+table PlayerBan {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, null]
+  account_id uuid [ref: > Account.id, null]
+  ban_type BanType [not null]
+  reason string [not null]
+  start_at datetime [default: `now()`, not null]
+  end_at datetime [null] // Null for permanent
+  issued_by string // GM ID or "System"
+  related_incident_id uuid [ref: > SecurityIncidentLog.id, null]
+  is_active bool [not null] // Is the ban currently enforced?
+  custom_data json
+  indexes { (player_id, is_active), (account_id, is_active), (end_at) }
+}
+
+table GMRole {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description string
+  role_type GMRoleType [not null]
+  permissions json [not null] // List of allowed GMActionTypes or fine-grained perms
+  custom_data json
+}
+
+table GMAccount {
+  id uuid [pk]
+  account_id uuid [ref: > Account.id, not null, unique] // Links to a standard account
+  gm_role_id uuid [ref: > GMRole.id, not null]
+  gm_name string [unique, not null] // Separate GM identifier
+  is_active bool [default: true, not null]
+  last_login_at datetime [null]
+  custom_data json
+}
+
+table GMActionLog {
+  id uuid [pk]
+  gm_account_id uuid [ref: > GMAccount.id, not null]
+  action_type GMActionType [not null]
+  target_type string [null] // e.g., 'Player', 'Server', 'Item', 'Quest'
+  target_id string [null] // Can be UUID or code depending on target_type
+  action_at datetime [default: `now()`, not null]
+  description text
+  success bool [not null]
+  error_message string [null]
+  custom_data json // Parameters used in the action
+  indexes { (gm_account_id, action_at), (action_type, action_at) }
+}
+
+table GMNotice {
+  id uuid [pk]
+  gm_account_id uuid [ref: > GMAccount.id, not null]
+  notice_type GMNoticeType [not null]
+  title string [not null]
+  content text [not null]
+  created_at datetime [default: `now()`, not null]
+  start_at datetime [null]
+  end_at datetime [null]
+  is_active bool [default: true, not null]
+  target_audience string // e.g., "All", "Server_NA", "Level_1_10"
+  custom_data json
+  indexes { (is_active, start_at, end_at) }
+}
+
+table WorldEvent {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  event_type WorldEventType [not null]
+  start_at datetime [not null]
+  end_at datetime [not null]
+  is_active bool [default: false, not null] // Server controls activation
+  trigger_condition json // Auto-activation conditions?
+  effect_data json // Buffs applied, bosses spawned etc.
+  map_id uuid [ref: > MapDefinition.id, null] // If event is map-specific
+  custom_data json
+  indexes { (is_active, start_at, end_at) }
+}
+
+table PlayerWorldEventParticipation {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  event_id uuid [ref: > WorldEvent.id, not null]
+  joined_at datetime [default: `now()`, not null]
+  progress json // Player's contribution or progress in the event
+  reward_claimed bool [default: false, not null]
+  custom_data json
+  indexes { (event_id, player_id) [unique] }
+}
+
+table ShopDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  shop_type string // e.g., "General", "Blacksmith", "Potion", "Event"
+  npc_id uuid [ref: > NpcDefinition.id, null] // If shop is tied to an NPC
+  custom_data json
+}
+
+table ShopItemDefinition {
+  id uuid [pk]
+  shop_id uuid [ref: > ShopDefinition.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  buy_price long [null] // Price to buy from shop (player pays)
+  sell_price long [null] // Price to sell to shop (player receives)
+  buy_currency_code string [ref: > CurrencyDefinition.code, null]
+  sell_currency_code string [ref: > CurrencyDefinition.code, null]
+  stock int [null] // -1 for infinite, 0+ for limited stock
+  is_limited_time bool [default: false, not null]
+  available_start_at datetime [null]
+  available_end_at datetime [null]
+  restock_interval_minutes int [null]
+  last_restock_time datetime [null]
+  purchase_limit_per_player int [null]
+  purchase_limit_interval string [null] // e.g., "Daily", "Weekly", "Event"
+  unlock_condition string [null] // Condition to see/buy this item
+  custom_data json
+  indexes { (shop_id, item_definition_id) [unique] }
+}
+
+table PlayerShopPurchaseLimit {
+  player_id uuid [ref: > Player.id, pk]
+  shop_item_id uuid [ref: > ShopItemDefinition.id, pk]
+  interval_key string [, pk] // e.g., "2025-05-01" for daily, "2025-W18" for weekly
+  purchase_count int [default: 0, not null]
+  last_purchase_at datetime [default: `now()`]
+}
+
+table ShopTransactionLog {
+  id uuid [pk]
+  timestamp datetime [default: `now()`, not null]
+  player_id uuid [ref: > Player.id, not null]
+  shop_id uuid [ref: > ShopDefinition.id, not null]
+  shop_item_id uuid [ref: > ShopItemDefinition.id, not null]
+  item_definition_id uuid [ref: > ItemDefinition.id, not null]
+  transaction_type ShopTransactionType [not null]
+  quantity int [not null]
+  price_per_item long [not null]
+  total_price long [not null]
+  currency_code string [ref: > CurrencyDefinition.code, not null]
+  before_stock int [null]
+  after_stock int [null]
+  custom_data json
+  indexes { (player_id, timestamp), (shop_id, item_definition_id, timestamp) }
+}
+
+table NpcDefinition {
+  id uuid [pk]
+  entity_definition_id uuid [ref: > EntityDefinition.id, not null, unique]
+  code string [unique, not null]
+  name string [not null]
+  npc_type NpcType [not null]
+  description text
+  sprite_asset string [null]
+  model_asset string [null]
+  behavior_script string [null] // Link to AI/behavior logic
+  dialogue_start_code string [null] // Entry point for dialogue
+  shop_id uuid [ref: > ShopDefinition.id, null]
+  is_quest_giver bool [default: false, not null]
+  faction string [null]
+  custom_data json
+}
+
+table NpcInstance {
+  id uuid [pk]
+  npc_definition_id uuid [ref: > NpcDefinition.id, not null]
+  map_id uuid [ref: > MapDefinition.id, not null]
+  zone_id uuid [ref: > MapZone.id, null]
+  pos_x float [not null]
+  pos_y float [not null]
+  pos_z float [not null]
+  rotation_y float [default: 0]
+  spawn_condition json // e.g., Time of day, quest status
+  despawn_condition json
+  current_behavior_state string // e.g., "Idle", "Patrolling", "Interacting"
+  is_active bool [default: true, not null] // Currently spawned in world?
+  custom_data json // Patrol path ID, temporary overrides
+  indexes { (map_id, is_active) }
+}
+
+table PlayerNpcFavor {
+  player_id uuid [ref: > Player.id, pk]
+  npc_definition_id uuid [ref: > NpcDefinition.id, pk]
+  favor_points int [default: 0, not null]
+  favor_level int [default: 0, not null] // Calculated from points
+  last_interaction_at datetime [null]
+  custom_data json // Flags for unlocked dialogue/quests
+}
+
+table DialogueDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  content text [not null]
+  type DialogueType [default: Gossip, not null]
+  language_code string [default: 'en', not null]
+  audio_asset string [null]
+  speaker_emotion string [null] // e.g., "Happy", "Angry"
+  custom_data json // Camera angles, character animations
+  indexes { (code, language_code) [unique] }
+}
+
+table DialogueLink {
+  id uuid [pk]
+  source_dialogue_code string [ref: > DialogueDefinition.code, null] // Previous dialogue node
+  target_type DialogueTargetType [not null] // Npc, Quest etc.
+  target_id string [not null] // Npc code, Quest code etc.
+  target_dialogue_code string [ref: > DialogueDefinition.code, not null] // Next dialogue node
+  choice_text string [null] // Text for player choice leading to this node
+  dialogue_order int [default: 0]
+  stage string [null] // e.g., "Start", "Middle", "End"
+  condition json // Player level, quest status, favor level etc.
+  action json // Action to perform when this node is reached (e.g., start quest, give item)
+  custom_data json
+  indexes { (target_type, target_id, source_dialogue_code) }
+}
+
+table QuestDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  group_id uuid [ref: > QuestGroup.id, null]
+  required_level int [default: 1]
+  repeatable bool [default: false, not null]
+  cooldown_minutes int [null] // If repeatable
+  is_story_quest bool [default: false, not null]
+  is_daily bool [default: false, not null]
+  is_weekly bool [default: false, not null]
+  start_npc_code string [ref: > NpcDefinition.code, null]
+  end_npc_code string [ref: > NpcDefinition.code, null]
+  auto_accept bool [default: false]
+  auto_complete bool [default: false]
+  custom_data json // UI hints, chain quest info
+}
+
+table QuestPrerequisite {
+  quest_id uuid [ref: > QuestDefinition.id, pk]
+  prerequisite_quest_id uuid [ref: > QuestDefinition.id, pk]
+}
+
+table QuestClassMapping {
+  quest_id uuid [ref: > QuestDefinition.id, pk]
+  class_id uuid [ref: > ClassDefinition.id, pk]
+}
+
+table QuestJobMapping {
+  quest_id uuid [ref: > QuestDefinition.id, pk]
+  job_id uuid [ref: > JobDefinition.id, pk]
+}
+
+table QuestCondition {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id, not null]
+  sequence int [default: 0] // Order/grouping of conditions
+  type QuestConditionType [not null]
+  target_id string // e.g., Monster code, Item code, NPC code
+  required_value int [not null]
+  description text // Display text for this objective
+  custom_data json // Location hints, counter type
+  indexes { (quest_id, sequence) }
+}
+
+table QuestReward {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id, not null]
+  type QuestRewardType [not null]
+  target_id string // e.g., Item code, Currency code, Title code
+  value long [not null]
+  description text // Optional display text
+  custom_data json
+  indexes { (quest_id) }
+}
+
+table QuestStep { // Optional table for multi-step quests with distinct descriptions
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id, not null]
+  step_order int [not null]
+  name string [null]
+  description text [not null]
+  custom_data json
+  indexes { (quest_id, step_order) [unique] }
+}
+
+table QuestGroup {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  custom_data json
+}
+
+table QuestLog { // Tracks player's quest status
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  quest_id uuid [ref: > QuestDefinition.id, not null]
+  status QuestStatus [not null]
+  progress json // Store progress for each condition, e.g., {"condition_id_1": 5, "condition_id_2": 1}
+  accepted_at datetime [null]
+  completed_at datetime [null]
+  last_progress_at datetime [null]
+  abandoned_at datetime [null]
+  last_repeatable_completion datetime [null] // For repeatable quests
+  custom_data json
+  indexes { (player_id, quest_id) [unique], (player_id, status) }
+}
+
+table QuestConditionProgress { // More detailed tracking if progress JSON is insufficient
+  id uuid [pk]
+  quest_log_id uuid [ref: > QuestLog.id, not null]
+  quest_condition_id uuid [ref: > QuestCondition.id, not null]
+  current_value int [default: 0, not null]
+  is_completed bool [default: false, not null]
+  updated_at datetime [default: `now()`, not null]
+  indexes { (quest_log_id, quest_condition_id) [unique] }
+}
+
+table QuestRewardLog {
+  id uuid [pk]
+  quest_log_id uuid [ref: > QuestLog.id, not null]
+  quest_reward_id uuid [ref: > QuestReward.id, not null] // Log which reward was granted
+  granted_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (quest_log_id) }
+}
+
+table AchievementDefinition {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  category_id uuid [ref: > AchievementCategory.id, null]
+  required_level int [default: 1]
+  points int [default: 10] // Achievement point reward
+  is_hidden bool [default: false, not null]
+  icon string [null]
+  custom_data json
+}
+
+table AchievementCategory {
+  id uuid [pk]
+  code string [unique, not null]
+  name string [not null]
+  description text
+  display_order int [default: 0]
+}
+
+table AchievementPrerequisite {
+  achievement_id uuid [ref: > AchievementDefinition.id, pk]
+  prerequisite_achievement_id uuid [ref: > AchievementDefinition.id, pk]
+}
+
+table AchievementClassMapping {
+  achievement_id uuid [ref: > AchievementDefinition.id, pk]
+  class_id uuid [ref: > ClassDefinition.id, pk]
+}
+
+table AchievementJobMapping {
+  achievement_id uuid [ref: > AchievementDefinition.id, pk]
+  job_id uuid [ref: > JobDefinition.id, pk]
+}
+
+table AchievementCondition {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id, not null]
+  sequence int [default: 0]
+  type AchievementConditionType [not null]
+  target_id string // e.g., Monster code, Item code, Level type code
+  required_value long [not null]
+  description text
+  custom_data json
+  indexes { (achievement_id, sequence) }
+}
+
+table AchievementReward {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id, not null]
+  type AchievementRewardType [not null]
+  target_id string // e.g., Item code, Currency code, Title code
+  value long [not null]
+  description text
+  custom_data json
+  indexes { (achievement_id) }
+}
+
+table AchievementLog { // Tracks player's achievement status
+  id uuid [pk]
+  player_id uuid [ref: > Player.id, not null]
+  achievement_id uuid [ref: > AchievementDefinition.id, not null]
+  status AchievementStatus [not null]
+  progress json // Store progress for each condition
+  achieved_at datetime [null]
+  claimed_at datetime [null] // When rewards were claimed
+  last_progress_at datetime [null]
+  custom_data json
+  indexes { (player_id, achievement_id) [unique], (player_id, status) }
+}
+
+table AchievementConditionProgress { // Detailed tracking if needed
+  id uuid [pk]
+  achievement_log_id uuid [ref: > AchievementLog.id, not null]
+  achievement_condition_id uuid [ref: > AchievementCondition.id, not null]
+  current_value long [default: 0, not null]
+  is_completed bool [default: false, not null]
+  updated_at datetime [default: `now()`, not null]
+  indexes { (achievement_log_id, achievement_condition_id) [unique] }
+}
+
+table AchievementRewardLog {
+  id uuid [pk]
+  achievement_log_id uuid [ref: > AchievementLog.id, not null]
+  achievement_reward_id uuid [ref: > AchievementReward.id, not null]
+  granted_at datetime [default: `now()`, not null]
+  custom_data json
+  indexes { (achievement_log_id) }
+}
+
+erDiagram
+
+  Auth                            }o--|| Account                     : "FK_Auth_account_id"
+  Player                          }o--|| Account                     : "FK_Player_account_id"
+  GMAccount                       }o--|| Account                     : "FK_GMAccount_account_id"
+  MapEnvironment                  }o--|| MapDefinition                 : "FK_MapEnvironment_map_id"
+  MapDefinition                   }o--o| MapDefinition                 : "FK_MapDefinition_parent_map_id"
+  MapLayer                        }o--|| MapDefinition                 : "FK_MapLayer_map_id"
+  MapObjectInstance               }o--|| MapDefinition                 : "FK_MapObjectInstance_map_id"
+  MapSpawnPoint                   }o--|| MapDefinition                 : "FK_MapSpawnPoint_map_id"
+  MapZone                         }o--|| MapDefinition                 : "FK_MapZone_map_id"
+  EditableArea                    }o--|| MapDefinition                 : "FK_EditableArea_map_id"
+  MapDynamicObjectState           }o--|| MapDefinition                 : "FK_MapDynamicObjectState_map_id"
+  Portal                          }o--|| MapDefinition                 : "FK_Portal_from_map_id"
+  Portal                          }o--|| MapDefinition                 : "FK_Portal_to_map_id"
+  LandPlot                        }o--|| MapDefinition                 : "FK_LandPlot_map_id"
+  PlayerMonsterKillLog            }o--|| MapDefinition                 : "FK_PlayerMonsterKillLog_map_id"
+  NpcInstance                     }o--|| MapDefinition                 : "FK_NpcInstance_map_id"
+  FishingSpotDefinition           }o--|| MapDefinition                 : "FK_FishingSpotDefinition_map_id"
+  FarmPlotDefinition              }o--|| MapDefinition                 : "FK_FarmPlotDefinition_map_id" %% Optional FK
+  MapTile                         }o--|| MapLayer                      : "FK_MapTile_layer_id"
+  ZoneEventTrigger                }o--|| MapZone                       : "FK_ZoneEventTrigger_zone_id"
+  NpcInstance                     }o--|| MapZone                       : "FK_NpcInstance_zone_id" %% Optional FK
+  FishingSpotDefinition           }o--|| MapZone                       : "FK_FishingSpotDefinition_zone_id" %% Optional FK
+  MapEventTrigger                 }o--|| MapDefinition                 : "FK_MapEventTrigger_map_id"
+  MapPlayerState                  }o--|| Player                        : "FK_MapPlayerState_player_id"
+  MapPlayerState                  }o--|| MapDefinition                 : "FK_MapPlayerState_map_id"
+  DropTableDetail                 }o--|| DropTableDefinition           : "FK_DropTableDetail_drop_table_id"
+  EntityDefinition                }o--|| DropTableDefinition           : "FK_EntityDefinition_drop_table_id"
+  DropTableDetail                 }o--|| ItemDefinition                : "FK_DropTableDetail_item_definition_id"
+  MapObjectInstance               }o--|| EntityDefinition              : "FK_MapObjectInstance_entity_definition_id"
+  MapSpawnPoint                   }o--|| EntityDefinition              : "FK_MapSpawnPoint_entity_definition_id"
+  CropDefinition                  }o--|| EntityDefinition              : "FK_CropDefinition_entity_definition_id"
+  LivestockDefinition             }o--|| EntityDefinition              : "FK_LivestockDefinition_entity_definition_id"
+  MonsterDefinition               }o--|| EntityDefinition              : "FK_MonsterDefinition_entity_definition_id"
+  OreDefinition                   }o--|| EntityDefinition              : "FK_OreDefinition_entity_definition_id"
+  LogDefinition                   }o--|| EntityDefinition              : "FK_LogDefinition_entity_definition_id"
+  BuildingDefinition              }o--|| EntityDefinition              : "FK_BuildingDefinition_entity_definition_id"
+  NpcDefinition                   }o--|| EntityDefinition              : "FK_NpcDefinition_entity_definition_id"
+  PetDefinition                   }o--|| EntityDefinition              : "FK_PetDefinition_entity_definition_id"
+  FishDefinition                  }o--|| EntityDefinition              : "FK_FishDefinition_entity_definition_id"
+  StatValue                       }o--|| StatDefinition                : "FK_StatValue_stat_definition_id"
+  %% StatValue owner link is Polymorphic via owner_type/owner_id, not a direct FK
+  ItemTag                         }o--|| ItemDefinition                : "FK_ItemTag_item_definition_id"
+  ItemTag                         }o--|| Tag                         : "FK_ItemTag_tag_id"
+  ItemDefinition                  }o--|| ItemEffectDefinition          : "FK_ItemDefinition_use_effect_id"
+  ItemInstance                    }o--|| ItemDefinition                : "FK_ItemInstance_item_definition_id"
+  ItemInstance                    }o--|| Container                     : "FK_ItemInstance_container_id"
+  PlayerInventoryItem             }o--|| ItemInstance                : "FK_PlayerInventoryItem_item_instance_id" %% Assumes 1:1 link
+  ItemAcquisitionLog              }o--|| Player                        : "FK_ItemAcquisitionLog_player_id"
+  ItemAcquisitionLog              }o--|| ItemInstance                : "FK_ItemAcquisitionLog_item_instance_id" %% Nullable
+  ItemAcquisitionLog              }o--|| ItemDefinition                : "FK_ItemAcquisitionLog_item_definition_id"
+  ItemEnhancementLog              }o--|| Player                        : "FK_ItemEnhancementLog_player_id"
+  ItemEnhancementLog              }o--|| ItemInstance                : "FK_ItemEnhancementLog_item_instance_id" %% Nullable
+  ItemEnhancementLog              }o--|| ItemDefinition                : "FK_ItemEnhancementLog_item_definition_id"
+  PlayerInventoryTabLimit         }o--|| Player                        : "FK_PlayerInventoryTabLimit_player_id"
+  PlayerInventoryItem             }o--|| Player                        : "FK_PlayerInventoryItem_player_id"
+  RecipeIngredient                }o--|| RecipeDefinition              : "FK_RecipeIngredient_recipe_id"
+  RecipeIngredient                }o--|| ItemDefinition                : "FK_RecipeIngredient_item_definition_id"
+  RecipeResult                    }o--|| RecipeDefinition              : "FK_RecipeResult_recipe_id"
+  RecipeResult                    }o--|| ItemDefinition                : "FK_RecipeResult_item_definition_id"
+  PlayerCraftingLog               }o--|| Player                        : "FK_PlayerCraftingLog_player_id"
+  PlayerCraftingLog               }o--|| RecipeDefinition              : "FK_PlayerCraftingLog_recipe_id"
+  PlayerCraftingLog               }o--|| ItemInstance                : "FK_PlayerCraftingLog_result_item_instance_id" %% Nullable
+  PlayerCraftingLog               }o--|| ItemDefinition                : "FK_PlayerCraftingLog_result_item_definition_id"
+  PlayerRecipe                    }o--|| Player                        : "FK_PlayerRecipe_player_id"
+  PlayerRecipe                    }o--|| RecipeDefinition              : "FK_PlayerRecipe_recipe_definition_id"
+  RecipeDefinition                }o--|| ItemDefinition                : "FK_RecipeDefinition_fail_reward_item_id" %% Nullable
+  CookingRecipeDefinition         }o--|| RecipeDefinition              : "FK_CookingRecipeDefinition_recipe_definition_id"
+  CookingResultDefinition         }o--|| CookingRecipeDefinition       : "FK_CookingResultDefinition_recipe_id"
+  CookingResultDefinition         }o--|| ItemDefinition                : "FK_CookingResultDefinition_result_item_id"
+  CookingGradeRewardDefinition    }o--|| CookingRecipeDefinition       : "FK_CookingGradeRewardDefinition_recipe_id"
+  CookingGradeRewardDefinition    }o--|| ItemDefinition                : "FK_CookingGradeRewardDefinition_reward_item_id"
+  CookingStepDefinition           }o--|| CookingRecipeDefinition       : "FK_CookingStepDefinition_recipe_id"
+  PlayerCookingLog                }o--|| Player                        : "FK_PlayerCookingLog_player_id"
+  PlayerCookingLog                }o--|| CookingRecipeDefinition       : "FK_PlayerCookingLog_cooking_recipe_id"
+  PortalUseLog                    }o--|| Player                        : "FK_PortalUseLog_player_id"
+  PortalUseLog                    }o--|| Portal                        : "FK_PortalUseLog_portal_id"
+  SeedGradeToCropGradeMap         }o--|| ItemDefinition                : "FK_SeedGradeToCropGradeMap_seed_item_id"
+  SeedGradeToCropGradeMap         }o--|| ItemDefinition                : "FK_SeedGradeToCropGradeMap_fertilizer_item_id" %% Nullable
+  SeedGradeToCropGradeMap         }o--|| CropDefinition                : "FK_SeedGradeToCropGradeMap_crop_definition_id"
+  CropProduct                     }o--|| CropDefinition                : "FK_CropProduct_crop_definition_id"
+  CropProduct                     }o--|| ItemDefinition                : "FK_CropProduct_item_definition_id"
+  PlayerCropInstance              }o--|| Player                        : "FK_PlayerCropInstance_player_id"
+  PlayerCropInstance              }o--|| CropDefinition                : "FK_PlayerCropInstance_crop_definition_id"
+  PlayerCropInstance              }o--|| LandPlot                      : "FK_PlayerCropInstance_land_plot_id" %% Nullable
+  PlayerCropHarvestLog            }o--|| PlayerCropInstance          : "FK_PlayerCropHarvestLog_player_crop_instance_id"
+  PlayerCropHarvestLog            }o--|| Player                        : "FK_PlayerCropHarvestLog_player_id"
+  PlayerCropHarvestLog            }o--|| CropDefinition                : "FK_PlayerCropHarvestLog_crop_definition_id"
+  FarmPlotDefinition              }o--|| BuildingDefinition            : "FK_FarmPlotDefinition_building_definition_id" %% Optional FK
+  FishHabitat                     }o--|| FishDefinition                : "FK_FishHabitat_fish_definition_id"
+  FishHabitat                     }o--|| FishingSpotDefinition         : "FK_FishHabitat_fishing_spot_id"
+  FishHabitat                     }o--|| ItemDefinition                : "FK_FishHabitat_required_bait_item_id" %% Nullable
+  PlayerFishingLog                }o--|| Player                        : "FK_PlayerFishingLog_player_id"
+  PlayerFishingLog                }o--|| FishingSpotDefinition         : "FK_PlayerFishingLog_fishing_spot_id"
+  PlayerFishingLog                }o--|| FishDefinition                : "FK_PlayerFishingLog_fish_definition_id"
+  PlayerFishingLog                }o--|| ItemDefinition                : "FK_PlayerFishingLog_bait_item_id" %% Nullable
+  PlayerFishingLog                }o--|| ItemDefinition                : "FK_PlayerFishingLog_rod_item_id" %% Nullable
+  FishDefinition                  }o--|| ItemDefinition                : "FK_FishDefinition_item_definition_id"
+  LivestockAllowedFeed            }o--|| LivestockDefinition           : "FK_LivestockAllowedFeed_livestock_definition_id"
+  LivestockAllowedFeed            }o--|| ItemDefinition                : "FK_LivestockAllowedFeed_item_definition_id"
+  LivestockDefinition             }o--|| ItemDefinition                : "FK_LivestockDefinition_product_item_id" %% Nullable
+  PlayerLivestockInstance         }o--|| Player                        : "FK_PlayerLivestockInstance_player_id"
+  PlayerLivestockInstance         }o--|| LivestockDefinition           : "FK_PlayerLivestockInstance_livestock_definition_id"
+  PlayerLivestockProductLog       }o--|| PlayerLivestockInstance     : "FK_PlayerLivestockProductLog_player_livestock_instance_id"
+  PlayerLivestockProductLog       }o--|| Player                        : "FK_PlayerLivestockProductLog_player_id"
+  PlayerLivestockProductLog       }o--|| ItemDefinition                : "FK_PlayerLivestockProductLog_item_definition_id"
+  PlayerLivestockFeedLog          }o--|| PlayerLivestockInstance     : "FK_PlayerLivestockFeedLog_player_livestock_instance_id"
+  PlayerLivestockFeedLog          }o--|| Player                        : "FK_PlayerLivestockFeedLog_player_id"
+  PlayerLivestockFeedLog          }o--|| ItemDefinition                : "FK_PlayerLivestockFeedLog_item_definition_id"
+  PlayerLivestockDiseaseLog       }o--|| PlayerLivestockInstance     : "FK_PlayerLivestockDiseaseLog_player_livestock_instance_id"
+  PlayerLivestockGradeLog         }o--|| PlayerLivestockInstance     : "FK_PlayerLivestockGradeLog_player_livestock_instance_id"
+  PlayerLivestockGrowthLog        }o--|| PlayerLivestockInstance     : "FK_PlayerLivestockGrowthLog_player_livestock_instance_id"
+  MonsterDefinition               }o--|| MonsterAiFsmDefinition        : "FK_MonsterDefinition_fsm_id" %% Nullable
+  MonsterDefinition               }o--|| MonsterAiBtDefinition         : "FK_MonsterDefinition_bt_id" %% Nullable
+  PlayerMonsterKillLog            }o--|| Player                        : "FK_PlayerMonsterKillLog_player_id"
+  PlayerMonsterKillLog            }o--|| MonsterDefinition             : "FK_PlayerMonsterKillLog_monster_definition_id"
+  PlayerMiningLog                 }o--|| Player                        : "FK_PlayerMiningLog_player_id"
+  PlayerMiningLog                 }o--|| OreDefinition                 : "FK_PlayerMiningLog_ore_definition_id"
+  PlayerMiningLog                 }o--|| ItemDefinition                : "FK_PlayerMiningLog_tool_item_id" %% Nullable
+  PlayerLoggingLog                }o--|| Player                        : "FK_PlayerLoggingLog_player_id"
+  PlayerLoggingLog                }o--|| LogDefinition                 : "FK_PlayerLoggingLog_log_definition_id"
+  PlayerLoggingLog                }o--|| ItemDefinition                : "FK_PlayerLoggingLog_tool_item_id" %% Nullable
+  PlayerLevelLog                  }o--|| Player                        : "FK_PlayerLevelLog_player_id"
+  PlayerLevelLog                  }o--|| LevelDefinition               : "FK_PlayerLevelLog_level_code" %% Using code ref
+  PlayerStatLog                   }o--|| Player                        : "FK_PlayerStatLog_player_id"
+  PlayerStatLog                   }o--|| StatDefinition                : "FK_PlayerStatLog_stat_definition_id"
+  MiniGameRewardDefinition        }o--|| MiniGameDefinition            : "FK_MiniGameRewardDefinition_minigame_id"
+  MiniGameRewardDefinition        }o--|| ItemDefinition                : "FK_MiniGameRewardDefinition_reward_item_id"
+  PlayerMiniGameResult            }o--|| Player                        : "FK_PlayerMiniGameResult_player_id"
+  PlayerMiniGameResult            }o--|| MiniGameDefinition            : "FK_PlayerMiniGameResult_minigame_id"
+  PlayerMiniGameResult            }o--|| ItemDefinition                : "FK_PlayerMiniGameResult_reward_item_id" %% Nullable
+  JobSkillDefinition              }o--|| JobDefinition                 : "FK_JobSkillDefinition_job_id"
+  PlayerJobSkill                  }o--|| Player                        : "FK_PlayerJobSkill_player_id"
+  PlayerJobSkill                  }o--|| JobSkillDefinition            : "FK_PlayerJobSkill_skill_id"
+  JobSkillLevelDefinition         }o--|| JobSkillDefinition            : "FK_JobSkillLevelDefinition_skill_id"
+  JobSkillLevelDefinition         }o--|| ItemDefinition                : "FK_JobSkillLevelDefinition_reward_item_id" %% Nullable
+  PlayerJobSkillPoint             }o--|| Player                        : "FK_PlayerJobSkillPoint_player_id"
+  PlayerJobSkillPoint             }o--|| JobDefinition                 : "FK_PlayerJobSkillPoint_job_id"
+  JobLevelDefinition              }o--|| JobDefinition                 : "FK_JobLevelDefinition_job_id"
+  JobLevelDefinition              }o--|| ItemDefinition                : "FK_JobLevelDefinition_reward_item_id" %% Nullable
+  JobSkillTree                    }o--|| JobDefinition                 : "FK_JobSkillTree_job_id"
+  JobSkillTree                    }o--|| JobSkillDefinition            : "FK_JobSkillTree_parent_skill_id" %% Nullable
+  JobSkillTree                    }o--|| JobSkillDefinition            : "FK_JobSkillTree_child_skill_id"
+  JobTree                         }o--|| JobDefinition                 : "FK_JobTree_parent_job_id" %% Nullable
+  JobTree                         }o--|| JobDefinition                 : "FK_JobTree_child_job_id"
+  SkillEffectDefinition           }o--|| SkillDefinition               : "FK_SkillEffectDefinition_skill_definition_id"
+  SkillTree                       }o--|| SkillDefinition               : "FK_SkillTree_parent_skill_id" %% Nullable
+  SkillTree                       }o--|| SkillDefinition               : "FK_SkillTree_child_skill_id"
+  PlayerSkill                     }o--|| Player                        : "FK_PlayerSkill_player_id"
+  PlayerSkill                     }o--|| SkillDefinition               : "FK_PlayerSkill_skill_definition_id"
+  PlayerSkillLog                  }o--|| Player                        : "FK_PlayerSkillLog_player_id"
+  PlayerSkillLog                  }o--|| SkillDefinition               : "FK_PlayerSkillLog_skill_definition_id"
+  PlayerQuickSlotPreset           }o--|| Player                        : "FK_PlayerQuickSlotPreset_player_id"
+  PlayerQuickSlot                 }o--|| PlayerQuickSlotPreset       : "FK_PlayerQuickSlot_preset_id"
+  PlayerQuickSlot                 }o--|| Player                        : "FK_PlayerQuickSlot_player_id" %% Check if needed/redundant
+  PlayerQuickSlot                 }o--|| SkillDefinition               : "FK_PlayerQuickSlot_skill_definition_id" %% Nullable
+  PlayerQuickSlot                 }o--|| ItemDefinition                : "FK_PlayerQuickSlot_item_definition_id" %% Nullable
+  PlayerQuickSlot                 }o--|| ItemInstance                : "FK_PlayerQuickSlot_item_instance_id" %% Nullable, Check if exists
+  ClassDefinition                 }o--o| ClassDefinition               : "FK_ClassDefinition_parent_class_id" %% Nullable
+  ClassTree                       }o--|| ClassDefinition               : "FK_ClassTree_parent_class_id" %% Nullable
+  ClassTree                       }o--|| ClassDefinition               : "FK_ClassTree_child_class_id"
+  PlayerClass                     }o--|| Player                        : "FK_PlayerClass_player_id"
+  PlayerClass                     }o--|| ClassDefinition               : "FK_PlayerClass_class_id"
+  ClassEquipmentRestriction       }o--|| ClassDefinition               : "FK_ClassEquipmentRestriction_class_id"
+  ClassEquipmentRestriction       }o--|| Tag                         : "FK_ClassEquipmentRestriction_item_tag_id" %% Nullable
+  ClassTraitDefinition            }o--|| ClassDefinition               : "FK_ClassTraitDefinition_class_id"
+  ClassSkillDefinition            }o--|| ClassDefinition               : "FK_ClassSkillDefinition_class_id"
+  ClassSkillDefinition            }o--|| SkillDefinition               : "FK_ClassSkillDefinition_skill_definition_id"
+  ClassSkillTree                  }o--|| ClassDefinition               : "FK_ClassSkillTree_class_id"
+  ClassSkillTree                  }o--|| SkillDefinition               : "FK_ClassSkillTree_parent_skill_id" %% Nullable
+  ClassSkillTree                  }o--|| SkillDefinition               : "FK_ClassSkillTree_child_skill_id"
+  PlayerClassChangeLog            }o--|| Player                        : "FK_PlayerClassChangeLog_player_id"
+  PlayerClassChangeLog            }o--|| ClassDefinition               : "FK_PlayerClassChangeLog_old_class_id" %% Nullable
+  PlayerClassChangeLog            }o--|| ClassDefinition               : "FK_PlayerClassChangeLog_new_class_id"
+  PlayerSkillChangeLog            }o--|| Player                        : "FK_PlayerSkillChangeLog_player_id"
+  PlayerSkillChangeLog            }o--|| SkillDefinition               : "FK_PlayerSkillChangeLog_skill_definition_id"
+  ChatLog                         }o--|| Player                        : "FK_ChatLog_sender_id" %% Nullable
+  ChatLog                         }o--|| ChannelDefinition             : "FK_ChatLog_channel_code" %% Using code ref
+  ChatLog                         }o--|| Player                        : "FK_ChatLog_receiver_id" %% Nullable
+  ChatLog                         }o--|| PartyDefinition               : "FK_ChatLog_party_id" %% Nullable
+  ChatLog                         }o--|| GuildDefinition               : "FK_ChatLog_guild_id" %% Nullable
+  CommunityReportLog              }o--|| Player                        : "FK_CommunityReportLog_reporter_id"
+  CommunityReportLog              }o--|| Player                        : "FK_CommunityReportLog_reported_id"
+  CommunityReportLog              }o--|| ChatLog                       : "FK_CommunityReportLog_chat_log_id" %% Nullable
+  CommunityReportLog              }o--|| Player                        : "FK_CommunityReportLog_resolver_id" %% Nullable (GM)
+  ModerationActionLog             }o--|| Player                        : "FK_ModerationActionLog_target_player_id"
+  ModerationActionLog             }o--|| Player                        : "FK_ModerationActionLog_moderator_id" %% GM
+  ModerationActionLog             }o--|| CommunityReportLog          : "FK_ModerationActionLog_related_report_id" %% Nullable
+  ModerationActionLog             }o--|| ChatLog                       : "FK_ModerationActionLog_related_chat_log_id" %% Nullable
+  FriendRelation                  }o--|| Player                        : "FK_FriendRelation_player_id_1"
+  FriendRelation                  }o--|| Player                        : "FK_FriendRelation_player_id_2"
+  PartyDefinition                 }o--|| Player                        : "FK_PartyDefinition_leader_id"
+  PartyMember                     }o--|| PartyDefinition               : "FK_PartyMember_party_id"
+  PartyMember                     }o--|| Player                        : "FK_PartyMember_player_id"
+  CommunityNotice                 }o--|| Player                        : "FK_CommunityNotice_author_id" %% Nullable (GM)
+  GuildDefinition                 }o--|| Player                        : "FK_GuildDefinition_leader_id"
+  GuildRole                       }o--|| GuildDefinition               : "FK_GuildRole_guild_id"
+  GuildMember                     }o--|| GuildDefinition               : "FK_GuildMember_guild_id"
+  GuildMember                     }o--|| Player                        : "FK_GuildMember_player_id"
+  GuildMember                     }o--|| GuildRole                     : "FK_GuildMember_role_id"
+  GuildNotice                     }o--|| GuildDefinition               : "FK_GuildNotice_guild_id"
+  GuildNotice                     }o--|| Player                        : "FK_GuildNotice_author_id"
+  GuildJoinRequest                }o--|| GuildDefinition               : "FK_GuildJoinRequest_guild_id"
+  GuildJoinRequest                }o--|| Player                        : "FK_GuildJoinRequest_player_id"
+  GuildJoinRequest                }o--|| Player                        : "FK_GuildJoinRequest_processed_by" %% Nullable
+  GuildContributionLog            }o--|| GuildDefinition               : "FK_GuildContributionLog_guild_id"
+  GuildContributionLog            }o--|| Player                        : "FK_GuildContributionLog_player_id"
+  %% CategoryRanking links via target_id (polymorphic)
+  %% RankingHistory links via target_id (polymorphic)
+  Recommendation                  }o--|| Player                        : "FK_Recommendation_from_player_id"
+  %% Recommendation links via target_id (polymorphic)
+  RecommendationLog               }o--|| Recommendation              : "FK_RecommendationLog_recommendation_id"
+  RecommendationLog               }o--|| Player                        : "FK_RecommendationLog_actor_player_id"
+  TitleDefinition                 }o--|| TitleCategory               : "FK_TitleDefinition_category_id" %% Nullable
+  TitleEffect                     }o--|| TitleDefinition               : "FK_TitleEffect_title_id"
+  TitleUnlockCondition            }o--|| TitleDefinition               : "FK_TitleUnlockCondition_title_id"
+  PlayerTitle                     }o--|| Player                        : "FK_PlayerTitle_player_id"
+  PlayerTitle                     }o--|| TitleDefinition               : "FK_PlayerTitle_title_id"
+  PlayerTitleSlot                 }o--|| Player                        : "FK_PlayerTitleSlot_player_id"
+  PlayerTitleSlot                 }o--|| PlayerTitle                   : "FK_PlayerTitleSlot_player_title_id" %% Nullable
+  TitleUnlockHistory              }o--|| Player                        : "FK_TitleUnlockHistory_player_id"
+  TitleUnlockHistory              }o--|| TitleDefinition               : "FK_TitleUnlockHistory_title_id"
+  PlayerLand                      }o--|| LandPlot                      : "FK_PlayerLand_land_plot_id"
+  %% PlayerLand links to owner (Player/Guild) via owner_type/owner_id
+  Notification                    }o--|| Player                        : "FK_Notification_player_id"
+  GuildTitle                      }o--|| GuildDefinition               : "FK_GuildTitle_guild_id"
+  GuildTitle                      }o--|| TitleDefinition               : "FK_GuildTitle_title_id"
+  PlayerBuff                      }o--|| Player                        : "FK_PlayerBuff_player_id"
+  PlayerBuff                      }o--|| BuffDefinition                : "FK_PlayerBuff_buff_definition_id"
+  %% PlayerBuff links to source via source_type/source_id
+  PlayerBuffLog                   }o--|| Player                        : "FK_PlayerBuffLog_player_id"
+  PlayerBuffLog                   }o--|| BuffDefinition                : "FK_PlayerBuffLog_buff_definition_id"
+  %% PlayerBuffLog links to source via source_type/source_id
+  SkillGrantedBuff                }o--|| SkillDefinition               : "FK_SkillGrantedBuff_skill_definition_id"
+  SkillGrantedBuff                }o--|| BuffDefinition                : "FK_SkillGrantedBuff_buff_definition_id"
+  PlayerPet                       }o--|| Player                        : "FK_PlayerPet_player_id"
+  PlayerPet                       }o--|| PetDefinition                 : "FK_PlayerPet_pet_definition_id"
+  PetSkill                        }o--|| PetDefinition                 : "FK_PetSkill_pet_definition_id"
+  PetSkill                        }o--|| SkillDefinition               : "FK_PetSkill_skill_definition_id"
+  PlayerPetSkill                  }o--|| PlayerPet                     : "FK_PlayerPetSkill_player_pet_id"
+  PlayerPetSkill                  }o--|| PetSkill                      : "FK_PlayerPetSkill_pet_skill_id"
+  PetDefinition                   }o--o| PetDefinition                 : "FK_PetDefinition_evolve_to" %% Nullable
+  %% Mail links to sender/receiver (Player/Account) via type/id
+  MailAttachment                  }o--|| Mail                          : "FK_MailAttachment_mail_id"
+  MailAttachment                  }o--|| ItemDefinition                : "FK_MailAttachment_item_definition_id" %% Nullable
+  MailAttachment                  }o--|| ItemInstance                : "FK_MailAttachment_item_instance_id" %% Nullable
+  MailAttachment                  }o--|| CurrencyDefinition            : "FK_MailAttachment_currency_code" %% Nullable, Using code ref
+  MailReadLog                     }o--|| Mail                          : "FK_MailReadLog_mail_id"
+  MailDeleteLog                   }o--|| Mail                          : "FK_MailDeleteLog_mail_id"
+  PlayerEventProgress             }o--|| EventDefinition               : "FK_PlayerEventProgress_event_id"
+  PlayerEventProgress             }o--|| Player                        : "FK_PlayerEventProgress_player_id"
+  EventReward                     }o--|| EventDefinition               : "FK_EventReward_event_id"
+  EventReward                     }o--|| MailAttachment              : "FK_EventReward_attachment_id" %% Nullable
+  PlayerEventRewardLog            }o--|| EventReward                   : "FK_PlayerEventRewardLog_event_reward_id"
+  PlayerEventRewardLog            }o--|| Player                        : "FK_PlayerEventRewardLog_player_id"
+  SeasonPassMission               }o--|| SeasonPassDefinition          : "FK_SeasonPassMission_season_pass_id"
+  PlayerSeasonPass                }o--|| SeasonPassDefinition          : "FK_PlayerSeasonPass_season_pass_id"
+  PlayerSeasonPass                }o--|| Player                        : "FK_PlayerSeasonPass_player_id"
+  PlayerSeasonPassMission         }o--|| PlayerSeasonPass            : "FK_PlayerSeasonPassMission_player_season_pass_id"
+  PlayerSeasonPassMission         }o--|| SeasonPassMission             : "FK_PlayerSeasonPassMission_season_pass_mission_id"
+  SeasonPassReward                }o--|| SeasonPassDefinition          : "FK_SeasonPassReward_season_pass_id"
+  SeasonPassReward                }o--|| MailAttachment              : "FK_SeasonPassReward_attachment_id" %% Nullable
+  PlayerSeasonPassRewardLog       }o--|| SeasonPassReward            : "FK_PlayerSeasonPassRewardLog_season_pass_reward_id"
+  PlayerSeasonPassRewardLog       }o--|| Player                        : "FK_PlayerSeasonPassRewardLog_player_id"
+  SeasonPassPurchaseLog           }o--|| SeasonPassDefinition          : "FK_SeasonPassPurchaseLog_season_pass_id"
+  SeasonPassPurchaseLog           }o--|| Player                        : "FK_SeasonPassPurchaseLog_player_id"
+  SeasonPassMissionLog            }o--|| Player                        : "FK_SeasonPassMissionLog_player_id"
+  SeasonPassMissionLog            }o--|| SeasonPassDefinition          : "FK_SeasonPassMissionLog_season_pass_id"
+  SeasonPassMissionLog            }o--|| SeasonPassMission             : "FK_SeasonPassMissionLog_mission_id"
+  NotificationLog                 }o--|| NotificationSchedule          : "FK_NotificationLog_notification_schedule_id"
+  PlayerNotificationLog           }o--|| Player                        : "FK_PlayerNotificationLog_player_id"
+  PlayerNotificationLog           }o--|| NotificationLog             : "FK_PlayerNotificationLog_notification_log_id"
+  PlayerBuilding                  }o--|| Player                        : "FK_PlayerBuilding_player_id"
+  PlayerBuilding                  }o--|| PlayerLand                    : "FK_PlayerBuilding_land_plot_id"
+  PlayerBuilding                  }o--|| BuildingDefinition            : "FK_PlayerBuilding_building_definition_id"
+  BuildingUpgradeDefinition       }o--|| BuildingDefinition            : "FK_BuildingUpgradeDefinition_building_definition_id"
+  BuildingUpgradeEffect           }o--|| BuildingUpgradeDefinition     : "FK_BuildingUpgradeEffect_upgrade_definition_id"
+  BuildingUpgradeRequiredItem     }o--|| BuildingUpgradeDefinition     : "FK_BuildingUpgradeRequiredItem_upgrade_definition_id"
+  BuildingUpgradeRequiredItem     }o--|| ItemDefinition                : "FK_BuildingUpgradeRequiredItem_item_id"
+  BuildingUpgradeRequiredCurrency }o--|| BuildingUpgradeDefinition     : "FK_BuildingUpgradeRequiredCurrency_upgrade_definition_id"
+  BuildingUpgradeRequiredCurrency }o--|| CurrencyDefinition            : "FK_BuildingUpgradeRequiredCurrency_currency_code" %% Using code ref
+  BuildingActionLog               }o--|| Player                        : "FK_BuildingActionLog_player_id"
+  BuildingActionLog               }o--|| PlayerBuilding                : "FK_BuildingActionLog_player_building_id"
+  PlayerBuildingSlot              }o--|| PlayerBuilding                : "FK_PlayerBuildingSlot_player_building_id"
+  PlayerBuildingSlot              }o--|| ItemInstance                : "FK_PlayerBuildingSlot_item_instance_id" %% Nullable
+  PlayerBuildingSlot              }o--|| PlayerLivestockInstance     : "FK_PlayerBuildingSlot_livestock_instance_id" %% Nullable
+  PlayerBuildingSlot              }o--|| PlayerCropInstance          : "FK_PlayerBuildingSlot_crop_instance_id" %% Nullable
+  PlayerEquipmentSlot             }o--|| PlayerBuilding                : "FK_PlayerEquipmentSlot_player_building_id" %% Assumes separate table? Merge into PlayerBuildingSlot?
+  PlayerEquipmentSlot             }o--|| ItemDefinition                : "FK_PlayerEquipmentSlot_equipment_item_id" %% Assumes separate table? Merge into PlayerBuildingSlot?
+  MarketListing                   }o--|| Player                        : "FK_MarketListing_seller_id"
+  MarketListing                   }o--|| ItemDefinition                : "FK_MarketListing_item_definition_id"
+  MarketListing                   }o--|| ItemInstance                : "FK_MarketListing_item_instance_id" %% Nullable
+  MarketListing                   }o--|| CurrencyDefinition            : "FK_MarketListing_currency_code" %% Using code ref
+  MarketListing                   }o--|| Player                        : "FK_MarketListing_buyer_id" %% Nullable
+  MarketTransaction               }o--|| MarketListing                 : "FK_MarketTransaction_market_listing_id" %% Nullable
+  MarketTransaction               }o--|| Player                        : "FK_MarketTransaction_buyer_id"
+  MarketTransaction               }o--|| Player                        : "FK_MarketTransaction_seller_id"
+  MarketTransaction               }o--|| ItemDefinition                : "FK_MarketTransaction_item_definition_id"
+  MarketTransaction               }o--|| ItemInstance                : "FK_MarketTransaction_item_instance_id" %% Nullable
+  MarketTransaction               }o--|| CurrencyDefinition            : "FK_MarketTransaction_currency_code" %% Using code ref
+  Trade                           }o--|| Player                        : "FK_Trade_player_1_id"
+  Trade                           }o--|| Player                        : "FK_Trade_player_2_id"
+  Trade                           }o--|| CurrencyDefinition            : "FK_Trade_currency_code" %% Nullable, Using code ref
+  TradeItem                       }o--|| Trade                         : "FK_TradeItem_trade_id"
+  TradeItem                       }o--|| Player                        : "FK_TradeItem_offering_player_id"
+  TradeItem                       }o--|| ItemInstance                : "FK_TradeItem_item_instance_id"
+  CurrencyTransactionLog          }o--|| Player                        : "FK_CurrencyTransactionLog_player_id"
+  CurrencyTransactionLog          }o--|| CurrencyDefinition            : "FK_CurrencyTransactionLog_currency_code" %% Using code ref
+  BoardGameRoom                   }o--|| BoardGameDefinition           : "FK_BoardGameRoom_board_game_id"
+  BoardGameRoom                   }o--|| Player                        : "FK_BoardGameRoom_host_player_id"
+  BoardGameRoom                   }o--|| Player                        : "FK_BoardGameRoom_winner_player_id" %% Nullable
+  BoardGameParticipant            }o--|| BoardGameRoom               : "FK_BoardGameParticipant_room_id"
+  BoardGameParticipant            }o--|| Player                        : "FK_BoardGameParticipant_player_id"
+  BoardGameTurnLog                }o--|| BoardGameRoom               : "FK_BoardGameTurnLog_room_id"
+  BoardGameTurnLog                }o--|| Player                        : "FK_BoardGameTurnLog_player_id"
+  UserPattern                     }o--|| Player                        : "FK_UserPattern_creator_id"
+  UserPatternLike                 }o--|| UserPattern                   : "FK_UserPatternLike_pattern_id"
+  UserPatternLike                 }o--|| Player                        : "FK_UserPatternLike_player_id"
+  UserPatternComment              }o--|| UserPattern                   : "FK_UserPatternComment_pattern_id"
+  UserPatternComment              }o--|| Player                        : "FK_UserPatternComment_player_id"
+  UserRoom                        }o--|| Player                        : "FK_UserRoom_owner_id"
+  UserRoomParticipant             }o--|| UserRoom                      : "FK_UserRoomParticipant_room_id"
+  UserRoomParticipant             }o--|| Player                        : "FK_UserRoomParticipant_player_id"
+  UserRoomChat                    }o--|| UserRoom                      : "FK_UserRoomChat_room_id"
+  UserRoomChat                    }o--|| Player                        : "FK_UserRoomChat_player_id"
+  UserContentReport               }o--|| Player                        : "FK_UserContentReport_reporter_id"
+  UserContentReport               }o--|| Player                        : "FK_UserContentReport_resolver_id" %% Nullable GM/Mod
+  %% UserContentReport links via content_type/content_id (polymorphic)
+  UserRoomFavorite                }o--|| Player                        : "FK_UserRoomFavorite_player_id"
+  UserRoomFavorite                }o--|| UserRoom                      : "FK_UserRoomFavorite_room_id"
+  UserPatternFavorite             }o--|| Player                        : "FK_UserPatternFavorite_player_id"
+  UserPatternFavorite             }o--|| UserPattern                   : "FK_UserPatternFavorite_pattern_id"
+  UserPatternBoardPost            }o--|| UserPatternBoard              : "FK_UserPatternBoardPost_board_id"
+  UserPatternBoardPost            }o--|| UserPattern                   : "FK_UserPatternBoardPost_pattern_id"
+  UserPatternBoardPost            }o--|| Player                        : "FK_UserPatternBoardPost_creator_id"
+  UserPatternBoardPostComment     }o--|| UserPatternBoardPost        : "FK_UserPatternBoardPostComment_post_id"
+  UserPatternBoardPostComment     }o--|| Player                        : "FK_UserPatternBoardPostComment_commenter_id"
+  DungeonDefinition               }o--|| Portal                        : "FK_DungeonDefinition_entry_portal_id" %% Nullable
+  DungeonZoneLink                 }o--|| DungeonDefinition             : "FK_DungeonZoneLink_dungeon_id"
+  DungeonZoneLink                 }o--|| MapZone                       : "FK_DungeonZoneLink_map_zone_id"
+  DungeonRun                      }o--|| DungeonDefinition             : "FK_DungeonRun_dungeon_id"
+  DungeonRun                      }o--|| PartyDefinition               : "FK_DungeonRun_party_id" %% Nullable
+  DungeonRun                      }o--|| Player                        : "FK_DungeonRun_leader_id"
+  DungeonRun                      }o--|| MapZone                       : "FK_DungeonRun_current_zone_id" %% Nullable
+  DungeonRunParticipant           }o--|| DungeonRun                    : "FK_DungeonRunParticipant_dungeon_run_id"
+  DungeonRunParticipant           }o--|| Player                        : "FK_DungeonRunParticipant_player_id"
+  SecurityIncidentLog             }o--|| Player                        : "FK_SecurityIncidentLog_player_id" %% Nullable
+  SecurityIncidentLog             }o--|| Account                     : "FK_SecurityIncidentLog_account_id" %% Nullable
+  PlayerBan                       }o--|| Player                        : "FK_PlayerBan_player_id" %% Nullable
+  PlayerBan                       }o--|| Account                     : "FK_PlayerBan_account_id" %% Nullable
+  PlayerBan                       }o--|| SecurityIncidentLog         : "FK_PlayerBan_related_incident_id" %% Nullable
+  GMAccount                       }o--|| GMRole                        : "FK_GMAccount_gm_role_id"
+  GMActionLog                     }o--|| GMAccount                     : "FK_GMActionLog_gm_account_id"
+  GMNotice                        }o--|| GMAccount                     : "FK_GMNotice_gm_account_id"
+  PlayerWorldEventParticipation   }o--|| Player                        : "FK_PlayerWorldEventParticipation_player_id"
+  PlayerWorldEventParticipation   }o--|| WorldEvent                    : "FK_PlayerWorldEventParticipation_event_id"
+  WorldEvent                      }o--|| MapDefinition                 : "FK_WorldEvent_map_id" %% Nullable
+  ShopItemDefinition              }o--|| ShopDefinition                : "FK_ShopItemDefinition_shop_id"
+  ShopItemDefinition              }o--|| ItemDefinition                : "FK_ShopItemDefinition_item_definition_id"
+  PlayerShopPurchaseLimit         }o--|| Player                        : "FK_PlayerShopPurchaseLimit_player_id"
+  PlayerShopPurchaseLimit         }o--|| ShopItemDefinition            : "FK_PlayerShopPurchaseLimit_shop_item_id"
+  ShopTransactionLog              }o--|| Player                        : "FK_ShopTransactionLog_player_id"
+  ShopTransactionLog              }o--|| ShopDefinition                : "FK_ShopTransactionLog_shop_id"
+  ShopTransactionLog              }o--|| ShopItemDefinition            : "FK_ShopTransactionLog_shop_item_id"
+  ShopTransactionLog              }o--|| ItemDefinition                : "FK_ShopTransactionLog_item_definition_id"
+  NpcDefinition                   }o--|| ShopDefinition                : "FK_NpcDefinition_shop_id" %% Nullable
+  PlayerNpcFavor                  }o--|| Player                        : "FK_PlayerNpcFavor_player_id"
+  PlayerNpcFavor                  }o--|| NpcDefinition                 : "FK_PlayerNpcFavor_npc_definition_id"
+  DialogueLink                    }o--|| DialogueDefinition            : "FK_DialogueLink_source_dialogue_code" %% Using code ref, Nullable
+  DialogueLink                    }o--|| DialogueDefinition            : "FK_DialogueLink_target_dialogue_code" %% Using code ref
+  %% DialogueLink target link is Polymorphic via target_type/target_id (string)
+  QuestDefinition                 }o--|| QuestGroup                  : "FK_QuestDefinition_group_id" %% Nullable
+  QuestDefinition                 }o--|| NpcDefinition                 : "FK_QuestDefinition_start_npc_code" %% Nullable, Using code ref
+  QuestDefinition                 }o--|| NpcDefinition                 : "FK_QuestDefinition_end_npc_code" %% Nullable, Using code ref
+  QuestPrerequisite               }o--|| QuestDefinition               : "FK_QuestPrerequisite_quest_id"
+  QuestPrerequisite               }o--|| QuestDefinition               : "FK_QuestPrerequisite_prerequisite_quest_id"
+  QuestClassMapping               }o--|| QuestDefinition               : "FK_QuestClassMapping_quest_id"
+  QuestClassMapping               }o--|| ClassDefinition               : "FK_QuestClassMapping_class_id"
+  QuestJobMapping                 }o--|| QuestDefinition               : "FK_QuestJobMapping_quest_id"
+  QuestJobMapping                 }o--|| JobDefinition                 : "FK_QuestJobMapping_job_id"
+  QuestCondition                  }o--|| QuestDefinition               : "FK_QuestCondition_quest_id"
+  QuestReward                     }o--|| QuestDefinition               : "FK_QuestReward_quest_id"
+  QuestStep                       }o--|| QuestDefinition               : "FK_QuestStep_quest_id"
+  QuestGroupMapping               }o--|| QuestDefinition               : "FK_QuestGroupMapping_quest_id"
+  QuestGroupMapping               }o--|| QuestGroup                  : "FK_QuestGroupMapping_group_id"
+  QuestLog                        }o--|| Player                        : "FK_QuestLog_player_id"
+  QuestLog                        }o--|| QuestDefinition               : "FK_QuestLog_quest_id"
+  QuestConditionProgress          }o--|| QuestLog                      : "FK_QuestConditionProgress_quest_log_id"
+  QuestConditionProgress          }o--|| QuestCondition                : "FK_QuestConditionProgress_quest_condition_id"
+  QuestRewardLog                  }o--|| QuestLog                      : "FK_QuestRewardLog_quest_log_id"
+  QuestRewardLog                  }o--|| QuestReward                   : "FK_QuestRewardLog_quest_reward_id"
+  AchievementDefinition           }o--|| AchievementCategory         : "FK_AchievementDefinition_category_id" %% Nullable
+  AchievementPrerequisite         }o--|| AchievementDefinition         : "FK_AchievementPrerequisite_achievement_id"
+  AchievementPrerequisite         }o--|| AchievementDefinition         : "FK_AchievementPrerequisite_prerequisite_achievement_id"
+  AchievementClassMapping         }o--|| AchievementDefinition         : "FK_AchievementClassMapping_achievement_id"
+  AchievementClassMapping         }o--|| ClassDefinition               : "FK_AchievementClassMapping_class_id"
+  AchievementJobMapping           }o--|| AchievementDefinition         : "FK_AchievementJobMapping_achievement_id"
+  AchievementJobMapping           }o--|| JobDefinition                 : "FK_AchievementJobMapping_job_id"
+  AchievementCondition            }o--|| AchievementDefinition         : "FK_AchievementCondition_achievement_id"
+  AchievementReward               }o--|| AchievementDefinition         : "FK_AchievementReward_achievement_id"
+  AchievementLog                  }o--|| Player                        : "FK_AchievementLog_player_id"
+  AchievementLog                  }o--|| AchievementDefinition         : "FK_AchievementLog_achievement_id"
+  AchievementConditionProgress    }o--|| AchievementLog              : "FK_AchievementConditionProgress_achievement_log_id"
+  AchievementConditionProgress    }o--|| AchievementCondition          : "FK_AchievementConditionProgress_achievement_condition_id"
+  AchievementRewardLog            }o--|| AchievementLog              : "FK_AchievementRewardLog_achievement_log_id"
+  AchievementRewardLog            }o--|| AchievementReward             : "FK_AchievementRewardLog_achievement_reward_id"

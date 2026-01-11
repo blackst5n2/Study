@@ -1,0 +1,9 @@
+{
+  "short_name": "Auth",
+  "name": "Auth",
+  "description": "Guild Authentication System",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

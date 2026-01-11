@@ -1,0 +1,73 @@
+table AchievementDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  required_level int
+  custom_data json
+}
+
+table AchievementPrerequisite {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  prerequisite_achievement_id uuid [ref: > AchievementDefinition.id]
+}
+
+table AchievementClassMapping {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  class_id uuid [ref: > ClassDefinition.id]
+}
+
+table AchievementJobMapping {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  job_id uuid [ref: > JobDefinition.id]
+}
+
+table AchievementCondition {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  type string
+  target_id uuid
+  value int
+  description string
+  custom_data json
+}
+
+table AchievementReward {
+  id uuid [pk]
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  type string
+  target_id uuid
+  value int
+  description string
+  custom_data json
+}
+
+table AchievementLog {
+  id uuid [pk]
+  player_id uuid
+  achievement_id uuid [ref: > AchievementDefinition.id]
+  status string
+  progress int
+  achieved_at datetime
+  custom_data json
+}
+
+table AchievementConditionProgress {
+  id uuid [pk]
+  achievement_log_id uuid [ref: > AchievementLog.id]
+  achievement_condition_id uuid [ref: > AchievementCondition.id]
+  progress int
+  completed bool
+  updated_at datetime
+}
+
+table AchievementRewardLog {
+  id uuid [pk]
+  achievement_log_id uuid [ref: > AchievementLog.id]
+  achievement_reward_id uuid [ref: > AchievementReward.id]
+  granted_at datetime
+  custom_data json
+}

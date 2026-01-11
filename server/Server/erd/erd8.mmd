@@ -1,0 +1,153 @@
+table QuestDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  required_level int
+  custom_data json
+}
+
+table QuestPrerequisite {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  prerequisite_quest_id uuid [ref: > QuestDefinition.id]
+}
+
+table QuestClassMapping {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  class_id uuid [ref: > ClassDefinition.id]
+}
+
+table QuestJobMapping {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  job_id uuid [ref: > JobDefinition.id]
+}
+
+table QuestCondition {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  type string
+  target_id uuid
+  value int
+  description string
+  custom_data json
+}
+
+table QuestReward {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  type string
+  target_id uuid
+  value int
+  description string
+  custom_data json
+}
+
+table QuestStep {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  step_order int
+  name string
+  description string
+  custom_data json
+}
+
+table QuestGroup {
+  id uuid [pk]
+  name string
+  description string
+  custom_data json
+}
+
+table QuestGroupMapping {
+  id uuid [pk]
+  quest_id uuid [ref: > QuestDefinition.id]
+  group_id uuid [ref: > QuestGroup.id]
+}
+
+table QuestLog {
+  id uuid [pk]
+  player_id uuid
+  quest_id uuid [ref: > QuestDefinition.id]
+  status string      // 예: Accepted, Completed, Failed 등
+  progress int
+  started_at datetime
+  completed_at datetime
+  custom_data json
+}
+
+table QuestConditionProgress {
+  id uuid [pk]
+  quest_log_id uuid [ref: > QuestLog.id]
+  quest_condition_id uuid [ref: > QuestCondition.id]
+  progress int
+  completed bool
+  updated_at datetime
+}
+
+table QuestRewardLog {
+  id uuid [pk]
+  quest_log_id uuid [ref: > QuestLog.id]
+  quest_reward_id uuid [ref: > QuestReward.id]
+  granted_at datetime
+  custom_data json
+}
+
+table JobDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  display_name string
+  description string
+  unlock_condition string [null]
+  icon string [null]
+  job_type string
+  is_playable bool
+  is_hidden bool
+  order_index int
+  custom_data json
+}
+
+table JobSkillTree {
+  id uuid [pk]
+  job_id uuid [ref: > JobDefinition.id]
+  parent_skill_id uuid [ref: > JobSkillDefinition.id, null]
+  child_skill_id uuid [ref: > JobSkillDefinition.id]
+  unlock_condition string [null]
+  required_job_level int [null]
+  required_skill_level int [null]
+  custom_data json
+}
+
+table SkillTree {
+  id uuid [pk]
+  parent_skill_id uuid [ref: > SkillDefinition.id, null]
+  child_skill_id uuid [ref: > SkillDefinition.id]
+  unlock_condition string [null]
+  required_level int [null]
+  required_skill_level int [null]
+  custom_data json
+}
+
+table ClassSkillDefinition {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id]
+  skill_definition_id int [ref: > SkillDefinition.id]
+  unlock_level int [null]
+  unlock_condition string [null]
+  is_active bool [null]
+  custom_data json
+}
+
+table ClassSkillTree {
+  id uuid [pk]
+  class_id uuid [ref: > ClassDefinition.id]
+  parent_skill_id uuid [ref: > SkillDefinition.id, null]
+  child_skill_id uuid [ref: > SkillDefinition.id]
+  unlock_condition string [null]
+  required_class_level int [null]
+  required_skill_level int [null]
+  custom_data json
+}

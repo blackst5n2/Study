@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package GameProto;
+
+// 기본 패킷 구조
+message GamePacket {
+    string session_token = 1;  // 세션 인증용
+    PacketType type = 2;      // 패킷 타입
+    bytes payload = 3;        // 실제 데이터
+    int64 timestamp = 4;      // 패킷 타임스탬프
+}
+
+// 패킷 타입 정의
+enum PacketType {
+    UNKNOWN = 0;
+    
+    // 시스템/인증 (1-99)
+    HANDSHAKE = 1;
+    HANDSHAKE_ACK = 2;
+    HEARTBEAT = 3;
+    DISCONNECT = 4;
+    ERROR = 5;
+    
+    // 계정 로그인 (6~10)
+    ACCOUNT_LOGIN = 6;
+    ACCOUNT_LOGIN_ACK = 7;
+    ACCOUNT_LOGIN_FAIL = 8;
+    ACCOUNT_LOGOUT = 9;
+    ACCOUNT_LOGOUT_ACK = 10;
+    
+    // 플레이어 상태 (100-199)
+    PLAYER_JOIN = 100;
+    PLAYER_LEAVE = 101;
+    PLAYER_MOVE = 102;
+    PLAYER_ACTION = 103;
+    PLAYER_UPDATE = 104;
+    
+    // 게임 상태 (200-299)
+    GAME_STATE = 200;
+    GAME_START = 201;
+    GAME_END = 202;
+    SPAWN_OBJECT = 203;
+    DESTROY_OBJECT = 204;
+    
+    // 채팅/소셜 (300-399)
+    CHAT_MESSAGE = 300;
+    WHISPER_MESSAGE = 301;
+    PARTY_INVITE = 302;
+}
+
+// 인증 관련 메시지
+message HandshakeRequest {
+    string jwt_token = 1;
+}
+
+message HandshakeResponse {
+    bool success = 1;
+    string session_token = 2;
+    string error_message = 3;
+    AccountData account_data = 4;
+}
+
+// 에러 메시지
+message ErrorMessage {
+    string code = 1;
+    string message = 2;
+}
+
+// 계정 데이터
+message AccountData {
+    string id = 1;
+    string nickname = 2;
+}
+
+// 플레이어 데이터
+message PlayerData {
+    string id = 1;
+    string nickname = 2;
+    Position position = 3;
+    int32 hp = 4;
+    int32 level = 5;
+    PlayerState state = 6;
+}
+
+// 위치 데이터
+message Position {
+    float x = 1;
+    float y = 2;
+    float rotation = 3;
+}
+
+// 플레이어 상태
+enum PlayerState {
+    IDLE = 0;
+    MOVING = 1;
+    ATTACKING = 2;
+    DEAD = 3;
+}
+
+// 이동 관련 메시지
+message MoveRequest {
+    Position position = 1;
+    float speed = 2;
+    int64 client_timestamp = 3;
+}
+
+message MoveResponse {
+    string player_id = 1;
+    Position position = 2;
+    float speed = 3;
+    int64 server_timestamp = 4;
+}
+
+// 채팅 메시지
+message ChatMessage {
+    string sender_id = 1;
+    string sender_nickname = 2;
+    string content = 3;
+    ChatType type = 4;
+    string target_id = 5;  // 귓속말일 경우
+}
+
+enum ChatType {
+    ALL = 0;
+    WHISPER = 1;
+    PARTY = 2;
+    SYSTEM = 3;
+}
+
+// 게임 상태 메시지
+message GameState {
+    int32 game_id = 1;
+    GameStatus status = 2;
+    repeated PlayerData players = 3;
+    map<string, ObjectData> game_objects = 4;
+    int64 server_time = 5;
+}
+
+enum GameStatus {
+    WAITING = 0;
+    STARTING = 1;
+    IN_PROGRESS = 2;
+    ENDING = 3;
+}
+
+// 게임 오브젝트 데이터
+message ObjectData {
+    string id = 1;
+    string type = 2;
+    Position position = 3;
+    map<string, string> properties = 4;
+}

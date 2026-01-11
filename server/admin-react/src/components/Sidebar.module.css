@@ -1,0 +1,139 @@
+.sidebar {
+  width: 240px;
+  min-width: 200px;
+  background: linear-gradient(180deg, #fafdff 0%, #e3f0fc 100%);
+  border-radius: 20px 0 24px 0;
+  box-shadow: 0 4px 32px #b6e0fe33;
+  padding: 28px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100vh;
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 120;
+}
+.windowBar {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 18px 24px;
+  align-items: center;
+}
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.navSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 36px;
+}
+.navItem {
+  color: #17335a;
+  text-decoration: none;
+  font-size: 1.13rem;
+  font-weight: 600;
+  padding: 13px 32px 13px 28px;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: background 0.16s, color 0.15s;
+}
+.navItem:hover, .navItem:focus {
+  background: #e3f0fc;
+  color: #2367d1;
+}
+.activeNav {
+  background: linear-gradient(90deg, #b6e0fe 0%, #fafdff 100%);
+  color: #2367d1;
+  font-weight: 800;
+  box-shadow: 2px 0 8px #b6e0fe33;
+}
+.icon {
+  font-size: 1.22em;
+  display: flex;
+  align-items: center;
+}
+.groupSection {
+  margin-top: auto;
+  padding: 0 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.groupItem {
+  color: #7c8ba1;
+  font-size: 1.03rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 0 7px 4px;
+  border-radius: 6px;
+  transition: background 0.14s;
+}
+.groupItem:hover {
+  background: #e3f0fc;
+  color: #2367d1;
+}
+
+.logoutSidebarButton {
+  width: calc(100% - 40px);
+  margin: 32px 20px 24px 20px;
+  padding: 15px 0;
+  background: linear-gradient(90deg, #5eb3f7 0%, #b6e0fe 100%);
+  color: #17335a;
+  font-weight: 800;
+  font-size: 1.08rem;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #b6e0fe33;
+  cursor: pointer;
+  transition: background 0.18s, color 0.13s, box-shadow 0.18s, transform 0.13s;
+  letter-spacing: -1px;
+  display: block;
+}
+.logoutSidebarButton:hover, .logoutSidebarButton:focus {
+  background: linear-gradient(90deg, #2367d1 0%, #5eb3f7 100%);
+  color: #fff;
+  box-shadow: 0 8px 28px #b6e0fe55;
+  transform: translateY(-2px) scale(1.04);
+}
+@media (max-width: 900px) {
+  .logoutSidebarButton {
+    width: calc(100% - 16px);
+    margin: 16px 8px 12px 8px;
+    padding: 11px 0;
+    font-size: 0.97rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    min-width: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    overflow: hidden;
+    z-index: 300;
+    transition: width 0.25s cubic-bezier(.4,1.6,.6,1), background 0.18s;
+  }
+  .sidebar.open {
+    width: 220px;
+    min-width: 180px;
+    background: linear-gradient(180deg, #fafdff 0%, #e3f0fc 100%);
+    box-shadow: 0 4px 32px #b6e0fe33;
+    padding: 18px 0 0 0;
+    overflow: visible;
+  }
+  .windowBar { padding: 0 8px 12px 8px; }
+  .navItem, .activeNav { font-size: 1.05rem; padding: 10px 8px 10px 8px; gap: 8px; }
+  .groupSection { padding: 0 8px 12px 8px; }
+  .logoutSidebarButton { width: calc(100% - 16px); margin: 16px 8px 12px 8px; }
+}

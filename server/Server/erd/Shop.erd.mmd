@@ -1,0 +1,104 @@
+table ShopDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  custom_data json
+}
+
+table ShopItemDefinition {
+  id uuid [pk]
+  code string [unique]
+  shop_id uuid [ref: > ShopDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  price int
+  currency_code string
+  stock int
+  is_limited bool
+  restock_interval_minutes int
+  custom_data json
+}
+
+enum ShopTransactionType {
+  Buy
+  Sell
+}
+
+table ShopTransactionLog {
+  id uuid [pk]
+  timestamp datetime
+  player_id uuid [ref: > Player.id]
+  shop_id uuid [ref: > ShopDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  transaction_type ShopTransactionType
+  quantity int
+  price int
+  currency_code string
+  before_stock int
+  after_stock int
+  custom_data json
+}
+
+table NpcDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  npc_type string
+  description string
+  sprite_asset string
+  behavior_script string
+  dialogue_script string
+  shop_id uuid [ref: > ShopDefinition.id, null]
+  quest_giver bool
+  custom_data json
+}
+
+table NpcInstance {
+  id uuid [pk]
+  npc_id uuid [ref: > NpcDefinition.id]
+  map_id uuid [ref: > MapDefinition.id]
+  zone_id uuid [ref: > MapZone.id, null]
+  x float
+  y float
+  z float
+  direction float
+  spawn_condition json
+  is_active bool
+  custom_data json
+}
+
+table PlayerNpcFavor {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  npc_id uuid [ref: > NpcDefinition.id]
+  favor int
+  last_interaction_at datetime
+  favor_level int
+  custom_data json
+}
+
+enum DialogueTargetType {
+  Npc
+  Quest
+  System
+}
+
+table DialogueDefinition {
+  id uuid [pk]
+  code string [unique]
+  content string
+  type DialogueType
+  language_code string
+  custom_data json
+}
+
+table DialogueLink {
+  id uuid [pk]
+  target_type DialogueTargetType
+  target_id uuid
+  dialogue_id uuid [ref: > DialogueDefinition.id]
+  dialogue_order int
+  stage string
+  condition json
+  custom_data json
+}

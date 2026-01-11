@@ -1,0 +1,369 @@
+%% Board Game System (보드게임 시스템)
+
+table BoardGameDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  max_player int
+  min_player int
+  rules json
+  created_at datetime
+}
+
+enum BoardGameRoomStatus {
+  Waiting
+  Playing
+  Finished
+}
+
+table BoardGameRoom {
+  id uuid [pk]
+  board_game_id uuid [ref: > BoardGameDefinition.id]
+  room_name string
+  status BoardGameRoomStatus
+  created_at datetime
+  started_at datetime
+  ended_at datetime
+  custom_data json
+}
+
+table BoardGameParticipant {
+  id uuid [pk]
+  room_id uuid [ref: > BoardGameRoom.id]
+  player_id uuid [ref: > Player.id]
+  join_time datetime
+  leave_time datetime
+  seat_no int
+  is_winner bool
+  custom_data json
+}
+
+table BoardGameTurnLog {
+  id uuid [pk]
+  room_id uuid [ref: > BoardGameRoom.id]
+  turn_no int
+  player_id uuid [ref: > Player.id]
+  action_data json
+  created_at datetime
+}
+
+table UserPattern {
+  id uuid [pk]
+  code string [unique]
+  creator_id uuid [ref: > Player.id]
+  name string
+  description string
+  image_url string
+  palette json
+  tags string
+  is_public bool
+  created_at datetime
+  updated_at datetime
+  custom_data json
+}
+
+table UserPatternLike {
+  id uuid [pk]
+  pattern_id uuid [ref: > UserPattern.id]
+  player_id uuid [ref: > Player.id]
+  liked_at datetime
+}
+
+table UserPatternComment {
+  id uuid [pk]
+  pattern_id uuid [ref: > UserPattern.id]
+  player_id uuid [ref: > Player.id]
+  content string
+  created_at datetime
+}
+
+enum UserRoomStatus {
+  Open
+  Closed
+  Private
+}
+
+table UserRoom {
+  id uuid [pk]
+  owner_id uuid [ref: > Player.id]
+  room_name string
+  description string
+  status UserRoomStatus
+  max_player int
+  password string
+  created_at datetime
+  custom_data json
+}
+
+enum UserRoomParticipantRole {
+  Owner
+  Member
+  Guest
+}
+
+table UserRoomParticipant {
+  id uuid [pk]
+  room_id uuid [ref: > UserRoom.id]
+  player_id uuid [ref: > Player.id]
+  role UserRoomParticipantRole
+  joined_at datetime
+  left_at datetime
+  custom_data json
+}
+
+table UserRoomChat {
+  id uuid [pk]
+  room_id uuid [ref: > UserRoom.id]
+  player_id uuid [ref: > Player.id]
+  message string
+  sent_at datetime
+}
+
+enum UGCReportStatus {
+  Pending
+  Processed
+  Rejected
+}
+
+table UserPatternReport {
+  id uuid [pk]
+  pattern_id uuid [ref: > UserPattern.id]
+  reporter_id uuid [ref: > Player.id]
+  reason string
+  created_at datetime
+  status UGCReportStatus
+  custom_data json
+}
+
+table UserRoomReport {
+  id uuid [pk]
+  room_id uuid [ref: > UserRoom.id]
+  reporter_id uuid [ref: > Player.id]
+  reason string
+  created_at datetime
+  status UGCReportStatus
+  custom_data json
+}
+
+table UserRoomFavorite {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  room_id uuid [ref: > UserRoom.id]
+  created_at datetime
+}
+
+table UserPatternFavorite {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  pattern_id uuid [ref: > UserPattern.id]
+  created_at datetime
+}
+
+table UserPatternBoard {
+  id uuid [pk]
+  name string
+  description string
+  is_public bool
+  created_at datetime
+  custom_data json
+}
+
+table UserPatternBoardPost {
+  id uuid [pk]
+  board_id uuid [ref: > UserPatternBoard.id]
+  pattern_id uuid [ref: > UserPattern.id]
+  creator_id uuid [ref: > Player.id]
+  title string
+  content string
+  created_at datetime
+  updated_at datetime
+  is_pinned bool
+  custom_data json
+}
+
+table UserPatternBoardPostComment {
+  id uuid [pk]
+  post_id uuid [ref: > UserPatternBoardPost.id]
+  commenter_id uuid [ref: > Player.id]
+  content string
+  created_at datetime
+}
+
+table DungeonDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  entry_map_id uuid [ref: > MapDefinition.id]
+  entry_zone_id uuid [ref: > MapZone.id]
+  min_player int
+  max_player int
+  level_requirement int
+  reward json
+  is_random bool
+  has_boss bool
+  custom_data json
+}
+
+table DungeonZone {
+  id uuid [pk]
+  dungeon_id uuid [ref: > DungeonDefinition.id]
+  zone_id uuid [ref: > MapZone.id]
+  sequence int
+  zone_type DungeonZoneType
+  custom_data json
+}
+
+enum DungeonZoneType {
+  Normal
+  Random
+  Boss
+}
+
+table Portal {
+  id uuid [pk]
+  map_id uuid [ref: > MapDefinition.id]
+  zone_id uuid [ref: > MapZone.id, null]
+  x float
+  y float
+  z float
+  target_map_id uuid [ref: > MapDefinition.id]
+  target_zone_id uuid [ref: > MapZone.id, null]
+  target_x float
+  target_y float
+  target_z float
+  portal_type string // normal, dungeon, boss, event 등
+  is_active bool
+  is_bidirectional bool // 양방향 포탈 여부
+  requirement json
+  custom_data json
+}
+
+table PortalUseLog {
+  id uuid [pk]
+  portal_id uuid [ref: > Portal.id]
+  player_id uuid [ref: > Player.id]
+  used_at datetime
+  from_map_id uuid [ref: > MapDefinition.id]
+  from_zone_id uuid [ref: > MapZone.id, null]
+  from_x float
+  from_y float
+  from_z float
+  to_map_id uuid [ref: > MapDefinition.id]
+  to_zone_id uuid [ref: > MapZone.id, null]
+  to_x float
+  to_y float
+  to_z float
+  custom_data json
+}
+
+table DungeonRun {
+  id uuid [pk]
+  dungeon_id uuid [ref: > DungeonDefinition.id]
+  party_id uuid [ref: > Party.id, null]
+  leader_id uuid [ref: > Player.id]
+  status DungeonRunStatus
+  started_at datetime
+  ended_at datetime
+  current_zone_id uuid [ref: > MapZone.id, null]
+  custom_data json
+}
+
+table DungeonRunParticipant {
+  id uuid [pk]
+  dungeon_run_id uuid [ref: > DungeonRun.id]
+  player_id uuid [ref: > Player.id]
+  joined_at datetime
+  left_at datetime
+  is_cleared bool
+  custom_data json
+}
+
+table ShopDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  description string
+  custom_data json
+}
+
+table ShopItemDefinition {
+  id uuid [pk]
+  code string [unique]
+  shop_id uuid [ref: > ShopDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  price int
+  currency_code string
+  stock int
+  is_limited bool
+  restock_interval_minutes int
+  custom_data json
+}
+
+enum ShopTransactionType {
+  Buy
+  Sell
+}
+
+table ShopTransactionLog {
+  id uuid [pk]
+  timestamp datetime
+  player_id uuid [ref: > Player.id]
+  shop_id uuid [ref: > ShopDefinition.id]
+  item_id uuid [ref: > ItemDefinition.id]
+  transaction_type ShopTransactionType
+  quantity int
+  price int
+  currency_code string
+  before_stock int
+  after_stock int
+  custom_data json
+}
+
+table NpcDefinition {
+  id uuid [pk]
+  code string [unique]
+  name string
+  npc_type string
+  description string
+  sprite_asset string
+  behavior_script string
+  dialogue_script string
+  shop_id uuid [ref: > ShopDefinition.id, null]
+  quest_giver bool
+  custom_data json
+}
+
+table NpcInstance {
+  id uuid [pk]
+  npc_id uuid [ref: > NpcDefinition.id]
+  map_id uuid [ref: > MapDefinition.id]
+  zone_id uuid [ref: > MapZone.id, null]
+  x float
+  y float
+  z float
+  direction float
+  spawn_condition json
+  is_active bool
+  custom_data json
+}
+
+table NpcDialogue {
+  id uuid [pk]
+  npc_id uuid [ref: > NpcDefinition.id]
+  dialogue_order int
+  content string
+  condition json
+  custom_data json
+}
+
+table PlayerNpcFavor {
+  id uuid [pk]
+  player_id uuid [ref: > Player.id]
+  npc_id uuid [ref: > NpcDefinition.id]
+  favor int
+  last_interaction_at datetime
+  favor_level int
+  custom_data json
+}
