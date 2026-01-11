@@ -12,13 +12,26 @@ flutter + sqlite를 이용한 간단한 출/퇴근 및 할일 기록 앱을 만�
 - 고정 할 일을 설정, 추가 할 일을 설정 및 생성하여 퀘스트 완료 형식으로 즉시 $\frac{\text{할 일 개수}}{\text{하루 급여}}$ 원 만큼을 적립 해주는 gamification 요소
 - 세율 선택 및 계산 기능
 
+![gt1](https://github.com/user-attachments/assets/fcbcc907-08e4-4308-bd4e-55cf1fedd06d)
+![gt2](https://github.com/user-attachments/assets/930a1e01-7be5-4cca-8ea5-33b227f9d03a)
+![gt3](https://github.com/user-attachments/assets/97a2862f-b8cf-4bbb-9907-5977cd3ef472)
+
+
 #### todo list 앱
 flutter + sqlite를 이용한 간단한 todo-list 앱을 만들었습니다.
 - 할 일별 카테고리를 설정하는 기능
 - 캘린더에서 날짜를 선택하고 해당 날짜에 할 일을 CRUD 하는 기능
 - 반복 일정을 설정하는 기능
 - 그래프로 통계치를 확인하는 기능
-- 잔디 심기 UI
+
+![dp1](https://github.com/user-attachments/assets/0ecb3855-413a-45bf-b64f-0bd1b49e141b)
+![dp2](https://github.com/user-attachments/assets/b8f309ff-b6c7-471f-ad1b-bb45da934196)
+![dp3](https://github.com/user-attachments/assets/dd4c369e-2235-4f98-be90-9e361b282c7a)
+![dp4](https://github.com/user-attachments/assets/8b3707ef-c6a4-48e5-9c86-e9f6c07466ce)
+![dp5](https://github.com/user-attachments/assets/b6f8280c-c849-45aa-92b3-8cc7b82cd246)
+![dp6](https://github.com/user-attachments/assets/9bf3b8a7-6c94-406b-ab36-e2e13455d459)
+![dp7](https://github.com/user-attachments/assets/22c0dbdd-3d16-4961-866f-b051966e9153)
+
 
 #### 올리브영 근무 도우미 앱
 flutter + sqlite를 이용한 간단한 올리브영 근무 도움 앱을 만들었습니다.
@@ -28,6 +41,21 @@ flutter + sqlite를 이용한 간단한 올리브영 근무 도움 앱을 만들
 - 등록한 품목에 어떤 성분이 들어갔는지 검색할 수 있는 기능
 - 간단한 정규표현식을 이용한 특정 고민(주름, 미백 등)을 입력하면 등록된 제품에서 추천해주는 기능
 - 품목을 추가할 때 바코드로 스캔해서 등록할 수 있는 기능
+
+![oy1](https://github.com/user-attachments/assets/39e531e0-fbb6-48f4-9428-955263abc7de)
+![oy2](https://github.com/user-attachments/assets/9b2462ed-6646-44db-8af8-8f2d8d860436)
+![oy3](https://github.com/user-attachments/assets/a3571978-0e7b-4731-b866-3d513a7b8003)
+![oy4](https://github.com/user-attachments/assets/fc533b6c-46ac-48c7-aad1-a464a2e41c49)
+![oy5](https://github.com/user-attachments/assets/034808e3-a7c5-4f83-8c3e-4e021f3c30c3)
+![oy6](https://github.com/user-attachments/assets/4fa0ab7e-0cf0-4353-9373-db5874c1388a)
+![oy7](https://github.com/user-attachments/assets/7fc14938-a097-4426-85b4-b3854a99e9a9)
+![oy8](https://github.com/user-attachments/assets/900430ad-05c9-4367-b183-4158e05624f2)
+![oy9](https://github.com/user-attachments/assets/5686e329-d915-43d9-8c5e-6cc28bd7d017)
+![oy10](https://github.com/user-attachments/assets/4504ebee-ace6-42c3-be34-2bd29a596085)
+![oy11](https://github.com/user-attachments/assets/8e79b5fa-2ca8-4a39-9b0a-ea7ae18e93c5)
+![oy12](https://github.com/user-attachments/assets/d0ddd7e1-f79a-4d83-aeb9-08d706f3986f)
+
+
 
 #### C# 기반 서버 및 웹 인증 서버
 C# + PostgreSQL + Json + react + ASP.Net + node.js(express) + WPF를 이용해서 궁금했던 내용들에 대해서 구현해봤습니다.
