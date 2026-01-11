@@ -1,0 +1,41 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "ninja",
+            "displayName": "ninja",
+            "description": "Ninja 생성기, 빌드 및 설치 디렉터리 설정",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
+        },
+        {
+            "name": "profile",
+            "displayName": "Instruments Profile (RelWithDebInfo)",
+            "description": "성능 분석을 위한 릴리즈 빌드 + 디버그 심볼 포함",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "ninja-build",
+            "displayName": "ninja",
+            "configurePreset": "ninja"
+        },
+        {
+            "name": "profile-build",
+            "displayName": "Profile Build",
+            "configurePreset": "profile"
+        }
+    ]
+}

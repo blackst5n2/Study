@@ -1,0 +1,53 @@
+namespace Protocol;
+
+table C_Login {
+  id: string;
+  pw: string;
+  timestamp: long;
+}
+
+table S_Login {
+  success: bool;
+  player_id: uint;
+  timestamp: long;
+}
+
+table C_Chat {
+  msg: string;
+}
+
+table S_Chat {
+  msg: string;
+}
+
+table C_Move {
+  x: float;
+  y: float;
+}
+
+table S_Move {
+  x: float;
+  y: float;
+}
+
+table C_Test {
+  a: int;
+  b: int;
+  c: int;
+}
+
+union PacketPayload {
+  C_Login,
+  S_Login,
+  C_Chat,
+  S_Chat,
+  C_Move,
+  S_Move,
+  C_Test
+}
+
+table GamePacket {
+  payload: PacketPayload;
+}
+
+root_type GamePacket;
